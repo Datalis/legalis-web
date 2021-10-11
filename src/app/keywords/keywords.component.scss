@@ -1,0 +1,18 @@
+@import "/src/theme/theme-variables.scss";
+
+.letter {
+  font-size: 22px;
+  font-weight: 500;
+  color: #fafafa;
+  cursor: pointer;
+  &.current {
+    color: $accent-color;
+    text-decoration: underline;
+  }
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: lighten($color: $background-blue, $amount: 15);
+}

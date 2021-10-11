@@ -3,3 +3,31 @@
  * Framework overrides and customization goes here.
  */
 
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.text-accent {
+  color: #cd3836 !important;
+}
+
+.text-italic {
+  font-style: italic !important;
+}
+
+.bg-blue-light {
+  background-color: $background-blue-light !important;
+}
+
+.text-blue {
+  color: $text-blue !important;
+}
+
+.bg-blue {
+  background-color: $background-blue !important;
+}

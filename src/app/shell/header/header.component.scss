@@ -1,9 +1,66 @@
 @import "src/theme/theme-variables";
 
-.navbar {
-  margin-bottom: $spacer;
+.header-container {
+  min-height: 300px;
+  //background-color: $background-blue;
+  background-color: #0e2b53;
+  .row {
+    height: 300px;
+  }
 }
 
-.nav-link.dropdown-toggle {
-  cursor: pointer;
+.header-social {
+  i {
+    width: 38px;
+    height: 38px;
+    border: 1px solid #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    color: #fafafa;
+  }
+}
+
+.header-menu {
+  a {
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+    border-bottom: 1px solid #fafafa;
+  }
+}
+
+.header-search {
+  .form-control {
+    background-color: rgba($color: #fafafa, $alpha: 0.1);
+    border: 1px solid rgba($color: #fafafa, $alpha: 0.1);
+  }
+}
+
+.header-tabs {
+  background-color: $background-blue;
+  width: 100%;
+  //height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .tab {
+    &:first-child {
+      border-left: 1px solid #fafafa;
+    }
+    padding: 1rem 2rem;
+    border-right: 1px solid #fafafa;
+    min-width: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    a {
+      color: #fafafa;
+      font-weight: 400;
+      font-size: 14px;
+    }
+    a.active {
+      color: $accent-color;
+    }
+  }
 }

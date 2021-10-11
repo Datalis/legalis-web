@@ -1,0 +1,23 @@
+<div class="keywords-container container p-5">
+  <div class="d-flex flex-column align-items-center">
+    <h5 class="text-accent">PALABRAS CLAVE</h5>
+    <div class="d-flex flex-column bg-blue w-100 mt-4">
+      <div class="d-flex align-items-center justify-content-center py-4">
+        <div
+          *ngFor="let item of letters"
+          (click)="currentLetter = item"
+          class="mx-2 letter"
+          [class.current]="currentLetter === item"
+        >
+          {{ item }}
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="row py-4">
+        <div class="result col-sm-12 col-md-6 col-lg-4 text-center p-2 text-light" *ngFor="let item of results">
+          {{ item }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

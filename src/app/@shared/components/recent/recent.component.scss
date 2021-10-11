@@ -1,0 +1,27 @@
+::ng-deep .carousel-container {
+  p {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+  }
+}
+
+.recent-container {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.recent-item {
+  padding: 2rem;
+  p {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+  }
+}
