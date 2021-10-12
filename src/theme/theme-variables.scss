@@ -56,6 +56,11 @@ $accent-color: #cd3836;
 
 $link-decoration: none;
 
+$input-btn-focus-width: 0.15rem;
+
+$font-family-sans-serif: "Lato", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
+  "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
 // Use Bootstrap defaults for other variables, imported here so we can access all app variables in one place when used
 // in components.
 @import "~bootstrap/scss/_functions";

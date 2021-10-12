@@ -1,11 +1,12 @@
 {
-  "name": "ng-x-rocket",
+  "name": "legalis",
   "version": "1.0.0",
   "private": true,
   "scripts": {
     "ng": "ng",
     "build": "npm run write:env -s && ng build",
     "start": "npm run write:env -s && ng serve --proxy-config proxy.conf.js",
+    "start:heroku": "node server.js",
     "serve:sw": "npm run build -s && npx http-server ./dist -p 4200",
     "lint": "ng lint && stylelint \"src/**/*.scss\" --syntax scss",
     "test": "npm run write:env -s && ng test",
@@ -34,6 +35,7 @@
     "@ngx-translate/core": "^13.0.0",
     "angular-responsive-carousel": "^2.1.2",
     "bootstrap": "^5.0.2",
+    "express": "^4.17.1",
     "rxjs": "^6.6.3",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"

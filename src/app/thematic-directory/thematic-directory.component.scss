@@ -1,6 +1,28 @@
 .divider {
   width: 100%;
   height: 1px;
-  background-color: #212121;
+  background-color: rgba($color: #000000, $alpha: 0.2);
   margin-top: 1rem;
+}
+
+.subject-grid {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  .subject-item {
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    align-self: flex-start;
+    .subject-title {
+      margin-top: 0.5rem;
+      font-weight: bold;
+      font-size: 10px;
+      text-transform: uppercase;
+      color: #fafafa;
+    }
+  }
 }

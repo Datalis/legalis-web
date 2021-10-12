@@ -1,20 +1,18 @@
 @import "/src/theme/theme-variables.scss";
 
+.letters-container {
+  background-color: #ededed;
+  color: #212121;
+}
+
 .letter {
   font-size: 20px;
   font-weight: 500;
-  color: #fafafa;
   cursor: pointer;
   &.current {
     color: $accent-color;
     text-decoration: underline;
   }
-}
-
-.keyword-selector {
-  margin: 0;
-  max-height: 250px;
-  overflow-y: auto;
 }
 
 .divider {
@@ -25,15 +23,7 @@
   margin-bottom: 1rem;
 }
 
-.filter-panel {
-  background-color: #e7e5e6;
-  .divider {
-    background-color: rgba(#000, 0.2);
-  }
-}
-
-.results-panel {
-  .divider {
-    background-color: rgba(#000, 0.2);
-  }
+.results-container {
+  max-height: 400px;
+  overflow-y: auto;
 }

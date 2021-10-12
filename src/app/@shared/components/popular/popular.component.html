@@ -1,89 +1,15 @@
-<div class="d-flex flex-column align-items-center my-4">
-  <h5 class="mb-5">NORMATIVA POPULAR</h5>
+<div class="d-flex flex-column align-items-center my-5">
+  <h5 class="mb-5 fw-bold">NORMATIVA POPULAR</h5>
   <carousel [cellWidth]="250">
-    <div class="carousel-cell px-4 py-3 bg-blue-light">
-      <h6 class="text-accent mb-0">Titulo de la norma</h6>
-      <span class="text-blue">Tematica</span>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum.
+    <div class="carousel-cell px-4 py-3 bg-blue-light" *ngFor="let item of items">
+      <span class="text-accent mb-0 fw-bold">{{ item.title }}</span>
+      <small class="text-blue fw-bold text-uppercase">{{ item.subject }}</small>
+      <p class="mb-1">
+        {{ item.content }}
       </p>
-      <span class="text-blue text-italic fw-bold">Palabras clave</span>
-    </div>
-    <div class="carousel-cell px-4 py-3 bg-blue-light">
-      <h6 class="text-accent mb-0">Titulo de la norma</h6>
-      <span class="text-blue">Tematica</span>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum.
-      </p>
-      <span class="text-blue text-italic fw-bold">Palabras clave</span>
-    </div>
-    <div class="carousel-cell px-4 py-3 bg-blue-light">
-      <h6 class="text-accent mb-0">Titulo de la norma</h6>
-      <span class="text-blue">Tematica</span>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum.
-      </p>
-      <span class="text-blue text-italic fw-bold">Palabras clave</span>
-    </div>
-    <div class="carousel-cell px-4 py-3 bg-blue-light">
-      <h6 class="text-accent mb-0">Titulo de la norma</h6>
-      <span class="text-blue">Tematica</span>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum.
-      </p>
-      <span class="text-blue text-italic fw-bold">Palabras clave</span>
-    </div>
-    <div class="carousel-cell px-4 py-3 bg-blue-light">
-      <h6 class="text-accent mb-0">Titulo de la norma</h6>
-      <span class="text-blue">Tematica</span>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum.
-      </p>
-      <span class="text-blue text-italic fw-bold">Palabras clave</span>
-    </div>
-    <div class="carousel-cell px-4 py-3 bg-blue-light">
-      <h6 class="text-accent mb-0">Titulo de la norma</h6>
-      <span class="text-blue">Tematica</span>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum.
-      </p>
-      <span class="text-blue text-italic fw-bold">Palabras clave</span>
-    </div>
-    <div class="carousel-cell px-4 py-3 bg-blue-light">
-      <h6 class="text-accent mb-0">Titulo de la norma</h6>
-      <span class="text-blue">Tematica</span>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum.
-      </p>
-      <span class="text-blue text-italic fw-bold">Palabras clave</span>
+      <small class="text-blue text-italic fw-bold">
+        {{ item.keywords.join(', ') }}
+      </small>
     </div>
   </carousel>
 </div>

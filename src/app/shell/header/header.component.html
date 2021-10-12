@@ -1,45 +1,51 @@
 <header class="header-container">
   <div class="row m-0">
-    <div class="col-md-4 d-flex align-items-start">
-      <div class="header-social d-flex align-items-center justify-content-center p-5">
-        <i class="fab fa-facebook"></i>
-        <i class="fab fa-instagram"></i>
-        <i class="fab fa-twitter"></i>
+    <div class="col-md-3 d-flex align-items-start">
+      <div class="d-flex align-items-center justify-content-center p-5">
+        <button class="btn btn-outline-light btn-sm border-2 me-2">
+          <i class="fab fa-facebook"></i>
+        </button>
+        <button class="btn btn-outline-light btn-sm border-2 me-2">
+          <i class="fab fa-instagram"></i>
+        </button>
+        <button class="btn btn-outline-light btn-sm border-2">
+          <i class="fab fa-twitter"></i>
+        </button>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
       <div class="d-flex flex-column align-items-center justify-content-center h-100">
-        <img class="img-fluid" src="/assets/legalis-logo.png" />
+        <img class="img-fluid header-logo" src="/assets/legalis-logo.png" />
         <div class="input-group mt-5 header-search">
-          <input class="form-control" type="search" placeholder="Buscar" />
+          <input class="form-control" type="search" placeholder="Buscar..." />
           <button class="btn btn-outline-light">
             <i class="fas fa-search"></i>
           </button>
         </div>
       </div>
     </div>
-    <div class="col-md-4 d-flex align-items-start justify-content-end">
+    <div class="col-md-3 d-flex align-items-start justify-content-end">
       <div class="d-flex flex-column p-5 header-menu">
-        <a>INDICE DE GACETA</a>
-        <a href="#">ANALISIS</a>
-        <a href="#">INFOGRAFIA</a>
-        <a href="#">GLOSARIO</a>
-        <a href="#">QUIENES SOMOS</a>
+        <a routerLink="/" routerLinkActive="active">ÍNDICE DE GACETA</a>
+        <a routerLink="/analysis" routerLinkActive="active">ANÁLISIS</a>
+        <a routerLink="/infographics" routerLinkActive="active">INFOGRAFÍA</a>
+        <a routerLink="/glossary" routerLinkActive="active">GLOSARIO</a>
+        <a routerLink="/about" routerLinkActive="active">QUIÉNES SOMOS</a>
       </div>
     </div>
   </div>
 </header>
 <nav class="header-tabs">
   <div class="tab">
-    <a routerLink="/advanced-search" routerLinkActive="active">BUSQUEDA AVANZADA</a>
+    <a routerLink="/advanced-search" routerLinkActive="active">BÚSQUEDA AVANZADA</a>
   </div>
   <div class="tab">
-    <a routerLink="/thematic-directory" routerLinkActive="active">DIRECTORIO TEMATICO</a>
+    <a routerLink="/thematic-directory" routerLinkActive="active">DIRECTORIO TEMÁTICO</a>
   </div>
   <div class="tab">
     <a routerLink="/keywords" routerLinkActive="active">PALABRA CLAVE</a>
   </div>
   <div class="tab">
-    <a routerLink="/how-to-search" routerLinkActive="active">COMO BUSCAR</a>
+    <a routerLink="/how-to-search" routerLinkActive="active">CÓMO BUSCAR</a>
   </div>
 </nav>

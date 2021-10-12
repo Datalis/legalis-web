@@ -20,6 +20,24 @@ const routes: Routes = [
   Shell.childRoutes([
     { path: 'keywords', loadChildren: () => import('./keywords/keywords.module').then((m) => m.KeywordsModule) },
   ]),
+  Shell.childRoutes([
+    {
+      path: 'how-to-search',
+      loadChildren: () => import('./how-to-search/how-to-search.module').then((m) => m.HowToSearchModule),
+    },
+  ]),
+  Shell.childRoutes([
+    { path: 'analysis', loadChildren: () => import('./analysis/analysis.module').then((m) => m.AnalysisModule) },
+  ]),
+  Shell.childRoutes([
+    { path: 'glossary', loadChildren: () => import('./glossary/glossary.module').then((m) => m.GlossaryModule) },
+  ]),
+  Shell.childRoutes([
+    {
+      path: 'infographics',
+      loadChildren: () => import('./infographics/infographics.module').then((m) => m.InfographicsModule),
+    },
+  ]),
   // Fallback when no prior route is matched
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
