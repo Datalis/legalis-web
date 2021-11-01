@@ -9,9 +9,10 @@ import { I18nModule } from '@app/i18n';
 import { ShellComponent } from './shell.component';
 import { HeaderComponent } from './header/header.component';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
+import { SharedModule } from '@app/@shared';
 
 @NgModule({
-  imports: [CommonModule, TranslateModule, NgbModule, IvyCarouselModule, I18nModule, RouterModule],
+  imports: [CommonModule, TranslateModule, NgbModule, IvyCarouselModule, I18nModule, SharedModule, RouterModule],
   declarations: [HeaderComponent, FooterComponent, ShellComponent],
 })
 export class ShellModule {}

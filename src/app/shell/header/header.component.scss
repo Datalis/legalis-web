@@ -10,6 +10,9 @@
   .row {
     height: 300px;
   }
+  @include media-breakpoint-down(md) {
+    background-image: url(/assets/gaceta-home-movil.jpg);
+  }
 }
 
 .header-logo {
@@ -56,6 +59,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @include media-breakpoint-down(md) {
+    flex-direction: column;
+  }
+
   .tab {
     &:first-child {
       border-left: 1px solid rgba(#fafafa, 0.5);
@@ -73,6 +81,15 @@
     }
     a.active {
       color: $accent-color;
+    }
+    @include media-breakpoint-down(md) {
+      width: 100%;
+      border-right: none;
+      &:first-child {
+        border-left: none;
+        border-top: 1px solid rgba(#fafafa, 0.5);
+      }
+      border-bottom: 1px solid rgba(#fafafa, 0.5);
     }
   }
 }

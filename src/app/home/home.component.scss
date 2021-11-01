@@ -1,3 +1,5 @@
+@import "/src/theme/theme-variables.scss";
+
 .logo {
   width: 100px;
 }
@@ -6,4 +8,30 @@ q {
   font-style: italic;
   font-size: 1.2rem;
   quotes: "« " " »";
+}
+
+.home-container {
+  width: 95%;
+  @include media-breakpoint-down(md) {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+.recent-container {
+  max-height: 400px;
+  overflow-y: auto;
+  border-right: 1px solid rgba(#fafafa, 0.5);
+}
+
+.recent-item {
+  border-bottom: 1px solid rgba(#000, 0.35);
+  p {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+  }
 }

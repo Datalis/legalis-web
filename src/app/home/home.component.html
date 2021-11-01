@@ -1,6 +1,38 @@
-<div class="container">
-  <app-recent></app-recent>
-  <app-popular></app-popular>
+<div class="home-container container px-0 px-md-4">
+  <div class="bg-blue-light my-md-5">
+    <h5 class="border-bottom p-4 text-center fw-bold mb-0">NORMATIVA RECIENTE</h5>
+    <div class="d-flex flex-column px-4 py-2 border-bottom">
+      <h6 class="mb-1 fw-bold">TÍTULO DE LA GACETA</h6>
+      <span class="text-italic fw-light">Fecha de publicación</span>
+    </div>
+    <div class="recent-container row mx-2 py-3">
+      <div class="col-md-6 col-sm-12 px-4 pb-4" *ngFor="let item of recent$ | async">
+        <div class="recent-item pb-2">
+          <h6 class="text-accent mb-0 fw-bold">{{ item.title }}</h6>
+          <span class="text-blue text-uppercase fw-bold">{{ item.subject }}</span>
+          <p class="mb-1">
+            {{ item.content }}
+          </p>
+          <small class="text-blue text-italic fw-bold">{{ item.keywords.join(', ') }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex flex-column align-items-center my-5 mx-5 mx-md-0">
+    <h5 class="mb-5 fw-bold">NORMATIVA POPULAR</h5>
+    <carousel [cellWidth]="280" [cellsToShow]="cellsToShow">
+      <div class="carousel-cell px-4 py-3 bg-blue-light d-flex flex-column" *ngFor="let item of popular$ | async">
+        <span class="text-accent mb-0 fw-bold">{{ item.title }}</span>
+        <small class="text-blue fw-bold text-uppercase">{{ item.subject }}</small>
+        <p class="mb-1">
+          {{ item.content }}
+        </p>
+        <small class="text-blue text-italic fw-bold">
+          {{ item.keywords.join(', ') }}
+        </small>
+      </div>
+    </carousel>
+  </div>
   <div class="row mb-4">
     <div class="col-sm-6 d-flex flex-column justify-content-between">
       <div class="bg-blue-light p-4 d-flex flex-column">

@@ -1,6 +1,6 @@
 <header class="header-container">
   <div class="row m-0">
-    <div class="col-md-3 d-flex align-items-start">
+    <div class="col-md-3 d-none d-md-flex align-items-start">
       <div class="d-flex align-items-center justify-content-center p-5">
         <button class="btn btn-outline-light btn-sm border-2 me-2">
           <i class="fab fa-facebook"></i>
@@ -13,8 +13,8 @@
         </button>
       </div>
     </div>
-    <div class="col-md-6">
-      <div class="d-flex flex-column align-items-center justify-content-center h-100">
+    <div class="col-md-6 col-12 px-md-0 px-5">
+      <a routerLink="/" class="d-flex flex-column align-items-center justify-content-center h-100">
         <img class="img-fluid header-logo" src="/assets/legalis-logo.png" />
         <div class="input-group mt-5 header-search">
           <input class="form-control" type="search" placeholder="Buscar..." />
@@ -22,16 +22,16 @@
             <i class="fas fa-search"></i>
           </button>
         </div>
-      </div>
+      </a>
     </div>
-    <div class="col-md-3 d-flex align-items-start justify-content-end">
-      <div class="d-flex flex-column p-5 header-menu">
+    <div class="col-md-3 d-none d-md-flex align-items-start justify-content-end">
+      <nav class="d-flex flex-column p-5 header-menu">
         <a routerLink="/" routerLinkActive="active">ÍNDICE DE GACETA</a>
         <a routerLink="/analysis" routerLinkActive="active">ANÁLISIS</a>
         <a routerLink="/infographics" routerLinkActive="active">INFOGRAFÍA</a>
         <a routerLink="/glossary" routerLinkActive="active">GLOSARIO</a>
         <a routerLink="/about" routerLinkActive="active">QUIÉNES SOMOS</a>
-      </div>
+      </nav>
     </div>
   </div>
 </header>

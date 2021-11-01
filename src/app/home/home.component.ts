@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { finalize } from 'rxjs/operators';
-
-import { QuoteService } from './quote.service';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { ScreenSize } from '@app/@shared/model/screen-size.enum';
+import { DataService } from '@app/@shared/services/data.service';
+import { ScreenSizeService } from '@app/@shared/services/screen-size.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -12,19 +13,17 @@ export class HomeComponent implements OnInit {
   quote: string | undefined;
   isLoading = false;
 
-  constructor(private quoteService: QuoteService) {}
+  cellsToShow = 1;
+
+  recent$: Observable<any[]>;
+  popular$: Observable<any[]>;
+
+  constructor(private dataService: DataService, private screenSizeService: ScreenSizeService) {
+    this.recent$ = this.dataService.recentNormative();
+    this.popular$ = this.dataService.popularNormative();
+  }
 
   ngOnInit() {
     this.isLoading = true;
-    this.quoteService
-      .getRandomQuote({ category: 'dev' })
-      .pipe(
-        finalize(() => {
-          this.isLoading = false;
-        })
-      )
-      .subscribe((quote: string) => {
-        this.quote = quote;
-      });
   }
 }
