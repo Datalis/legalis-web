@@ -1,4 +1,14 @@
-<header class="header-container">
+<header class="header-container" ngbDropdown>
+  <button class="dropdown-toggle" ngbDropdownToggle>
+    <i class="fas fa-ellipsis-v text-accent fa-lg"></i>
+  </button>
+  <div class="dropdown-menu p-0 header-menu" ngbDropdownMenu>
+    <a routerLink="/" routerLinkActive="active" ngbDropdownItem>ÍNDICE DE GACETA</a>
+    <a routerLink="/analysis" routerLinkActive="active" ngbDropdownItem>ANÁLISIS</a>
+    <a routerLink="/infographics" routerLinkActive="active" ngbDropdownItem>INFOGRAFÍA</a>
+    <a routerLink="/glossary" routerLinkActive="active" ngbDropdownItem>GLOSARIO</a>
+    <a routerLink="/about" routerLinkActive="active" ngbDropdownItem>QUIÉNES SOMOS</a>
+  </div>
   <div class="row m-0">
     <div class="col-md-3 d-none d-md-flex align-items-start">
       <div class="d-flex align-items-center justify-content-center p-5">

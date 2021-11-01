@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./keywords.component.scss'],
 })
 export class KeywordsComponent implements OnInit {
+  hideFilters = true;
+
   letters = [
     'A',
     'B',

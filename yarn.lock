@@ -2999,6 +2999,11 @@ braces@^3.0.1, braces@~3.0.2:
   dependencies:
     fill-range "^7.0.1"
 
+breakpoint-helper@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/breakpoint-helper/-/breakpoint-helper-1.0.3.tgz#e0997c069421e80f513c0e887b96b487a3756a7e"
+  integrity sha512-LE/PFDWZ6NgiiPjj5ooMQ3/hOtplec7Lul36aszaFjNZ3a59E/qutSGuAWFv22AdzEinjlE0vI1h9QrmEKJnbA==
+
 browser-process-hrtime@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/browser-process-hrtime/-/browser-process-hrtime-1.0.0.tgz#3c9b4b7d782c8121e56f10106d84c0d0ffc94626"

@@ -35,6 +35,7 @@
     "@ngx-translate/core": "^13.0.0",
     "angular-responsive-carousel": "^2.1.2",
     "bootstrap": "^5.0.2",
+    "breakpoint-helper": "^1.0.3",
     "express": "^4.17.1",
     "rxjs": "^6.6.3",
     "tslib": "^2.2.0",

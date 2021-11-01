@@ -4,20 +4,6 @@
   width: 100px;
 }
 
-q {
-  font-style: italic;
-  font-size: 1.2rem;
-  quotes: "« " " »";
-}
-
-.home-container {
-  width: 95%;
-  @include media-breakpoint-down(md) {
-    width: 100%;
-    max-width: 100%;
-  }
-}
-
 .recent-container {
   max-height: 400px;
   overflow-y: auto;

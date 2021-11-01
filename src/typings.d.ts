@@ -10,3 +10,7 @@ declare var module: NodeModule;
 interface NodeModule {
   id: string;
 }
+
+declare module 'breakpoint-helper' {
+  export default function bph(config: any): void;
+}

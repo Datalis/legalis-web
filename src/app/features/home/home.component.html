@@ -1,4 +1,4 @@
-<div class="home-container container px-0 px-md-4">
+<div class="home-container container-fluid container-lg px-0 px-md-4">
   <div class="bg-blue-light my-md-5">
     <h5 class="border-bottom p-4 text-center fw-bold mb-0">NORMATIVA RECIENTE</h5>
     <div class="d-flex flex-column px-4 py-2 border-bottom">
@@ -18,13 +18,14 @@
       </div>
     </div>
   </div>
-  <div class="d-flex flex-column align-items-center my-5 mx-5 mx-md-0">
+  <div class="d-flex flex-column align-items-center my-5 px-5 mx-md-0">
     <h5 class="mb-5 fw-bold">NORMATIVA POPULAR</h5>
-    <carousel [cellWidth]="280" [cellsToShow]="cellsToShow">
+    <carousel [cellWidth]="280" #carousel>
       <div class="carousel-cell px-4 py-3 bg-blue-light d-flex flex-column" *ngFor="let item of popular$ | async">
         <span class="text-accent mb-0 fw-bold">{{ item.title }}</span>
         <small class="text-blue fw-bold text-uppercase">{{ item.subject }}</small>
-        <p class="mb-1">
+        <small>Fecha</small>
+        <p class="w-100">
           {{ item.content }}
         </p>
         <small class="text-blue text-italic fw-bold">
@@ -33,8 +34,8 @@
       </div>
     </carousel>
   </div>
-  <div class="row mb-4">
-    <div class="col-sm-6 d-flex flex-column justify-content-between">
+  <div class="row mb-lg-4">
+    <div class="col-lg-6 d-flex flex-column justify-content-between">
       <div class="bg-blue-light p-4 d-flex flex-column">
         <h6 class="text-light fw-bold text-uppercase text-center">Análisis</h6>
         <span class="mt-4 text-light fw-bold mb-2">Preguntas frecuentes</span>
@@ -65,9 +66,9 @@
         <a class="mt-2 text-end text-italic fw-bold text-light" href="#">Leer más...</a>
       </div>
     </div>
-    <div class="col-sm-6 bg-accent d-flex flex-column align-items-center py-4">
+    <div class="col-lg-6 bg-accent d-flex flex-column align-items-center py-4">
       <h6 class="text-light fw-bold text-uppercase">Infografía</h6>
-      <img class="mt-4" src="/assets/infografia.png" alt="" />
+      <img class="mt-4 img-fluid" src="/assets/infografia.png" alt="" />
       <a routerLink="/infographics" class="fw-bold text-italic text-light mt-4">Ver más...</a>
     </div>
   </div>

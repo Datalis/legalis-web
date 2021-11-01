@@ -1,8 +1,8 @@
-<div class="keywords-container container p-5">
+<div class="keywords-container container-fluid container-lg px-0 px-md-4 py-4">
   <div class="d-flex flex-column align-items-center">
-    <h6 class="text-accent fw-bold">PALABRAS CLAVE</h6>
+    <h5 class="text-accent fw-bold mb-0">PALABRAS CLAVE</h5>
     <div class="d-flex flex-column bg-blue w-100 mt-4">
-      <div class="d-flex align-items-center justify-content-center py-4">
+      <div class="d-flex flex-wrap align-items-center justify-content-center py-4 px-4">
         <div
           *ngFor="let item of letters"
           (click)="currentLetter = item"
@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="row w-100 mt-4">
-      <div class="col-sm-4 p-0">
+      <div class="d-none d-lg-flex col-lg-4 p-0">
         <div class="filter-panel d-flex flex-column px-4 pb-4">
           <span class="fw-bold text-small text-center p-2">FILTROS DE BÚSQUEDA</span>
           <div class="divider m-0"></div>
@@ -95,22 +95,24 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-8 ps-4 results-panel">
-        <h6 class="fw-bold text-blue">CANASTA FAMILIAR</h6>
-        <p class="text-accent text-small">
-          Omit the wrapping .form-check for checkboxes and radios that have no label text. Remember to still provide
-          some form of accessible name for assistive technologies
-        </p>
+      <div class="col-lg-8 p-0 ps-lg-4 results-panel">
+        <div class="px-4">
+          <h6 class="fw-bold text-blue">CANASTA FAMILIAR</h6>
+          <p class="text-accent text-small">
+            Omit the wrapping .form-check for checkboxes and radios that have no label text. Remember to still provide
+            some form of accessible name for assistive technologies
+          </p>
+        </div>
         <div class="divider"></div>
-        <div class="d-flex">
+        <div class="d-flex flex-wrap px-4 mb-4">
           <div class="d-flex flex-column flex-grow-1">
             <span class="text-blue fw-bold"
               >Mostrando resultados para: <span class="text-italic text-accent">Término</span></span
             >
             <span class="text-blue fw-bold mt-2">Resultados: <span class="text-accent">25</span></span>
           </div>
-          <div class="d-flex flex-column">
-            <span class="text-blue fw-bold">Ordenar</span>
+          <div class="d-flex align-items-center flex-lg-column mt-4 mt-lg-0 w-100">
+            <span class="text-blue fw-bold flex-grow-1">Ordenar</span>
             <div class="d-flex mt-2">
               <div class="form-check text-italic text-blue me-4">
                 <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked />
@@ -123,6 +125,91 @@
             </div>
           </div>
         </div>
+
+        <div class="d-lg-none">
+          <div class="d-flex flex-column text-center py-4 filter-toggler" (click)="collapse.toggle()">
+            <h6 class="text-uppercase">Filtros de Busqueda</h6>
+            <i
+              class="fas fa-lg text-accent"
+              [class.fa-chevron-down]="hideFilters"
+              [class.fa-chevron-up]="!hideFilters"
+            ></i>
+          </div>
+          <div #collapse="ngbCollapse" [(ngbCollapse)]="hideFilters" class="filter-panel">
+            <div class="px-4 pb-4">
+              <label class="fw-bold form-group-label text-small mt-4">ESTADO DE LA NORMA</label>
+              <div class="form-check text-small">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Todos los estados <span class="ms-2 fw-bold text-accent">24</span>
+                </label>
+              </div>
+              <div class="form-check text-small">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Vigente <span class="ms-2 fw-bold text-accent">24</span>
+                </label>
+              </div>
+              <div class="form-check text-small">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Derogada <span class="ms-2 fw-bold text-accent">24</span>
+                </label>
+              </div>
+              <div class="form-check text-small">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Estado <span class="ms-2 fw-bold text-accent">24</span>
+                </label>
+              </div>
+              <div class="form-check text-small">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Estado <span class="ms-2 fw-bold text-accent">24</span>
+                </label>
+              </div>
+
+              <div class="divider"></div>
+              <label class="fw-bold form-group-label text-small">EMISOR</label>
+              <input type="text" class="form-control form-control-sm" />
+
+              <div class="divider"></div>
+              <label class="fw-bold form-group-label text-small">AÑO DE PUBLICACIÓN</label>
+              <label for="" class="form-control-label">Seleccione el año</label>
+              <input type="text" class="form-control form-control-sm" />
+              <label for="customRange3" class="form-control-label mt-2">Seleccione el período</label>
+              <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange3" />
+
+              <div class="divider"></div>
+              <label class="fw-bold form-group-label text-small">PALABRAS CLAVES RELACIONADAS</label>
+              <div class="form-check text-small">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                <label class="form-check-label" for="flexRadioDefault1"> Vigente </label>
+              </div>
+              <div class="form-check text-small">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                <label class="form-check-label" for="flexRadioDefault1"> Vigente </label>
+              </div>
+              <div class="form-check text-small">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                <label class="form-check-label" for="flexRadioDefault1"> Vigente </label>
+              </div>
+              <div class="form-check text-small">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                <label class="form-check-label" for="flexRadioDefault1"> Vigente </label>
+              </div>
+              <div class="form-check text-small">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                <label class="form-check-label" for="flexRadioDefault1"> Vigente </label>
+              </div>
+              <div class="form-check text-small">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                <label class="form-check-label" for="flexRadioDefault1"> Vigente </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="result-list mt-2">
           <div class="result-item bg-blue-light d-flex flex-column px-5 pb-4">
             <span class="result-status bg-accent px-2 py-1 text-uppercase fw-light text-light align-self-start"

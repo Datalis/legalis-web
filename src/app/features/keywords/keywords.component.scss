@@ -15,6 +15,9 @@
   margin: 0;
   max-height: 250px;
   overflow-y: auto;
+  @include media-breakpoint-down(md) {
+    max-height: 500px;
+  }
 }
 
 .divider {
@@ -23,6 +26,11 @@
   background-color: #61b9f9;
   margin-top: 1rem;
   margin-bottom: 1rem;
+}
+
+.filter-toggler {
+  background-color: #e7e5e6;
+  cursor: pointer;
 }
 
 .filter-panel {

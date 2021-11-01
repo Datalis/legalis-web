@@ -7,35 +7,45 @@ const routes: Routes = [
   Shell.childRoutes([
     {
       path: 'advanced-search',
-      loadChildren: () => import('./advanced-search/advanced-search.module').then((m) => m.AdvancedSearchModule),
+      loadChildren: () =>
+        import('./features/advanced-search/advanced-search.module').then((m) => m.AdvancedSearchModule),
     },
   ]),
   Shell.childRoutes([
     {
       path: 'thematic-directory',
       loadChildren: () =>
-        import('./thematic-directory/thematic-directory.module').then((m) => m.ThematicDirectoryModule),
+        import('./features/thematic-directory/thematic-directory.module').then((m) => m.ThematicDirectoryModule),
     },
   ]),
   Shell.childRoutes([
-    { path: 'keywords', loadChildren: () => import('./keywords/keywords.module').then((m) => m.KeywordsModule) },
+    {
+      path: 'keywords',
+      loadChildren: () => import('./features/keywords/keywords.module').then((m) => m.KeywordsModule),
+    },
   ]),
   Shell.childRoutes([
     {
       path: 'how-to-search',
-      loadChildren: () => import('./how-to-search/how-to-search.module').then((m) => m.HowToSearchModule),
+      loadChildren: () => import('./features/how-to-search/how-to-search.module').then((m) => m.HowToSearchModule),
     },
   ]),
   Shell.childRoutes([
-    { path: 'analysis', loadChildren: () => import('./analysis/analysis.module').then((m) => m.AnalysisModule) },
+    {
+      path: 'analysis',
+      loadChildren: () => import('./features/analysis/analysis.module').then((m) => m.AnalysisModule),
+    },
   ]),
   Shell.childRoutes([
-    { path: 'glossary', loadChildren: () => import('./glossary/glossary.module').then((m) => m.GlossaryModule) },
+    {
+      path: 'glossary',
+      loadChildren: () => import('./features/glossary/glossary.module').then((m) => m.GlossaryModule),
+    },
   ]),
   Shell.childRoutes([
     {
       path: 'infographics',
-      loadChildren: () => import('./infographics/infographics.module').then((m) => m.InfographicsModule),
+      loadChildren: () => import('./features/infographics/infographics.module').then((m) => m.InfographicsModule),
     },
   ]),
   // Fallback when no prior route is matched

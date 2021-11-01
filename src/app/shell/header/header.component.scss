@@ -13,6 +13,19 @@
   @include media-breakpoint-down(md) {
     background-image: url(/assets/gaceta-home-movil.jpg);
   }
+
+  .dropdown-toggle {
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    appearance: none;
+    background: none;
+    outline: none;
+    border: none;
+    &::after {
+      display: none;
+    }
+  }
 }
 
 .header-logo {
@@ -27,6 +40,12 @@
     font-size: 12px;
     font-weight: bold;
     color: #61b9f9;
+    &:last-child {
+      border-bottom: none;
+    }
+    &.active {
+      background: none;
+    }
   }
 }
 
