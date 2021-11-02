@@ -1,9 +1,10 @@
 name: CI
+
 on:
   push:
     branches: [main]
-  pull_request: null
-  workflow_dispatch: true
+    pull_request: null
+    workflow_dispatch: true
 jobs:
   deploy:
     runs-on: ubuntu-latest
