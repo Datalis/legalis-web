@@ -17,6 +17,12 @@
   border-bottom: 1px solid $divider-blue-light !important;
 }
 
+.border-lg-end {
+  @include media-breakpoint-up(md) {
+    border-right: 1px solid $divider-blue-light !important;
+  }
+}
+
 ::ng-deep .carousel-item {
   padding-bottom: 0.5rem;
   padding-top: 0.5rem;
