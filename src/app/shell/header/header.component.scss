@@ -1,114 +1,173 @@
 @import "src/theme/theme-variables";
 
-.header-container {
-  min-height: 400px;
-  background-color: $background-blue;
+$border: 1px solid rgba($divider-light, 0.2);
+$header-height: 400px;
+
+:host {
+  display: block;
   background-image: url(/assets/gaceta-home.jpg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  .row {
-    height: 300px;
-  }
   @include media-breakpoint-down(md) {
     background-image: url(/assets/gaceta-home-movil.jpg);
   }
 
-  .dropdown-toggle {
-    position: absolute;
-    right: 24px;
-    top: 24px;
-    appearance: none;
-    background: none;
-    outline: none;
-    border: none;
-    &::after {
-      display: none;
-    }
-  }
-}
-
-.header-logo {
-  height: 100px;
-}
-
-.header-menu {
-  a {
-    padding-bottom: 0.5rem;
-    padding-top: 0.5rem;
-    border-bottom: 1px solid #61b9f9;
-    font-size: 12px;
-    font-weight: bold;
-    color: #61b9f9;
-    &:last-child {
-      border-bottom: none;
-    }
-    &.active {
-      background: none;
-    }
-  }
-}
-
-.header-search {
-  .form-control {
-    background-color: rgba($color: #fafafa, $alpha: 0.1);
-    border: 1px solid rgba($color: #fafafa, $alpha: 0.1);
-    color: #fafafa;
-    &::placeholder {
-      color: rgba(#fafafa, 0.5);
-    }
-    &:focus {
-      box-shadow: none;
-      color: #fafafa;
-    }
-  }
-  .btn {
-    &:focus,
-    &:active {
-      box-shadow: none;
-    }
-    border-color: rgba(#fafafa, 0.5);
-  }
-}
-
-.header-tabs {
-  background-color: $background-blue;
-  width: 100%;
-  //height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  @include media-breakpoint-down(md) {
-    flex-direction: column;
+  .header-wrapper {
+    position: relative;
+    background: rgb(23, 71, 138);
+    background: linear-gradient(0deg, rgba(23, 71, 138, 0.4962359943977591) 0%, rgba(0, 0, 0, 0) 100%);
   }
 
-  .tab {
-    &:first-child {
-      border-left: 1px solid rgba(#fafafa, 0.5);
+  .header-container {
+    height: $header-height;
+    .header-logo {
+      height: 120px;
+      width: auto;
     }
-    padding: 1rem 2rem;
-    border-right: 1px solid rgba(#fafafa, 0.5);
-    min-width: 150px;
+    .header-nav {
+      display: flex;
+      flex-direction: column;
+      padding: 3rem;
+      a {
+        padding-bottom: 0.5rem;
+        padding-top: 0.5rem;
+        border-bottom: 1px solid $divider-blue-light;
+        font-size: 14px;
+        font-weight: bold;
+        color: $blue-light;
+        &:hover {
+          color: rgba($light, 0.8);
+        }
+        &:last-child {
+          border-bottom: none;
+        }
+        &.active {
+          background: none;
+          color: $accent;
+        }
+      }
+    }
+    .header-search {
+      max-width: 680px;
+      box-shadow: 1px 1px 10px 5px rgba($black, 0.08);
+      .form-control {
+        background-color: rgba($color: $light, $alpha: 0.1);
+        border: 1px solid rgba($color: $light, $alpha: 0.1);
+        color: $light;
+        &::placeholder {
+          color: rgba($light, 0.5);
+        }
+        &:focus {
+          box-shadow: none;
+          color: $light;
+        }
+      }
+      .btn {
+        &:hover,
+        &:focus,
+        &:active {
+          color: $light;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+
+  .header-tabs {
+    background-color: $blue;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    a {
-      color: #fafafa;
-      font-weight: 700;
-      font-size: 12px;
-    }
-    a.active {
-      color: $accent-color;
-    }
-    @include media-breakpoint-down(md) {
+
+    &-toggler {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
       width: 100%;
-      border-right: none;
+      padding: 1rem;
+      user-select: none;
+    }
+
+    .tab {
+      padding: 1.2rem 2rem;
+      min-width: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-right: 1px solid $divider-blue-light;
       &:first-child {
-        border-left: none;
-        border-top: 1px solid rgba(#fafafa, 0.5);
+        border-left: 1px solid $divider-blue-light;
       }
-      border-bottom: 1px solid rgba(#fafafa, 0.5);
+      @include media-breakpoint-down(lg) {
+        border-right: none;
+        border-bottom: 1px solid $divider-blue-light;
+        &:first-child {
+          border-top: 1px solid $divider-blue-light;
+          border-left: none;
+        }
+      }
+      a {
+        font-weight: 700;
+        font-size: 14px;
+        &:hover {
+          color: rgba($light, 0.8);
+        }
+        &.active {
+          color: $accent;
+        }
+      }
+    }
+  }
+
+  .header-menu {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    display: none;
+    @include media-breakpoint-down(lg) {
+      display: block;
+    }
+    .dropdown-toggle {
+      background: none;
+      border: none;
+      outline: none;
+      box-shadow: none;
+      appearance: none;
+      padding: 0.5rem;
+      &::after {
+        display: none;
+      }
+    }
+    .dropdown-menu {
+      background-color: $blue;
+      padding: 0;
+      min-width: 200px;
+    }
+    .dropdown-item {
+      padding-bottom: 0.6rem;
+      padding-top: 0.6rem;
+      font-size: 14px;
+      font-weight: bold;
+      color: $blue-light;
+      &.active,
+      &:active,
+      &:hover,
+      &:focus {
+        background-color: transparent !important;
+        outline: none;
+      }
+
+      &.active {
+        color: $accent;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
     }
   }
 }

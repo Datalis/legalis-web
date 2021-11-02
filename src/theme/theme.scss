@@ -12,20 +12,14 @@ body {
   overflow-x: hidden;
 }
 
+// Helpers
+
 .text-accent {
-  color: #cd3836 !important;
+  color: $accent !important;
 }
 
-.bg-accent {
-  background-color: #cd3836 !important;
-}
-
-.bg-disabled {
-  background-color: #687a88 !important;
-}
-
-.bg-gray {
-  background-color: #ededed !important;
+.text-blue {
+  color: $blue !important;
 }
 
 .text-italic {
@@ -36,17 +30,23 @@ body {
   font-size: 12px !important;
 }
 
-.bg-blue-light {
-  background-color: $background-blue-light !important;
+.bg-accent {
+  background-color: $accent !important;
 }
 
-.text-blue {
-  color: $text-blue !important;
+.bg-surface {
+  background-color: $surface !important;
+}
+
+.bg-blue-light {
+  background-color: $blue-light !important;
 }
 
 .bg-blue {
-  background-color: $background-blue !important;
+  background-color: $blue !important;
 }
+
+// Form
 
 .form-group-label {
   font-size: 14px;
@@ -56,6 +56,25 @@ body {
 
 .form-control-label {
   font-size: 14px;
+  margin-bottom: 0.25rem;
+}
+
+.form-select,
+.form-control {
+  &:focus {
+    box-shadow: 0 0 0 0.15rem rgba($accent, 0.25);
+    border: 1px solid rgba($accent, 0.25);
+  }
+}
+
+.form-check {
+  .form-check-input {
+    &:checked {
+      background-color: $accent;
+      border-color: $accent;
+      box-shadow: 0 0 0 0.15rem rgba($accent, 0.25);
+    }
+  }
 }
 
 // Carousel
@@ -68,7 +87,7 @@ body {
     align-items: center;
     justify-content: center;
     cursor: pointer !important;
-    color: $accent-color;
+    color: $accent;
     transform: scale(1.5);
 
     &-prev {
@@ -99,5 +118,36 @@ body {
       text-overflow: ellipsis;
       font-size: 14px;
     }
+  }
+}
+
+.ngx-slider {
+  .ngx-slider-bar-wrapper {
+    margin-top: -32px !important;
+  }
+  .ngx-slider-pointer {
+    background-color: $accent !important;
+    border-radius: 3px !important;
+    transform: scale(0.7);
+    top: -30px !important;
+    &::after {
+      display: none;
+    }
+    &.ngx-slider-active {
+      outline: none !important;
+    }
+    &.ngx-slider-active::after {
+      display: block;
+      background-color: $light !important;
+    }
+  }
+  .ngx-slider-span {
+    font-size: 12px !important;
+  }
+  .ngx-slider-bubble {
+    bottom: -16px !important;
+  }
+  .ngx-slider-selection {
+    background: $accent !important;
   }
 }

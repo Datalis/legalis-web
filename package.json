@@ -20,6 +20,7 @@
     "generate": "ng generate"
   },
   "dependencies": {
+    "@angular-slider/ngx-slider": "^2.0.3",
     "@angular/animations": "^12.1.1",
     "@angular/common": "^12.1.1",
     "@angular/compiler": "^12.1.1",
@@ -34,8 +35,10 @@
     "@ng-bootstrap/ng-bootstrap": "^11.0.0-beta.2",
     "@ngx-translate/core": "^13.0.0",
     "angular-responsive-carousel": "^2.1.2",
+    "angular-svg-icon": "^12.0.0",
     "bootstrap": "^5.0.2",
     "breakpoint-helper": "^1.0.3",
+    "e": "^0.2.1",
     "express": "^4.17.1",
     "rxjs": "^6.6.3",
     "tslib": "^2.2.0",

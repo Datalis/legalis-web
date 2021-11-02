@@ -1,61 +1,89 @@
-<header class="header-container" ngbDropdown>
-  <button class="dropdown-toggle" ngbDropdownToggle>
-    <i class="fas fa-ellipsis-v text-accent fa-lg"></i>
-  </button>
-  <div class="dropdown-menu p-0 header-menu" ngbDropdownMenu>
-    <a routerLink="/" routerLinkActive="active" ngbDropdownItem>ÍNDICE DE GACETA</a>
-    <a routerLink="/analysis" routerLinkActive="active" ngbDropdownItem>ANÁLISIS</a>
-    <a routerLink="/infographics" routerLinkActive="active" ngbDropdownItem>INFOGRAFÍA</a>
-    <a routerLink="/glossary" routerLinkActive="active" ngbDropdownItem>GLOSARIO</a>
-    <a routerLink="/about" routerLinkActive="active" ngbDropdownItem>QUIÉNES SOMOS</a>
-  </div>
-  <div class="row m-0">
-    <div class="col-md-3 d-none d-md-flex align-items-start">
-      <div class="d-flex align-items-center justify-content-center p-5">
-        <button class="btn btn-outline-light btn-sm border-2 me-2">
-          <i class="fab fa-facebook"></i>
-        </button>
-        <button class="btn btn-outline-light btn-sm border-2 me-2">
-          <i class="fab fa-instagram"></i>
-        </button>
-        <button class="btn btn-outline-light btn-sm border-2">
-          <i class="fab fa-twitter"></i>
-        </button>
-      </div>
-    </div>
-    <div class="col-md-6 col-12 px-md-0 px-5">
-      <a routerLink="/" class="d-flex flex-column align-items-center justify-content-center h-100">
-        <img class="img-fluid header-logo" src="/assets/legalis-logo.png" />
-        <div class="input-group mt-5 header-search">
-          <input class="form-control" type="search" placeholder="Buscar..." />
-          <button class="btn btn-outline-light">
-            <i class="fas fa-search"></i>
+<header class="header-wrapper">
+  <div class="header-container">
+    <div class="row m-0 h-100">
+      <div class="col-lg-3 d-none d-lg-flex justify-content-start align-items-start">
+        <div class="d-flex align-items-center justify-content-center p-5 header-social">
+          <button class="btn btn-outline-light btn-sm border-2 me-3">
+            <i class="fab fa-facebook"></i>
+          </button>
+          <button class="btn btn-outline-light btn-sm border-2 me-3">
+            <i class="fab fa-instagram"></i>
+          </button>
+          <button class="btn btn-outline-light btn-sm border-2">
+            <i class="fab fa-twitter"></i>
           </button>
         </div>
-      </a>
+      </div>
+      <div class="col-lg-6 col px-lg-0 p-5 align-self-start">
+        <div class="d-flex flex-column align-items-center justify-content-center h-100">
+          <img class="img-fluid header-logo" src="/assets/legalis-logo.png" />
+          <div class="input-group input-group-lg mt-5 header-search">
+            <input class="form-control" type="search" placeholder="Buscar..." />
+            <button class="btn btn-outline-primary">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 d-none d-lg-flex justify-content-end align-self-start">
+        <nav class="header-nav" role="navigation">
+          <a routerLink="/home" routerLinkActive="active">ÍNDICE DE GACETA</a>
+          <a routerLink="/analysis" routerLinkActive="active">ANÁLISIS</a>
+          <a routerLink="/infographics" routerLinkActive="active">INFOGRAFÍA</a>
+          <a routerLink="/glossary" routerLinkActive="active">GLOSARIO</a>
+          <a routerLink="/about" routerLinkActive="active">QUIÉNES SOMOS</a>
+        </nav>
+      </div>
     </div>
-    <div class="col-md-3 d-none d-md-flex align-items-start justify-content-end">
-      <nav class="d-flex flex-column p-5 header-menu">
-        <a routerLink="/" routerLinkActive="active">ÍNDICE DE GACETA</a>
-        <a routerLink="/analysis" routerLinkActive="active">ANÁLISIS</a>
-        <a routerLink="/infographics" routerLinkActive="active">INFOGRAFÍA</a>
-        <a routerLink="/glossary" routerLinkActive="active">GLOSARIO</a>
-        <a routerLink="/about" routerLinkActive="active">QUIÉNES SOMOS</a>
-      </nav>
+  </div>
+  <nav class="header-tabs d-none d-lg-flex" role="navigation">
+    <div class="tab">
+      <a routerLink="/advanced-search" routerLinkActive="active">BÚSQUEDA AVANZADA</a>
+    </div>
+    <div class="tab">
+      <a routerLink="/thematic-directory" routerLinkActive="active">DIRECTORIO TEMÁTICO</a>
+    </div>
+    <div class="tab">
+      <a routerLink="/keywords" routerLinkActive="active">PALABRA CLAVE</a>
+    </div>
+    <div class="tab">
+      <a routerLink="/how-to-search" routerLinkActive="active">CÓMO BUSCAR</a>
+    </div>
+  </nav>
+  <nav class="header-tabs d-flex flex-column d-lg-none" role="navigation">
+    <div class="header-tabs-toggler" (click)="collapse.toggle()">
+      <span class="text-uppercase text-accent fw-bold mb-3">Otras opciones de búsqueda</span>
+      <i
+        class="fas fa-lg text-accent"
+        [class.fa-chevron-down]="collapseFilterNav"
+        [class.fa-chevron-up]="!collapseFilterNav"
+      ></i>
+    </div>
+    <div #collapse="ngbCollapse" class="w-100" [(ngbCollapse)]="collapseFilterNav">
+      <div class="tab">
+        <a routerLink="/advanced-search" routerLinkActive="active">BÚSQUEDA AVANZADA</a>
+      </div>
+      <div class="tab">
+        <a routerLink="/thematic-directory" routerLinkActive="active">DIRECTORIO TEMÁTICO</a>
+      </div>
+      <div class="tab">
+        <a routerLink="/keywords" routerLinkActive="active">PALABRA CLAVE</a>
+      </div>
+      <div class="tab">
+        <a routerLink="/how-to-search" routerLinkActive="active">CÓMO BUSCAR</a>
+      </div>
+    </div>
+  </nav>
+  <div class="header-menu" ngbDropdown>
+    <button class="dropdown-toggle" ngbDropdownToggle>
+      <i class="fas fa-ellipsis-v text-accent fa-lg"></i>
+    </button>
+    <div class="dropdown-menu" ngbDropdownMenu>
+      <a routerLink="/home" routerLinkActive="active" ngbDropdownItem>ÍNDICE DE GACETA</a>
+      <a routerLink="/analysis" routerLinkActive="active" ngbDropdownItem>ANÁLISIS</a>
+      <a routerLink="/infographics" routerLinkActive="active" ngbDropdownItem>INFOGRAFÍA</a>
+      <a routerLink="/glossary" routerLinkActive="active" ngbDropdownItem>GLOSARIO</a>
+      <a routerLink="/about" routerLinkActive="active" ngbDropdownItem>QUIÉNES SOMOS</a>
     </div>
   </div>
 </header>
-<nav class="header-tabs">
-  <div class="tab">
-    <a routerLink="/advanced-search" routerLinkActive="active">BÚSQUEDA AVANZADA</a>
-  </div>
-  <div class="tab">
-    <a routerLink="/thematic-directory" routerLinkActive="active">DIRECTORIO TEMÁTICO</a>
-  </div>
-  <div class="tab">
-    <a routerLink="/keywords" routerLinkActive="active">PALABRA CLAVE</a>
-  </div>
-  <div class="tab">
-    <a routerLink="/how-to-search" routerLinkActive="active">CÓMO BUSCAR</a>
-  </div>
-</nav>

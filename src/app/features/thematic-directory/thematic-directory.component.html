@@ -1,32 +1,48 @@
-<div class="thematic-directory container p-5">
+<div class="thematic-directory container-fluid container-lg px-0 px-md-4 py-4">
   <div class="row">
-    <div class="col-sm-4 bg-blue">
-      <div class="subject-grid row align-items-center">
+    <div class="col-lg-4 d-none d-lg-flex bg-blue">
+      <div class="subject-grid row align-items-center justify-content-center px-4">
         <div
-          class="subject-item col-lg-4 col-md-6 col-sm-12"
+          class="subject-item col-xl-4 col-lg-6 py-4 mb-4"
           *ngFor="let item of subjects; let i = index"
           (click)="currentSubject = i"
         >
-          <img *ngIf="i !== currentSubject" src="/assets/directory-icon.png" alt="" />
-          <img *ngIf="i === currentSubject" src="/assets/directory-icon-selected.png" alt="" />
-          <span class="subject-title">{{ item }}</span>
+          <svg-icon class="subject-icon" src="assets/{{ item.icon }}" [class.active]="currentSubject === i"></svg-icon>
+          <span class="subject-title">{{ item.name }}</span>
         </div>
       </div>
     </div>
-    <div class="col-sm-8 ps-0">
-      <div class="d-flex flex-column ps-4">
-        <h6 class="text-accent mb-1 fw-bold">DIRECTORIO TEMÁTICO</h6>
+    <div class="col-lg-8 col-sm-12">
+      <div class="d-flex flex-column ps-lg-4 text-center text-lg-start">
+        <h5 class="text-accent mb-1 fw-bold mb-0">DIRECTORIO TEMÁTICO</h5>
         <span class="text-blue text-italic fw-bold">Normativa vigente</span>
       </div>
       <div class="divider"></div>
-
+      <div class="col-12 d-lg-none bg-blue">
+        <div class="subject-grid align-items-center justify-content-center px-4">
+          <div class="row">
+            <div
+              class="subject-item col-4 py-4 mb-4"
+              *ngFor="let item of subjects; let i = index"
+              (click)="currentSubject = i"
+            >
+              <svg-icon
+                class="subject-icon"
+                src="assets/{{ item.icon }}"
+                [class.active]="currentSubject === i"
+              ></svg-icon>
+              <span class="subject-title">{{ item.name }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="d-flex align-items-center my-4 ps-4">
         <img src="/assets/directory-icon-selected.png" alt="" />
         <h6 class="text-blue mx-4 mb-0 fw-bold">ADMINISTRATIVA</h6>
         <span class="text-accent"> 15 Normativas vigentes relacionadas </span>
       </div>
 
-      <div class="ps-4">
+      <div class="ps-lg-4">
         <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
           <ngb-panel>
             <ng-template ngbPanelTitle>

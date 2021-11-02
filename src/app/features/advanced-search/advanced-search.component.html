@@ -1,11 +1,12 @@
-<div class="advanced-search-container container p-5">
-  <div class="row mb-3">
-    <div class="col-md-8 offset-4 px-4">
-      <h6 class="fw-bold text-accent">BÚSQUEDA AVANZADA</h6>
+<div class="advanced-search-container container-fluid container-lg px-0 px-md-4 py-4">
+  <div class="row mb-md-4">
+    <div class="col-md-8 col-sm-12 offset-md-4 px-5 px-md-4 text-center text-md-start">
+      <h5 class="fw-bold text-accent mb-0">BÚSQUEDA AVANZADA</h5>
+      <div class="divider d-md-none mt-4"></div>
     </div>
   </div>
   <div class="row">
-    <div class="col-md-4 side-container px-4">
+    <div class="col-md-4 side-container px-5 px-md-4">
       <label class="fw-bold form-group-label">ESTADO DE LA NORMA</label>
       <div class="form-check">
         <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
@@ -94,18 +95,18 @@
         </label>
       </div>
     </div>
-    <div class="col-md-8 px-4 pb-4">
+    <div class="col-md-8 px-5 px-md-4 pb-4 pt-4 pt-lg-0">
       <label class="form-group-label">AÑO DE PUBLICACIÓN</label>
       <div class="row">
-        <div class="col-sm-6">
+        <div class="col-lg-6">
           <label class="form-control-label">Seleccione el año</label>
           <select class="form-select">
             <option selected disabled>Seleccionar</option>
           </select>
         </div>
-        <div class="col-sm-6">
+        <div class="col-lg-6 mt-2 mt-lg-0">
           <label for="customRange3" class="form-control-label">Seleccione el período</label>
-          <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange3" />
+          <ngx-slider [(value)]="minValue" [highValue]="maxValue" [options]="sliderOpts"></ngx-slider>
         </div>
       </div>
       <div class="divider mt-4"></div>
@@ -128,16 +129,16 @@
             <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
             <label class="form-check-label" for="flexRadioDefault1"> En el resumen </label>
           </div>
-          <div class="form-check text-italic mt-2">
+          <div class="form-check text-italic mt-2 mb-4">
             <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
             <label class="form-check-label" for="flexRadioDefault1"> En el resumen </label>
           </div>
-          <div class="form-check mt-auto text-small text-accent">
+          <div class="form-check mt-auto text-accent">
             <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
             <label class="form-check-label" for="flexRadioDefault1"> Incluir sinónimos y variantes ortográficas </label>
           </div>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-8 mt-2">
           <label class="form-control-label">Con todas estas palabras</label>
           <input class="form-control" />
           <label class="form-control-label mt-2">Con algunas de estas palabras</label>
@@ -153,6 +154,7 @@
   </div>
   <div class="divider mt-0"></div>
   <div class="d-flex justify-content-center mt-4">
-    <button class="btn btn-outline-secondary text-accent">BUSCAR</button>
+    <button class="btn btn-outline-primary fw-bold text-accent me-2">BUSCAR</button>
+    <button class="btn btn-link text-accent text-italic">Reiniciar</button>
   </div>
 </div>

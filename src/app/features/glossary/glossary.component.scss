@@ -10,7 +10,7 @@
   font-weight: 500;
   cursor: pointer;
   &.current {
-    color: $accent-color;
+    color: $accent;
     text-decoration: underline;
   }
 }
@@ -21,9 +21,4 @@
   background-color: #61b9f9;
   margin-top: 1rem;
   margin-bottom: 1rem;
-}
-
-.results-container {
-  max-height: 400px;
-  overflow-y: auto;
 }

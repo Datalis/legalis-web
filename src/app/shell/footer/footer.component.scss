@@ -1,12 +1,20 @@
 @import "/src/theme/theme-variables.scss";
 
 .footer-container {
-  background-color: $background-blue;
+  background-color: $blue;
   color: #fafafa;
 
   a {
     color: #fafafa;
   }
+}
+
+.border-top {
+  border-top: 1px solid $divider-blue-light !important;
+}
+
+.border-bottom {
+  border-bottom: 1px solid $divider-blue-light !important;
 }
 
 ::ng-deep .carousel-item {

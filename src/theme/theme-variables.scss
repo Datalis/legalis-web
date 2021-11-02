@@ -15,21 +15,21 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 // Color system
 //
 
-$white: #fff;
-$gray-100: #f8f9fa;
-$gray-200: #e9ecef;
-$gray-300: #dee2e6;
-$gray-400: #ced4da;
-$gray-500: #adb5bd;
-$gray-600: #868e96;
-$gray-700: #495057;
-$gray-800: #343a40;
-$gray-900: #212529;
-$black: #000;
+$primary: #74b1e1;
+$secondary: #687988;
+$accent: #f94848;
+$white: #ffffff;
+$black: #000000;
+$light: #fafafa;
+$dark: #212121;
+$blue: #19478a;
+$blue-light: #a0b7d0;
+$surface: #e7e6e6;
 
-$blue: #0073dd;
-$indigo: #6610f2;
-$purple: #6f42c1;
+$divider-light: rgba($light, 0.5);
+$divider-dark: rgba($dark, 0.5);
+$divider-blue-light: rgba($blue-light, 0.5);
+
 $pink: #e83e8c;
 $red: #dc3545;
 $orange: #fd7e14;
@@ -39,27 +39,20 @@ $teal: #20c997;
 $cyan: #17a2b8;
 
 $theme-colors: (
-  primary: $blue,
-  secondary: $gray-600,
+  primary: $primary,
+  secondary: $secondary,
   success: $green,
   info: $cyan,
   warning: $yellow,
   danger: $red,
-  light: $gray-100,
-  dark: $gray-800,
+  light: $light,
+  dark: $dark,
 );
 
-$background-blue: #17468a;
-$background-blue-light: #a1b7cf;
-$text-blue: #17468a;
-$accent-color: #cd3836;
-
 $link-decoration: none;
-
 $input-btn-focus-width: 0.15rem;
 
-$font-family-sans-serif: "Lato", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
-  "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$font-family-sans-serif: "Lato", system-ui, -apple-system;
 
 // Use Bootstrap defaults for other variables, imported here so we can access all app variables in one place when used
 // in components.
