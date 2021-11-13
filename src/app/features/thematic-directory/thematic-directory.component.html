@@ -4,10 +4,14 @@
       <div class="subject-grid row align-items-center justify-content-center px-4">
         <div
           class="subject-item col-xl-4 col-lg-6 py-4 mb-4"
-          *ngFor="let item of subjects; let i = index"
-          (click)="currentSubject = i"
+          *ngFor="let item of directories$ | async as list"
+          (click)="onDirectorySelected(item)"
         >
-          <svg-icon class="subject-icon" src="assets/{{ item.icon }}" [class.active]="currentSubject === i"></svg-icon>
+          <svg-icon
+            class="subject-icon"
+            src="assets/{{ getIconFor(item.name) }}"
+            [class.active]="currentDirectory?.id === item.id"
+          ></svg-icon>
           <span class="subject-title">{{ item.name }}</span>
         </div>
       </div>
@@ -21,69 +25,50 @@
       <div class="col-12 d-lg-none bg-blue">
         <div class="subject-grid align-items-center justify-content-center px-4">
           <div class="row">
-            <div
-              class="subject-item col-4 py-4 mb-4"
-              *ngFor="let item of subjects; let i = index"
-              (click)="currentSubject = i"
-            >
-              <svg-icon
-                class="subject-icon"
-                src="assets/{{ item.icon }}"
-                [class.active]="currentSubject === i"
-              ></svg-icon>
+            <div class="subject-item col-4 py-4 mb-4" *ngFor="let item of subjects; let i = index">
+              <svg-icon class="subject-icon" src="assets/{{ item.icon }}"></svg-icon>
               <span class="subject-title">{{ item.name }}</span>
             </div>
           </div>
         </div>
       </div>
-      <div class="d-flex align-items-center my-4 ps-4">
-        <img src="/assets/directory-icon-selected.png" alt="" />
-        <h6 class="text-blue mx-4 mb-0 fw-bold">ADMINISTRATIVA</h6>
-        <span class="text-accent"> 15 Normativas vigentes relacionadas </span>
-      </div>
+      <ng-container *ngIf="currentDirectory">
+        <div class="d-flex align-items-center my-4 ps-4">
+          <img src="/assets/directory-icon-selected.png" alt="" />
+          <h6 class="text-blue mx-4 mb-0 fw-bold">{{ currentDirectory?.name }}</h6>
+          <span class="text-accent"> {{ currentDirectory?.normatives }} Normativas vigentes relacionadas </span>
+        </div>
 
-      <div class="ps-lg-4">
-        <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-          <ngb-panel>
-            <ng-template ngbPanelTitle>
-              <span class="text-accent fw-bold">Ley General de la Vivienda</span>
-            </ng-template>
-            <ng-template ngbPanelContent>
-              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf
-              moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-              Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
-              shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea
-              proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim
-              aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-            </ng-template>
-          </ngb-panel>
-          <ngb-panel>
-            <ng-template ngbPanelTitle>
-              <span class="text-accent fw-bold">Ley General de la Vivienda</span>
-            </ng-template>
-            <ng-template ngbPanelContent>
-              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf
-              moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-              Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
-              shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea
-              proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim
-              aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-            </ng-template>
-          </ngb-panel>
-          <ngb-panel>
-            <ng-template ngbPanelTitle>
-              <span class="text-accent fw-bold">Ley General de la Vivienda</span>
-            </ng-template>
-            <ng-template ngbPanelContent>
-              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf
-              moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-              Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
-              shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea
-              proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim
-              aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-            </ng-template>
-          </ngb-panel>
-        </ngb-accordion>
+        <div class="ps-lg-4" *ngIf="normatives$ | async as normatives">
+          <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+            <ngb-panel
+              *ngFor="let item of normatives.results | paginate: { itemsPerPage: 10, currentPage: currentPage }"
+            >
+              <ng-template ngbPanelTitle>
+                <span class="text-accent fw-bold">{{ item.name }}</span>
+              </ng-template>
+              <ng-template ngbPanelContent>
+                <div class="d-flex flex-column">
+                  <p class="summary">
+                    {{ item.summary || '-- Sin contenido --' }}
+                  </p>
+                  <span class="text-muted">Publicado en: {{ item.year }}</span>
+                  <span class="text-muted">Emisor: {{ item.organism }}</span>
+                  <span class="text-muted">Estado: {{ item.state }}</span>
+                  <div class="divider-light"></div>
+                  <div class="d-flex ms-auto">
+                    <a routerLink="/normative/{{ item.id }}" class="me-4">Leer más</a>
+                    <a href="#">Descargar <i class="fas fa-download"></i></a>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-panel>
+          </ngb-accordion>
+          <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+        </div>
+      </ng-container>
+      <div *ngIf="!currentDirectory" class="d-flex flex-column align-items-center justify-content-center h-25">
+        <span class="text-muted">Seleccione un directorio</span>
       </div>
     </div>
   </div>

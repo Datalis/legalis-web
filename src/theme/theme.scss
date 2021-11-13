@@ -152,6 +152,26 @@ body {
   }
 }
 
+// Dividers
+.divider-dark {
+  width: 100%;
+  height: 1px;
+  background-color: rgba($dark, 0.25);
+}
+
+.ngx-pagination {
+  padding-left: 0 !important;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.ngx-pagination .current {
+  background: $accent !important;
+  border-radius: 0.35rem;
+}
+
 // Body Scrollbar style
 /* Firefox-only */
 * {

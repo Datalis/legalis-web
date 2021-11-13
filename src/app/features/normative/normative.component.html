@@ -1,0 +1,46 @@
+<div class="normative container-fluid container-lg px-0 px-md-4 py-4">
+  <div class="row" *ngIf="normative$ | async as normative">
+    <div class="col-lg-4">
+      <div class="bg-blue-light d-flex flex-column align-items-center justify-content-center p-2">
+        <small class="text-uppercase">Descargar gaceta que contiene la norma</small>
+        <i class="fas fa-download text-accent mt-2"></i>
+      </div>
+      <div class="bg-surface d-flex flex-column p-3 mt-4">
+        <span class="text-accent">Indice</span>
+        <a href="#"><small class="mt-2 text-dark">Texto</small></a>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="d-flex flex-column justify-content-start ps-lg-4 text-center text-lg-start">
+        <h5 class="text-blue mb-1 fw-bold mb-0">{{ normative.name }}</h5>
+        <span class="text-light bg-accent text-uppercase px-2 me-auto mt-2" *ngIf="normative.state === 'Activa'"
+          >Vigente</span
+        >
+        <span class="text-muted mt-4">Publicado en: {{ normative.year }}</span>
+        <span class="text-muted mt-4">Emisor: {{ normative.organism }}</span>
+        <span class="text-muted mt-4">Modificado a: {{ normative.modifiedto }}</span>
+        <span class="text-muted mt-4">Modificado por: {{ normative.modifiedby }}</span>
+        <span class="text-muted mt-4">Derogado a: {{ normative.derogatedto }}</span>
+        <span class="text-muted mt-4">Derogado por: {{ normative.derogatedby }}</span>
+        <div class="divider-dark my-4"></div>
+        <div class="row">
+          <div class="col-sm-6">
+            <h6 class="text-accent">Resumen</h6>
+            <p>{{ normative.summary }}</p>
+          </div>
+          <div class="col-sm-6">
+            <h6 class="text-accent">Temáticas:</h6>
+            <div class="d-flex flex-wrap">
+              <span class="text-italic" *ngFor="let keyword of normative.keywords">
+                {{ keyword }}
+              </span>
+            </div>
+            <div class="mt-2">
+              <span class="text-blue">Normas relacionadas:</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -48,6 +48,18 @@ const routes: Routes = [
       loadChildren: () => import('./features/infographics/infographics.module').then((m) => m.InfographicsModule),
     },
   ]),
+  Shell.childRoutes([
+    {
+      path: 'normative',
+      loadChildren: () => import('./features/normative/normative.module').then((m) => m.NormativeModule),
+    },
+  ]),
+  Shell.childRoutes([
+    {
+      path: 'gazettes',
+      loadChildren: () => import('./features/gazettes/gazettes.module').then((m) => m.GazettesModule),
+    },
+  ]),
   // Fallback when no prior route is matched
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

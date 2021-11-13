@@ -1,11 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Directory } from '@app/@shared/model/directory';
+import { Normative } from '@app/@shared/model/normative';
+import { PagedResult } from '@app/@shared/model/paged-result';
+import { DataService } from '@app/@shared/services/data.service';
+import { Observable } from 'rxjs';
+import { distinctUntilChanged, find, map, share } from 'rxjs/operators';
 
 @Component({
   selector: 'app-thematic-directory',
   templateUrl: './thematic-directory.component.html',
   styleUrls: ['./thematic-directory.component.scss'],
 })
-export class ThematicDirectoryComponent implements OnInit {
+export class ThematicDirectoryComponent implements OnInit, AfterViewInit {
   subjects = [
     {
       name: 'Administrativa',
@@ -85,9 +91,28 @@ export class ThematicDirectoryComponent implements OnInit {
     },
   ];
 
-  currentSubject = 0;
+  currentDirectory?: Directory;
 
-  constructor() {}
+  directories$?: Observable<Directory[]>;
+  normatives$?: Observable<PagedResult<Normative>>;
 
-  ngOnInit() {}
+  currentPage: number = 0;
+
+  constructor(private _dataService: DataService) {}
+
+  ngOnInit() {
+    this.directories$ = this._dataService.getDirectories().pipe(map((res) => res.results || []));
+  }
+
+  ngAfterViewInit() {}
+
+  getIconFor(name?: string): string {
+    return 'admin.svg';
+  }
+
+  onDirectorySelected(directory: Directory): void {
+    this.currentDirectory = directory;
+    this.currentDirectory.id &&
+      (this.normatives$ = this._dataService.getNormativesByDirectory(this.currentDirectory?.id));
+  }
 }

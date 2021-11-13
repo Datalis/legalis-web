@@ -1,5 +1,12 @@
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
+import { Directory } from '../model/directory';
+import { Gazette } from '../model/gazette';
+import { Normative } from '../model/normative';
+import { PagedResult } from '../model/paged-result';
+import { APIService } from './api.service';
 
 @Injectable({
   providedIn: 'root',
@@ -123,6 +130,8 @@ export class DataService {
     },
   ];
 
+  constructor(private _apiService: APIService) {}
+
   recentNormative(): Observable<any[]> {
     return of(this.recent);
   }
@@ -131,5 +140,37 @@ export class DataService {
     return of(this.popular);
   }
 
-  constructor() {}
+  /**
+   * Get all gazettes
+   * @returns paged @class Gazette list
+   */
+  getGazettes(): Observable<PagedResult<Gazette>> {
+    return this._apiService.get<PagedResult<Gazette>>('/gacetas');
+  }
+
+  /**
+   * Get all normatives
+   * @returns paged @class Normative list
+   */
+  getNormatives(): Observable<PagedResult<Normative>> {
+    return this._apiService.get<PagedResult<Normative>>('/normativas');
+  }
+
+  getNormativesByDirectory(directoryId: number): Observable<PagedResult<Normative>> {
+    return this._apiService
+      .get<PagedResult<Normative>>('/normativas', new HttpParams({ fromObject: { directory: directoryId } }))
+      .pipe();
+  }
+
+  getNormativeById(normativeId: number): Observable<Normative> {
+    return this._apiService.get<Normative>(`/normativas/${normativeId}`);
+  }
+
+  /**
+   * Get all directories
+   * @returns paged @class Directory list
+   */
+  getDirectories(): Observable<PagedResult<Directory>> {
+    return this._apiService.get<PagedResult<Directory>>('/directorios', new HttpParams({ fromObject: { page: 1 } }));
+  }
 }
