@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '@app/@shared/services/data.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-footer',
@@ -6,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent implements OnInit {
-  constructor() {}
+  $news?: Observable<any[]>;
 
-  ngOnInit() {}
+  constructor(private _dataService: DataService) {}
+
+  ngOnInit() {
+    this.$news = this._dataService.getLatestNews();
+  }
 }

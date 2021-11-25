@@ -1,5 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '@env/environment';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { Directory } from '../model/directory';
@@ -172,5 +173,9 @@ export class DataService {
    */
   getDirectories(): Observable<PagedResult<Directory>> {
     return this._apiService.get<PagedResult<Directory>>('/directorios', new HttpParams({ fromObject: { page: 1 } }));
+  }
+
+  getLatestNews(): Observable<any[]> {
+    return this._apiService.get(environment.newsApiUrl);
   }
 }

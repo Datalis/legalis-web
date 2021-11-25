@@ -29,8 +29,16 @@
   height: 100%;
   img {
     object-fit: cover !important;
+    object-position: center;
+    height: 230px !important;
   }
   p {
     margin-bottom: 0 !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 10 !important;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
   }
 }

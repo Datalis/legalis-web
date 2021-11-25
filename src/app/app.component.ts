@@ -8,6 +8,8 @@ import { filter, map, switchMap } from 'rxjs/operators';
 import { environment } from '@env/environment';
 import { Logger, UntilDestroy, untilDestroyed } from '@shared';
 import { I18nService } from '@app/i18n';
+import { registerLocaleData } from '@angular/common';
+import localeCU from '@angular/common/locales/es-CU';
 
 const log = new Logger('App');
 
@@ -38,6 +40,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.i18nService.init(environment.defaultLanguage, environment.supportedLanguages);
 
     const onNavigationEnd = this.router.events.pipe(filter((event) => event instanceof NavigationEnd));
+
+    registerLocaleData(localeCU, 'es-CU');
 
     // Change page title on navigation or language change, based on route data
     merge(this.translateService.onLangChange, onNavigationEnd)
