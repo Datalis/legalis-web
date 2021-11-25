@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Directory } from '@app/@shared/model/directory';
 import { Normative } from '@app/@shared/model/normative';
 import { PagedResult } from '@app/@shared/model/paged-result';
@@ -10,6 +11,7 @@ import { distinctUntilChanged, find, map, share } from 'rxjs/operators';
   selector: 'app-thematic-directory',
   templateUrl: './thematic-directory.component.html',
   styleUrls: ['./thematic-directory.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ThematicDirectoryComponent implements OnInit, AfterViewInit {
   subjects = [
@@ -98,7 +100,7 @@ export class ThematicDirectoryComponent implements OnInit, AfterViewInit {
 
   currentPage: number = 0;
 
-  constructor(private _dataService: DataService) {}
+  constructor(private _dataService: DataService, private _sanitizer: DomSanitizer) {}
 
   ngOnInit() {
     this.directories$ = this._dataService.getDirectories().pipe(map((res) => res.results || []));
@@ -106,8 +108,8 @@ export class ThematicDirectoryComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {}
 
-  getIconFor(name?: string): string {
-    return 'admin.svg';
+  getSVGIconFor(content?: string): any {
+    return content ? this._sanitizer.bypassSecurityTrustHtml(content) : 'NO_ICON!!';
   }
 
   onDirectorySelected(directory: Directory): void {

@@ -7,11 +7,12 @@
           *ngFor="let item of directories$ | async as list"
           (click)="onDirectorySelected(item)"
         >
-          <svg-icon
+          <span
             class="subject-icon"
-            src="assets/{{ getIconFor(item.name) }}"
+            [innerHtml]="getSVGIconFor(item.icon)"
             [class.active]="currentDirectory?.id === item.id"
-          ></svg-icon>
+          >
+          </span>
           <span class="subject-title">{{ item.name }}</span>
         </div>
       </div>

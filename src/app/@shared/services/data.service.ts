@@ -172,7 +172,7 @@ export class DataService {
    * @returns paged @class Directory list
    */
   getDirectories(): Observable<PagedResult<Directory>> {
-    return this._apiService.get<PagedResult<Directory>>('/directorios', new HttpParams({ fromObject: { page: 1 } }));
+    return this._apiService.get<PagedResult<Directory>>('/directorios');
   }
 
   getLatestNews(): Observable<any[]> {

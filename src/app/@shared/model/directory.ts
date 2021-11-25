@@ -4,4 +4,5 @@ export class Directory {
   public description?: string;
   public children: Directory[] = [];
   public normatives?: number;
+  public icon?: string;
 }

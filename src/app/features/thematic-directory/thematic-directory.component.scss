@@ -22,7 +22,8 @@
     justify-content: center;
     .subject-icon {
       svg {
-        height: 48px;
+        height: 42px;
+        pointer-events: none;
       }
       .cls-1 {
         fill: $primary !important;
