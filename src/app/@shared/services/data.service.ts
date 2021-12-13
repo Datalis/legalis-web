@@ -2,7 +2,7 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { Observable, of } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { distinctUntilChanged, refCount, shareReplay } from 'rxjs/operators';
 import { Directory } from '../model/directory';
 import { Gazette } from '../model/gazette';
 import { Normative } from '../model/normative';
@@ -180,7 +180,9 @@ export class DataService {
    * @returns paged @class Directory list
    */
   getDirectories(): Observable<PagedResult<Directory>> {
-    return this._apiService.get<PagedResult<Directory>>('/directorios');
+    return this._apiService
+      .get<PagedResult<Directory>>('/directorios')
+      .pipe(shareReplay({ bufferSize: 1024, refCount: true }));
   }
 
   getLatestNews(): Observable<any[]> {

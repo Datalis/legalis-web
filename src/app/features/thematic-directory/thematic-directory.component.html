@@ -1,16 +1,7 @@
 <div class="thematic-directory container-fluid container-lg px-0 px-md-2 py-4">
   <div class="row" *ngIf="directories$ | async as directories; else loading">
     <div class="col-md-4 d-none d-md-flex bg-blue p-1">
-      <div class="directory-grid row m-0">
-        <ng-container *ngFor="let item of directories.results">
-          <app-directory-item
-            class="col-lg-4 col-sm-6 px-2 py-4"
-            [item]="item"
-            [isActive]="currentDirectory?.id === item.id"
-            (click)="onDirectorySelected(item)"
-          ></app-directory-item>
-        </ng-container>
-      </div>
+      <app-directory-menu class="w-100" [directories]="directories.results"></app-directory-menu>
     </div>
     <div class="col-md-8 col-sm-12">
       <div class="d-flex flex-column ps-lg-4 text-center text-lg-start">

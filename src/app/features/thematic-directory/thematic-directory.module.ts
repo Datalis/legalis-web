@@ -7,6 +7,7 @@ import { NgbAccordionModule, NgbCollapse, NgbCollapseModule } from '@ng-bootstra
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DirectoryItemComponent } from './directory-item/directory-item.component';
+import { DirectoryMenuComponent } from './directory-menu/directory-menu.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,6 @@ import { DirectoryItemComponent } from './directory-item/directory-item.componen
     NgxPaginationModule,
     ThematicDirectoryRoutes,
   ],
-  declarations: [ThematicDirectoryComponent, DirectoryItemComponent],
+  declarations: [ThematicDirectoryComponent, DirectoryMenuComponent, DirectoryItemComponent],
 })
 export class ThematicDirectoryModule {}
