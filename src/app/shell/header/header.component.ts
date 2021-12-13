@@ -11,6 +11,8 @@ import { Router, NavigationEnd } from '@angular/router';
 export class HeaderComponent implements OnInit, OnDestroy {
   collapseFilterNav = true;
 
+  query = '';
+
   constructor(private router: Router) {}
 
   ngOnInit() {
@@ -22,4 +24,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {}
+
+  onSearchClicked(): void {
+    this.router.navigate(['search'], { queryParams: { query: this.query } });
+  }
 }

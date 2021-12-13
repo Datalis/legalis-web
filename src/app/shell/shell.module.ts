@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 import { FooterComponent } from './footer/footer.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -12,7 +13,16 @@ import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { SharedModule } from '@app/@shared';
 
 @NgModule({
-  imports: [CommonModule, TranslateModule, NgbModule, IvyCarouselModule, I18nModule, SharedModule, RouterModule],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    NgbModule,
+    IvyCarouselModule,
+    FormsModule,
+    I18nModule,
+    SharedModule,
+    RouterModule,
+  ],
   declarations: [HeaderComponent, FooterComponent, ShellComponent],
 })
 export class ShellModule {}

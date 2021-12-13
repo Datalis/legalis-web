@@ -1,0 +1,9 @@
+@import "/src/theme/theme-variables.scss";
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: $divider-blue-light;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}

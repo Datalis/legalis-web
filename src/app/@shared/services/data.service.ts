@@ -7,6 +7,7 @@ import { Directory } from '../model/directory';
 import { Gazette } from '../model/gazette';
 import { Normative } from '../model/normative';
 import { PagedResult } from '../model/paged-result';
+import { SearchResult } from '../model/search-result';
 import { APIService } from './api.service';
 
 @Injectable({
@@ -145,8 +146,11 @@ export class DataService {
    * Get all gazettes
    * @returns paged @class Gazette list
    */
-  getGazettes(): Observable<PagedResult<Gazette>> {
-    return this._apiService.get<PagedResult<Gazette>>('/gacetas');
+  getGazettes(page: number, itemsPerPage = 10): Observable<PagedResult<Gazette>> {
+    return this._apiService.get<PagedResult<Gazette>>(
+      '/gacetas',
+      new HttpParams({ fromObject: { page_size: itemsPerPage, page } })
+    );
   }
 
   /**
@@ -167,6 +171,10 @@ export class DataService {
     return this._apiService.get<Normative>(`/normativas/${normativeId}`);
   }
 
+  getNormativeStates(): Observable<string[]> {
+    return this._apiService.get('/normativas/estados');
+  }
+
   /**
    * Get all directories
    * @returns paged @class Directory list
@@ -177,5 +185,9 @@ export class DataService {
 
   getLatestNews(): Observable<any[]> {
     return this._apiService.get(environment.newsApiUrl);
+  }
+
+  getSearchResults(query: string): Observable<SearchResult> {
+    return this._apiService.get('/search/?text=' + query);
   }
 }

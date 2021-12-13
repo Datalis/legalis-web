@@ -1,0 +1,11 @@
+.loading-wrapper {
+  vertical-align: middle;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .loading-anim {
+    width: 180px;
+    height: 180px;
+  }
+}

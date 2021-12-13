@@ -7,40 +7,13 @@
   margin-top: 1rem;
 }
 
-.subject-grid {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  .subject-item {
-    height: 100px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    align-self: flex-start;
-    justify-content: center;
-    .subject-icon {
-      svg {
-        height: 42px;
-        pointer-events: none;
+.directory-results {
+  .directory-icon {
+    svg {
+      height: 38px;
+      path {
+        fill: $accent !important;
       }
-      .cls-1 {
-        fill: $primary !important;
-      }
-      &.active {
-        .cls-1 {
-          fill: $accent !important;
-        }
-      }
-    }
-    .subject-title {
-      margin-top: 1rem;
-      font-weight: bold;
-      font-size: 12px;
-      text-transform: uppercase;
-      color: #fafafa;
-      text-align: center;
     }
   }
 }

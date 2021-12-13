@@ -11,7 +11,7 @@
             Todos los estados <span class="ms-2 fw-bold text-accent">24</span>
           </label>
         </div>
-        <div class="form-check text-small" *ngFor="let item of normativeStates$ | async as list">
+        <div class="form-check text-small" *ngFor="let item of normativesStates$ | async as list">
           <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
           <label class="form-check-label" for="flexRadioDefault1">
             {{ item }} <span class="ms-2 fw-bold text-accent">24</span>
@@ -59,57 +59,62 @@
     </div>
     <div class="col-lg-8">
       <div class="d-flex flex-column ps-lg-4 text-center text-lg-start">
-        <h5 class="text-accent mb-1 fw-bold mb-0 text-blue">INDICE DE GACETA</h5>
-        <div class="resume-container p-3 d-flex bg-blue-light mt-2">
-          <span>2021 - </span>
-          <div class="ms-4 d-flex flex-column flex-grow-1">
-            <span class="text-accent">26 GACETAS ORDINARIAS</span>
-            <small class="mt-1"><span class="me-1 text-accent">65</span> Gacetas Ordinarias</small>
-            <small class="mt-1"><span class="me-1 text-accent">65</span> Gacetas Extraordinarias</small>
-            <small class="mt-1"><span class="me-1 text-accent">65</span> Gacetas Ordinarias Especiales</small>
-            <small class="mt-1"><span class="me-1 text-accent">65</span> Gacetas Extraordinarias Especiales</small>
-          </div>
-          <div class="ms-4 d-flex flex-column">
-            <span>126 NORMAS EMITIDAS</span>
-            <small class="mt-1"><span class="me-1 text-accent">65</span> Leyes</small>
-            <small class="mt-1"><span class="me-1 text-accent">65</span> Decretos Leyes</small>
-            <small class="mt-1"><span class="me-1 text-accent">65</span> Decretos Leyes Presidenciales</small>
-            <small class="mt-1"><span class="me-1 text-accent">65</span> Decretos</small>
-            <small class="mt-1"><span class="me-1 text-accent">65</span> Resoluciones</small>
-          </div>
-        </div>
-        <div class="gazettes-container mt-2" *ngIf="gazettes$ | async as gazettes; else loading">
-          <div
-            class="gazette-item d-flex flex-column mt-2"
-            *ngFor="
-              let gazette of gazettes.results
-                | paginate: { id: 'gazettes', itemsPerPage: 10, currentPage: currentPage, totalItems: gazettes.count }
-            "
-          >
-            <div class="gazette-header bg-blue-light py-2 px-4 d-flex">
-              <div class="d-flex flex-column flex-grow-1">
-                <span class="text-blue">Gaceta {{ gazette.type }} No. {{ gazette.number }}</span>
-                <small class="text-uppercase">{{ gazette.date | date }}</small>
+        <span class="mb-1 fw-bold mb-0">RESULTADOS DE LA BUSQUEDA</span>
+        <span class="text-blue">Mostrando resultados para: <em class="text-accent">query</em></span>
+        <div class="d-flex align-items-start mt-2">
+          <span class="text-blue">Resultados obtenidos: <span class="text-accent">20</span></span>
+          <div class="ms-auto">
+            <span class="text-blue">Ordenar</span>
+            <div class="d-flex">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                <label class="form-check-label" for="flexRadioDefault1">
+                  <em>Relevancia</em>
+                </label>
               </div>
-              <div class="d-flex flex-column align-items-center">
-                <a href="#">
-                  <small class="text-uppercase text-dark">Descargar gaceta</small>
-                </a>
-                <i class="fas fa-download text-accent mt-1"></i>
+              <div class="form-check ms-4">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                <label class="form-check-label" for="flexRadioDefault1">
+                  <em>Mas recientes</em>
+                </label>
               </div>
             </div>
-            <div class="gazette-content"></div>
           </div>
-          <pagination-controls
-            id="gazettes"
-            previousLabel="Atrás"
-            nextLabel="Siguiente"
-            (pageChange)="getPage($event)"
-          ></pagination-controls>
         </div>
-        <ng-template #loading>
-          <app-loader></app-loader>
-        </ng-template>
+        <div class="result-list mt-2">
+          <div class="result-item bg-blue-light d-flex flex-column px-5 pb-4">
+            <span class="result-status bg-accent px-2 py-1 text-uppercase fw-light text-light align-self-start"
+              >Vigente</span
+            >
+            <span class="text-accent fw-bold mt-4">Título de la norma</span>
+            <p class="text-small mt-1">
+              Create button-like checkboxes and radio buttons by using .btn styles rather than .form-check-label on the
+              elements. These toggle buttons can further be grouped in a button group if needed. Create button-like
+              checkboxes and radio buttons by using .btn styles rather than .form-check-label on the elements. These
+              toggle buttons can further be grouped in a button group if needed.
+            </p>
+            <span class="fw-bold mt-2 text-small">Publicado en:</span>
+            <span class="fw-bold mt-2 text-small">Emisor:</span>
+            <span class="fw-bold text-blue text-italic mt-2 text-small">Palabras clave</span>
+          </div>
+          <div class="divider"></div>
+          <div class="result-item d-flex flex-column px-5 pb-4">
+            <span class="result-status bg-secondary px-2 py-1 text-uppercase fw-light text-light align-self-start"
+              >Derogada</span
+            >
+            <span class="text-accent fw-bold mt-4">Título de la norma</span>
+            <p class="text-small mt-1">
+              Create button-like checkboxes and radio buttons by using .btn styles rather than .form-check-label on the
+              elements. These toggle buttons can further be grouped in a button group if needed. Create button-like
+              checkboxes and radio buttons by using .btn styles rather than .form-check-label on the elements. These
+              toggle buttons can further be grouped in a button group if needed.
+            </p>
+            <span class="fw-bold mt-2 text-small">Publicado en:</span>
+            <span class="fw-bold mt-2 text-small">Emisor:</span>
+            <span class="fw-bold text-blue text-italic mt-2 text-small">Palabras clave</span>
+          </div>
+          <div class="divider"></div>
+        </div>
       </div>
     </div>
   </div>

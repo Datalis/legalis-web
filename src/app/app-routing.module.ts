@@ -60,6 +60,12 @@ const routes: Routes = [
       loadChildren: () => import('./features/gazettes/gazettes.module').then((m) => m.GazettesModule),
     },
   ]),
+  Shell.childRoutes([
+    {
+      path: 'search',
+      loadChildren: () => import('./features/search-results/search-results.module').then((m) => m.SearchResultsModule),
+    },
+  ]),
   // Fallback when no prior route is matched
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

@@ -16,6 +16,10 @@ import { AboutModule } from './features/about/about.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
+import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
+import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -29,6 +33,9 @@ import { AppRoutingModule } from './app-routing.module';
     ShellModule,
     HomeModule,
     AboutModule,
+    LoadingBarModule,
+    LoadingBarRouterModule,
+    LoadingBarHttpClientModule,
     //AuthModule,
     AppRoutingModule, // must be imported as the last module as it contains the fallback route
   ],
