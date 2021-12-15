@@ -162,9 +162,10 @@ export class DataService {
   }
 
   getNormativesByDirectory(directoryId: number): Observable<PagedResult<Normative>> {
-    return this._apiService
-      .get<PagedResult<Normative>>('/normativas', new HttpParams({ fromObject: { directory: directoryId } }))
-      .pipe();
+    return this._apiService.get<PagedResult<Normative>>(
+      '/normativas',
+      new HttpParams({ fromObject: { directory: directoryId } })
+    );
   }
 
   getNormativeById(normativeId: number): Observable<Normative> {
@@ -175,14 +176,16 @@ export class DataService {
     return this._apiService.get('/normativas/estados');
   }
 
+  getNormativeKeywords(): Observable<string[]> {
+    return this._apiService.get('/normativas/keywords');
+  }
+
   /**
    * Get all directories
    * @returns paged @class Directory list
    */
   getDirectories(): Observable<PagedResult<Directory>> {
-    return this._apiService
-      .get<PagedResult<Directory>>('/directorios')
-      .pipe(shareReplay({ bufferSize: 1024, refCount: true }));
+    return this._apiService.get<PagedResult<Directory>>('/directorios');
   }
 
   getLatestNews(): Observable<any[]> {

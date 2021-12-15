@@ -7,13 +7,83 @@
   margin-top: 1rem;
 }
 
+.hide-sm {
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
+}
+
+.directory-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  padding-top: 1rem;
+  .directory-item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 1.25rem;
+    &.active {
+      .directory-icon svg path {
+        fill: $accent;
+      }
+    }
+    &:hover {
+      .directory-name {
+        color: $light;
+      }
+    }
+    .directory-icon {
+      margin-bottom: 0.5rem;
+      svg {
+        height: 34px;
+        path {
+          fill: $primary;
+        }
+      }
+    }
+    .directory-name {
+      text-align: center;
+      line-height: 1;
+      text-transform: uppercase;
+      font-size: 11px;
+      color: rgba($color: $light, $alpha: 0.75);
+      transition: color 0.1s ease;
+    }
+  }
+}
+
 .directory-results {
+  display: flex;
+  flex-direction: column;
   .directory-icon {
     svg {
       height: 38px;
       path {
         fill: $accent !important;
       }
+    }
+  }
+}
+
+.directory-children {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  li {
+    background-color: rgba($color: $primary, $alpha: 0.4);
+    border-radius: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.2rem 0.5rem;
+    margin-right: 0.25rem;
+    margin-bottom: 0.25rem;
+    a {
+      font-size: 12px;
     }
   }
 }

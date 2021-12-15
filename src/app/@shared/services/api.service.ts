@@ -15,11 +15,17 @@ export class APIService {
     Accept: this.JSON_CONTENT_TYPE,
   });
 
+  private _headersNoCache: HttpHeaders = new HttpHeaders({
+    'Content-Type': this.JSON_CONTENT_TYPE,
+    Accept: this.JSON_CONTENT_TYPE,
+    'no-cache': '',
+  });
+
   constructor(private _httpClient: HttpClient) {}
 
-  public get<T>(path: string, params: HttpParams = new HttpParams()): Observable<T> {
+  public get<T>(path: string, params: HttpParams = new HttpParams(), disableCaching = false): Observable<T> {
     return this._httpClient.get<T>(path, {
-      headers: this._headers,
+      headers: disableCaching ? this._headersNoCache : this._headers,
       params: params,
     });
   }

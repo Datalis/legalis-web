@@ -19,6 +19,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
+import { CachingInterceptor } from './@shared/http/caching.interceptor';
 
 @NgModule({
   imports: [
@@ -34,7 +35,7 @@ import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
     HomeModule,
     AboutModule,
     LoadingBarModule,
-    LoadingBarRouterModule,
+    //LoadingBarRouterModule,
     LoadingBarHttpClientModule,
     //AuthModule,
     AppRoutingModule, // must be imported as the last module as it contains the fallback route
@@ -49,6 +50,11 @@ import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorHandlerInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CachingInterceptor,
       multi: true,
     },
     {

@@ -29,6 +29,7 @@ export class GazettesComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this._route.queryParams.subscribe((params) => {
         const page = params?.page || this.currentPage;
+        const state = params?.state;
         this.gazettes$ = this._dataService.getGazettes(page);
       })
     );
