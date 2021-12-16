@@ -1,8 +1,0 @@
-{
-  "/api/*": {
-    "target": "https://api-gaceta.datalis.dev",
-    "secure": true,
-    "changeOrigin": true,
-    "logLevel": "debug"
-  }
-}

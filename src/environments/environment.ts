@@ -13,7 +13,7 @@ import { env } from './.env';
 export const environment = {
   production: false,
   version: env.npm_package_version + '-dev',
-  serverUrl: '/api',
+  serverUrl: 'https://api-gaceta.datalis.dev/api',
   newsApiUrl: 'https://api.eltoque.com/posts?categories=600c46c1929b80000d284502&_sort=publish_date:DESC&_limit=10',
   defaultLanguage: 'es-CU',
   supportedLanguages: ['en-US', 'es-CU'],
