@@ -1,0 +1,139 @@
+<div class="filter-panel bg-surface d-flex flex-column px-4 w-100" [class.pb-4]="!showCollapsed">
+  <a class="btn btn-link w-100 d-flex align-items-center flex-column p-2" (click)="collapse.toggle()">
+    <span class="fw-bold text-small text-dark text-center p-2">FILTROS DE BÚSQUEDA</span>
+    <i class="fas fa-chevron-down text-accent"></i>
+  </a>
+  <div #collapse="ngbCollapse" [(ngbCollapse)]="showCollapsed">
+    <div class="row">
+      <div class="divider m-0 col-12"></div>
+      <div class="col-12 text-start" *ngIf="showState">
+        <label class="fw-bold form-group-label text-small mt-4">ESTADO DE LA NORMA</label>
+        <div class="form-check text-small">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="normativeState--default"
+            name="state"
+            [value]="null"
+            [(ngModel)]="filters.state"
+            (ngModelChange)="onFiltersChange()"
+          />
+          <label class="form-check-label" for="normativeState--default"> Todos los estados </label>
+        </div>
+        <div class="form-check text-small" *ngFor="let item of states; let i = index">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="normativeState--{{ i }}"
+            name="state"
+            [value]="item"
+            [(ngModel)]="filters.state"
+            (ngModelChange)="onFiltersChange()"
+          />
+          <label class="form-check-label" for="normativeState--{{ i }}">
+            {{ item }}
+          </label>
+        </div>
+      </div>
+      <div class="col-12 text-start" *ngIf="showGazetteType">
+        <label class="fw-bold form-group-label text-small mt-4">TIPOS DE EDICIÓN</label>
+        <div class="form-check text-small">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="gazetteType--default"
+            name="gazetteType"
+            [value]="null"
+            [(ngModel)]="filters.type"
+            (ngModelChange)="onFiltersChange()"
+          />
+          <label class="form-check-label" for="gazetteType--default"> Todas la ediciones </label>
+        </div>
+        <div class="form-check text-small" *ngFor="let item of gazetteTypes; let i = index">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="gazetteType--{{ i }}"
+            name="gazetteType"
+            [value]="item"
+            [(ngModel)]="filters.type"
+            (ngModelChange)="onFiltersChange()"
+          />
+          <label class="form-check-label" for="gazetteType--{{ i }}">
+            {{ item }}
+          </label>
+        </div>
+      </div>
+      <div class="divider" *ngIf="showOrganism"></div>
+      <div class="col-12 col-sm-6 col-lg-12 text-start" *ngIf="showOrganism">
+        <label class="fw-bold form-group-label text-small">EMISOR</label>
+        <input
+          type="text"
+          class="form-control form-control-sm"
+          placeholder="Organismo"
+          name="organism"
+          [(ngModel)]="filters.organism"
+          (ngModelChange)="onFiltersChange()"
+        />
+      </div>
+      <div class="divider" *ngIf="showYear"></div>
+      <div class="col-12 text-start" *ngIf="showYear">
+        <label class="fw-bold form-group-label text-small">AÑO DE PUBLICACIÓN</label>
+        <div class="row">
+          <div class="col-sm-6 col-lg-12">
+            <label for="" class="form-control-label">Seleccione el año</label>
+            <select
+              class="form-select form-select-sm"
+              [(ngModel)]="filters.year"
+              name="year"
+              (ngModelChange)="onFiltersChange()"
+            >
+              <option [ngValue]="null" selected>Año</option>
+              <option *ngFor="let y of years" [ngValue]="y">{{ y }}</option>
+            </select>
+          </div>
+          <div class="col-sm-6 col-lg-12">
+            <label class="form-control-label mt-2">Seleccione el período</label>
+            <ngx-slider
+              [value]="filters.year_gte || this.slideYearSelected"
+              [highValue]="filters.year_lte || this.slideMaxYear"
+              [options]="sliderOpts"
+              (highValueChange)="onSliderHighValueChange($event)"
+              (valueChange)="onSliderValueChange($event)"
+            ></ngx-slider>
+          </div>
+        </div>
+      </div>
+      <div class="divider" *ngIf="showThematics"></div>
+      <div class="col-12 text-start" *ngIf="showThematics">
+        <label class="fw-bold form-group-label text-small">TEMÁTICAS</label>
+        <div class="form-check text-small">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="normativeThematic--default"
+            name="thematic"
+            [value]="null"
+            [(ngModel)]="filters.thematic"
+            (ngModelChange)="onFiltersChange()"
+          />
+          <label class="form-check-label" for="normativeThematic--default"> Todas las temáticas </label>
+        </div>
+        <div class="form-check text-small" *ngFor="let item of thematics; let i = index">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="normativeThematic--{{ i }}"
+            name="thematic"
+            [value]="item"
+            [(ngModel)]="filters.thematic"
+            (ngModelChange)="onFiltersChange()"
+          />
+          <label class="form-check-label" for="normativeThematic--{{ i }}">
+            {{ item }}
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

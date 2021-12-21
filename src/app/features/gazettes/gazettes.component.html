@@ -1,76 +1,42 @@
 <div class="gazettes-container container-fluid container-lg px-0 px-md-4 py-4">
   <div class="row">
-    <div class="col-lg-4">
-      <div class="filter-panel bg-surface d-flex flex-column px-4 pb-4 w-100">
-        <span class="fw-bold text-small text-center p-2">FILTROS DE BÚSQUEDA</span>
-        <div class="divider m-0"></div>
-        <label class="fw-bold form-group-label text-small mt-4">ESTADO DE LA NORMA</label>
-        <div class="form-check text-small">
-          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-          <label class="form-check-label" for="flexRadioDefault1">
-            Todos los estados <span class="ms-2 fw-bold text-accent">24</span>
-          </label>
-        </div>
-        <div class="form-check text-small" *ngFor="let item of normativeStates$ | async as list">
-          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-          <label class="form-check-label" for="flexRadioDefault1">
-            {{ item }} <span class="ms-2 fw-bold text-accent">24</span>
-          </label>
-        </div>
-
-        <div class="divider"></div>
-        <label class="fw-bold form-group-label text-small">EMISOR</label>
-        <input type="text" class="form-control form-control-sm" />
-
-        <div class="divider"></div>
-        <label class="fw-bold form-group-label text-small">AÑO DE PUBLICACIÓN</label>
-        <label for="" class="form-control-label">Seleccione el año</label>
-        <input type="text" class="form-control form-control-sm" />
-        <label for="customRange3" class="form-control-label mt-2">Seleccione el período</label>
-        <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange3" />
-
-        <div class="divider"></div>
-        <label class="fw-bold form-group-label text-small">PALABRAS CLAVES RELACIONADAS</label>
-        <div class="form-check text-small">
-          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-          <label class="form-check-label" for="flexRadioDefault1"> Vigente </label>
-        </div>
-        <div class="form-check text-small">
-          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-          <label class="form-check-label" for="flexRadioDefault1"> Vigente </label>
-        </div>
-        <div class="form-check text-small">
-          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-          <label class="form-check-label" for="flexRadioDefault1"> Vigente </label>
-        </div>
-        <div class="form-check text-small">
-          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-          <label class="form-check-label" for="flexRadioDefault1"> Vigente </label>
-        </div>
-        <div class="form-check text-small">
-          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-          <label class="form-check-label" for="flexRadioDefault1"> Vigente </label>
-        </div>
-        <div class="form-check text-small">
-          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-          <label class="form-check-label" for="flexRadioDefault1"> Vigente </label>
-        </div>
-      </div>
+    <div class="col-lg-4 d-none d-lg-block">
+      <app-filters
+        [showCollapsed]="false"
+        [showState]="false"
+        [showGazetteType]="true"
+        [gazetteTypes]="types"
+        [thematics]="thematics"
+        (filtersChange)="onFiltersChange($event)"
+        [filters]="filters"
+      ></app-filters>
     </div>
-    <div class="col-lg-8">
+    <div class="col-lg-8 col-12">
       <div class="d-flex flex-column ps-lg-4 text-center text-lg-start">
         <h5 class="text-accent mb-1 fw-bold mb-0 text-blue">INDICE DE GACETA</h5>
-        <div class="resume-container p-3 d-flex bg-blue-light mt-2">
-          <span>2021 - </span>
-          <div class="ms-4 d-flex flex-column flex-grow-1">
-            <span class="text-accent">26 GACETAS ORDINARIAS</span>
+        <div class="d-lg-none mt-2">
+          <app-filters
+            #filterMobile
+            (filtersChange)="onFiltersChange($event)"
+            [filters]="filters"
+            [showCollapsed]="true"
+            [showState]="false"
+            [showGazetteType]="true"
+            [gazetteTypes]="types"
+            [thematics]="thematics"
+          ></app-filters>
+        </div>
+        <div class="resume-container d-none d-lg-flex px-4 py-4 row bg-blue-light mt-2 mx-0 text-start">
+          <h5 class="col-12 col-lg-2 text-blue fw-bold">2021</h5>
+          <div class="col-12 col-lg-5 d-flex flex-column flex-grow-1 mt-2 mt-lg-0">
+            <span class="fw-bold text-accent">26 GACETAS ORDINARIAS</span>
             <small class="mt-1"><span class="me-1 text-accent">65</span> Gacetas Ordinarias</small>
             <small class="mt-1"><span class="me-1 text-accent">65</span> Gacetas Extraordinarias</small>
             <small class="mt-1"><span class="me-1 text-accent">65</span> Gacetas Ordinarias Especiales</small>
             <small class="mt-1"><span class="me-1 text-accent">65</span> Gacetas Extraordinarias Especiales</small>
           </div>
-          <div class="ms-4 d-flex flex-column">
-            <span>126 NORMAS EMITIDAS</span>
+          <div class="col-12 col-lg-5 d-flex flex-column mt-3 mt-lg-0">
+            <span class="fw-bold">126 NORMAS EMITIDAS</span>
             <small class="mt-1"><span class="me-1 text-accent">65</span> Leyes</small>
             <small class="mt-1"><span class="me-1 text-accent">65</span> Decretos Leyes</small>
             <small class="mt-1"><span class="me-1 text-accent">65</span> Decretos Leyes Presidenciales</small>
@@ -78,7 +44,7 @@
             <small class="mt-1"><span class="me-1 text-accent">65</span> Resoluciones</small>
           </div>
         </div>
-        <div class="gazettes-container mt-2" *ngIf="gazettes$ | async as gazettes; else loading">
+        <div id="gazetteResults" class="gazettes-container mt-2" *ngIf="gazettes$ | async as gazettes; else loading">
           <div
             class="gazette-item d-flex flex-column mt-2"
             *ngFor="
@@ -87,20 +53,27 @@
             "
           >
             <div class="gazette-header bg-blue-light py-2 px-4 d-flex">
-              <div class="d-flex flex-column flex-grow-1">
+              <div class="d-flex flex-column flex-grow-1 text-start">
                 <span class="text-blue">Gaceta {{ gazette.type }} No. {{ gazette.number }}</span>
-                <small class="text-uppercase">{{ gazette.date | date }}</small>
+                <small class="text-uppercase">{{ gazette.date | date: 'dd/MM/YYYY' }}</small>
               </div>
-              <div class="d-flex flex-column align-items-center">
-                <a href="#">
-                  <small class="text-uppercase text-dark">Descargar gaceta</small>
-                </a>
+              <a
+                href="https://api-gaceta.datalis.dev/files/{{ gazette.file }}"
+                target="blank"
+                class="gazette-download d-flex flex-column align-items-center"
+              >
+                <small class="text-uppercase text-dark">Descargar gaceta</small>
                 <i class="fas fa-download text-accent mt-1"></i>
-              </div>
+              </a>
             </div>
             <div class="gazette-content"></div>
           </div>
+          <div *ngIf="gazettes.count === 0">
+            <app-empty-results></app-empty-results>
+          </div>
           <pagination-controls
+            *ngIf="gazettes.count !== 0"
+            [responsive]="true"
             id="gazettes"
             previousLabel="Atrás"
             nextLabel="Siguiente"

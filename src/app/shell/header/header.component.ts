@@ -1,6 +1,6 @@
 import { UntilDestroy, untilDestroyed } from '@shared';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
 @UntilDestroy()
 @Component({
@@ -13,10 +13,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   query = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private _route: ActivatedRoute) {}
 
   ngOnInit() {
     this.router.events.pipe(untilDestroyed(this)).subscribe((ev) => {
+      const currentQuery = this._route.snapshot.queryParams?.q || '';
+      this.query = decodeURIComponent(currentQuery);
       if (ev instanceof NavigationEnd) {
         this.collapseFilterNav = true;
       }
@@ -26,6 +28,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   onSearchClicked(): void {
-    this.router.navigate(['search'], { queryParams: { query: this.query } });
+    this.router.navigate(['search'], { queryParams: { q: encodeURIComponent(this.query.trim()) } });
   }
 }

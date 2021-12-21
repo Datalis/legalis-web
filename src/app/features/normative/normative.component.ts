@@ -18,4 +18,8 @@ export class NormativeComponent implements OnInit {
     const id = this._route.snapshot.params?.id;
     id && (this.normative$ = this._dataService.getNormativeById(id));
   }
+
+  isActive(item: any): boolean {
+    return item.state == 'Activa' || item.state == 'Vigente';
+  }
 }

@@ -1,123 +1,70 @@
 <div class="gazettes-container container-fluid container-lg px-0 px-md-4 py-4">
-  <div class="row">
+  <div class="row" *ngIf="!loading; else pageLoading">
     <div class="col-lg-4">
-      <div class="filter-panel bg-surface d-flex flex-column px-4 pb-4 w-100">
-        <span class="fw-bold text-small text-center p-2">FILTROS DE BÚSQUEDA</span>
-        <div class="divider m-0"></div>
-        <label class="fw-bold form-group-label text-small mt-4">ESTADO DE LA NORMA</label>
-        <div class="form-check text-small">
-          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-          <label class="form-check-label" for="flexRadioDefault1">
-            Todos los estados <span class="ms-2 fw-bold text-accent">24</span>
-          </label>
-        </div>
-        <div class="form-check text-small" *ngFor="let item of normativesStates$ | async as list">
-          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-          <label class="form-check-label" for="flexRadioDefault1">
-            {{ item }} <span class="ms-2 fw-bold text-accent">24</span>
-          </label>
-        </div>
-
-        <div class="divider"></div>
-        <label class="fw-bold form-group-label text-small">EMISOR</label>
-        <input type="text" class="form-control form-control-sm" />
-
-        <div class="divider"></div>
-        <label class="fw-bold form-group-label text-small">AÑO DE PUBLICACIÓN</label>
-        <label for="" class="form-control-label">Seleccione el año</label>
-        <input type="text" class="form-control form-control-sm" />
-        <label for="customRange3" class="form-control-label mt-2">Seleccione el período</label>
-        <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange3" />
-
-        <div class="divider"></div>
-        <label class="fw-bold form-group-label text-small">PALABRAS CLAVES RELACIONADAS</label>
-        <div class="form-check text-small">
-          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-          <label class="form-check-label" for="flexRadioDefault1"> Vigente </label>
-        </div>
-        <div class="form-check text-small">
-          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-          <label class="form-check-label" for="flexRadioDefault1"> Vigente </label>
-        </div>
-        <div class="form-check text-small">
-          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-          <label class="form-check-label" for="flexRadioDefault1"> Vigente </label>
-        </div>
-        <div class="form-check text-small">
-          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-          <label class="form-check-label" for="flexRadioDefault1"> Vigente </label>
-        </div>
-        <div class="form-check text-small">
-          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-          <label class="form-check-label" for="flexRadioDefault1"> Vigente </label>
-        </div>
-        <div class="form-check text-small">
-          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-          <label class="form-check-label" for="flexRadioDefault1"> Vigente </label>
-        </div>
-      </div>
+      <app-filters
+        [states]="normativeStates"
+        [thematics]="normativeThematics"
+        [filters]="filters"
+        (filtersChange)="onFiltersChange($event)"
+      ></app-filters>
     </div>
     <div class="col-lg-8">
       <div class="d-flex flex-column ps-lg-4 text-center text-lg-start">
         <span class="mb-1 fw-bold mb-0">RESULTADOS DE LA BUSQUEDA</span>
-        <span class="text-blue">Mostrando resultados para: <em class="text-accent">query</em></span>
-        <div class="d-flex align-items-start mt-2">
-          <span class="text-blue">Resultados obtenidos: <span class="text-accent">20</span></span>
-          <div class="ms-auto">
-            <span class="text-blue">Ordenar</span>
-            <div class="d-flex">
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-                <label class="form-check-label" for="flexRadioDefault1">
-                  <em>Relevancia</em>
-                </label>
-              </div>
-              <div class="form-check ms-4">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-                <label class="form-check-label" for="flexRadioDefault1">
-                  <em>Mas recientes</em>
-                </label>
+        <span class="text-blue"
+          >Mostrando resultados para: <em class="text-accent">{{ currentSearchQuery }}</em></span
+        >
+        <ng-container *ngIf="results$ | async as res; else loading">
+          <div class="d-flex align-items-start mt-2">
+            <span class="text-blue"
+              >Resultados obtenidos: <span class="text-accent">{{ res.count }}</span></span
+            >
+            <div class="ms-auto">
+              <span class="text-blue">Ordenar</span>
+              <div class="d-flex">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    <em>Relevancia</em>
+                  </label>
+                </div>
+                <div class="form-check ms-4">
+                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    <em>Mas recientes</em>
+                  </label>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="result-list mt-2">
-          <ng-container></ng-container>
-
-          <div class="result-item bg-blue-light d-flex flex-column px-5 pb-4">
-            <span class="result-status bg-accent px-2 py-1 text-uppercase fw-light text-light align-self-start"
-              >Vigente</span
+          <div class="result-list mt-2 pe-2">
+            <span *ngIf="res.count === 0" class="text-muted">No se encontraron resultados para la búsqueda.</span>
+            <ng-container
+              *ngFor="
+                let item of res.results
+                  | paginate
+                    : { id: 'results', itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: res.count };
+                let odd = odd
+              "
             >
-            <span class="text-accent fw-bold mt-4">Título de la norma</span>
-            <p class="text-small mt-1">
-              Create button-like checkboxes and radio buttons by using .btn styles rather than .form-check-label on the
-              elements. These toggle buttons can further be grouped in a button group if needed. Create button-like
-              checkboxes and radio buttons by using .btn styles rather than .form-check-label on the elements. These
-              toggle buttons can further be grouped in a button group if needed.
-            </p>
-            <span class="fw-bold mt-2 text-small">Publicado en:</span>
-            <span class="fw-bold mt-2 text-small">Emisor:</span>
-            <span class="fw-bold text-blue text-italic mt-2 text-small">Palabras clave</span>
+              <app-normative-item [item]="item" [searchQuery]="currentSearchQuery"></app-normative-item>
+              <div class="divider"></div>
+            </ng-container>
           </div>
-          <div class="divider"></div>
-          <div class="result-item d-flex flex-column px-5 pb-4">
-            <span class="result-status bg-secondary px-2 py-1 text-uppercase fw-light text-light align-self-start"
-              >Derogada</span
-            >
-            <span class="text-accent fw-bold mt-4">Título de la norma</span>
-            <p class="text-small mt-1">
-              Create button-like checkboxes and radio buttons by using .btn styles rather than .form-check-label on the
-              elements. These toggle buttons can further be grouped in a button group if needed. Create button-like
-              checkboxes and radio buttons by using .btn styles rather than .form-check-label on the elements. These
-              toggle buttons can further be grouped in a button group if needed.
-            </p>
-            <span class="fw-bold mt-2 text-small">Publicado en:</span>
-            <span class="fw-bold mt-2 text-small">Emisor:</span>
-            <span class="fw-bold text-blue text-italic mt-2 text-small">Palabras clave</span>
-          </div>
-          <div class="divider"></div>
-        </div>
+          <pagination-controls
+            id="results"
+            previousLabel="Atrás"
+            nextLabel="Siguiente"
+            (pageChange)="getPage($event)"
+          ></pagination-controls>
+        </ng-container>
+        <ng-template #loading>
+          <app-loader></app-loader>
+        </ng-template>
       </div>
     </div>
   </div>
+  <ng-template #pageLoading>
+    <app-loader></app-loader>
+  </ng-template>
 </div>

@@ -13,10 +13,13 @@
 
 .keyword-selector {
   margin: 0;
-  max-height: 250px;
+  height: 250px;
   overflow-y: auto;
   @include media-breakpoint-down(md) {
     max-height: 500px;
+  }
+  .result {
+    cursor: pointer;
   }
 }
 

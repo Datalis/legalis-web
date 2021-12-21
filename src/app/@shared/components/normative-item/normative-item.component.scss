@@ -1,0 +1,26 @@
+@import "/src/theme/theme-variables.scss";
+
+.result-item {
+  //min-height: 250px;
+  background-color: $light;
+  border: 1px solid rgba($blue-light, 0.2);
+  .result-summary {
+    font-size: 12px;
+  }
+
+  .result-state {
+    color: $light;
+    font-size: 14px;
+    text-align: center;
+    background-color: $blue-light;
+    min-width: 100px;
+  }
+
+  &-active {
+    border: none;
+    background-color: $blue-light;
+    .result-state {
+      background-color: $accent;
+    }
+  }
+}

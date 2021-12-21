@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -15,17 +15,15 @@ export class APIService {
     Accept: this.JSON_CONTENT_TYPE,
   });
 
-  private _headersNoCache: HttpHeaders = new HttpHeaders({
-    'Content-Type': this.JSON_CONTENT_TYPE,
-    Accept: this.JSON_CONTENT_TYPE,
-    'no-cache': '',
-  });
-
   constructor(private _httpClient: HttpClient) {}
 
   public get<T>(path: string, params: HttpParams = new HttpParams(), disableCaching = false): Observable<T> {
+    let _headers = this._headers;
+    if (disableCaching) {
+      _headers = this._headers.append('no-cache', '');
+    }
     return this._httpClient.get<T>(path, {
-      headers: disableCaching ? this._headersNoCache : this._headers,
+      headers: _headers,
       params: params,
     });
   }

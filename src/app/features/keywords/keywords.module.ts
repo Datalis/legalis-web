@@ -1,3 +1,4 @@
+import { NgxPaginationModule } from 'ngx-pagination';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { KeywordsRoutes } from './keywords.routing';
 import { SharedModule } from '@shared/shared.module';
@@ -6,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { KeywordsComponent } from './keywords.component';
 
 @NgModule({
-  imports: [CommonModule, SharedModule, NgbModule, KeywordsRoutes],
+  imports: [CommonModule, SharedModule, NgbModule, NgxPaginationModule, KeywordsRoutes],
   declarations: [KeywordsComponent],
 })
 export class KeywordsModule {}

@@ -1,0 +1,8 @@
+@import "/src/theme/theme-variables.scss";
+
+.normative-state {
+  background-color: $blue-light;
+  &.active {
+    background-color: $accent;
+  }
+}

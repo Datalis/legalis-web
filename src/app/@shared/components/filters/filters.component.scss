@@ -8,6 +8,9 @@
   margin-bottom: 1rem;
 }
 
-.result-list {
-  min-height: 550px;
+.collapsing {
+  opacity: 0;
+}
+.collapse.show {
+  opacity: 1;
 }

@@ -1,14 +1,17 @@
-import { HttpParams } from '@angular/common/http';
+import { removeEmpty } from '@app/@shared';
+import { HttpParams, HttpUrlEncodingCodec } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, refCount, shareReplay } from 'rxjs/operators';
+import { distinctUntilChanged, refCount, share, shareReplay } from 'rxjs/operators';
+import { HttpUrlEncoder } from '../http/http-url-encoder';
 import { Directory } from '../model/directory';
 import { Gazette } from '../model/gazette';
 import { Normative } from '../model/normative';
 import { PagedResult } from '../model/paged-result';
 import { SearchResult } from '../model/search-result';
 import { APIService } from './api.service';
+import { GlossaryTerm } from '../model/glossary-term';
 
 @Injectable({
   providedIn: 'root',
@@ -132,6 +135,14 @@ export class DataService {
     },
   ];
 
+  gazetteTypes: string[] = [
+    'Ordinaria',
+    'Extraordinaria',
+    'Especiales',
+    'Ordinaria Especiales',
+    'Extraordinarias Especiales',
+  ];
+
   constructor(private _apiService: APIService) {}
 
   recentNormative(): Observable<any[]> {
@@ -146,25 +157,101 @@ export class DataService {
    * Get all gazettes
    * @returns paged @class Gazette list
    */
-  getGazettes(page: number, itemsPerPage = 10): Observable<PagedResult<Gazette>> {
+  getGazettes(
+    type: string | null,
+    year: number | null,
+    year_gte: number | null,
+    year_lte: number | null,
+    thematic: string | null,
+    page: number,
+    itemsPerPage = 10
+  ): Observable<PagedResult<Gazette>> {
+    let params: any = {
+      type,
+      year,
+      year_gte,
+      year_lte,
+      tematica: thematic,
+      page,
+      page_size: itemsPerPage,
+    };
+    params = removeEmpty(params);
+
     return this._apiService.get<PagedResult<Gazette>>(
       '/gacetas',
-      new HttpParams({ fromObject: { page_size: itemsPerPage, page } })
+      new HttpParams({
+        fromObject: { ...params },
+      })
     );
+  }
+
+  getGazetteTypes(): Observable<string[]> {
+    return of(this.gazetteTypes);
   }
 
   /**
    * Get all normatives
    * @returns paged @class Normative list
    */
-  getNormatives(): Observable<PagedResult<Normative>> {
-    return this._apiService.get<PagedResult<Normative>>('/normativas');
+  getNormatives(
+    year: number | null,
+    year_gte: number | null,
+    year_lte: number | null,
+    state: string | null,
+    keyword: string | null,
+    organism: string | null,
+    page: number,
+    page_size?: number
+  ): Observable<PagedResult<Normative>> {
+    let params: any = {
+      year,
+      year_gte,
+      year_lte,
+      state,
+      keyword,
+      organism,
+      page,
+      page_size,
+    };
+    params = removeEmpty(params);
+    return this._apiService.get(
+      '/normativas',
+      new HttpParams({
+        fromObject: {
+          ...params,
+        },
+        encoder: new HttpUrlEncoder(),
+      })
+    );
   }
 
-  getNormativesByDirectory(directoryId: number): Observable<PagedResult<Normative>> {
+  getNormativesByDirectory(directory: number, page = 1, itemsPerPage = 10): Observable<PagedResult<Normative>> {
+    let params: any = {
+      directory,
+      page,
+      page_size: itemsPerPage,
+    };
+    params = removeEmpty(params);
     return this._apiService.get<PagedResult<Normative>>(
       '/normativas',
-      new HttpParams({ fromObject: { directory: directoryId } })
+      new HttpParams({
+        fromObject: {
+          ...params,
+        },
+        encoder: new HttpUrlEncoder(),
+      })
+    );
+  }
+
+  getGlossaryTerms(page = 1, itemsPerPage = 10): Observable<PagedResult<GlossaryTerm>> {
+    return this._apiService.get(
+      '/glosario',
+      new HttpParams({
+        fromObject: {
+          page,
+          page_size: itemsPerPage,
+        },
+      })
     );
   }
 
@@ -173,7 +260,11 @@ export class DataService {
   }
 
   getNormativeStates(): Observable<string[]> {
-    return this._apiService.get('/normativas/estados');
+    return this._apiService.get<string[]>('/normativas/estados').pipe(share());
+  }
+
+  getNormativeThematics(): Observable<string[]> {
+    return this._apiService.get<string[]>('/normativas/tematicas').pipe(share());
   }
 
   getNormativeKeywords(): Observable<string[]> {
@@ -189,10 +280,43 @@ export class DataService {
   }
 
   getLatestNews(): Observable<any[]> {
-    return this._apiService.get(environment.newsApiUrl);
+    return this._apiService.get<any[]>(environment.newsApiUrl).pipe(share());
   }
 
-  getSearchResults(query: string): Observable<SearchResult> {
-    return this._apiService.get('/search/?text=' + query);
+  getSearchResults(
+    query: string,
+    year: number | null,
+    year_gte: number | null,
+    year_lte: number | null,
+    state: string | null,
+    keyword: string | null,
+    organism: string | null,
+    thematic: string | null,
+    page: number,
+    page_size?: number
+  ): Observable<PagedResult<SearchResult>> {
+    let params: any = {
+      text: query,
+      year,
+      year_gte,
+      year_lte,
+      state,
+      keyword,
+      organism,
+      tematica: thematic,
+      page,
+      page_size,
+    };
+    params = removeEmpty(params);
+    return this._apiService.get(
+      '/search',
+      new HttpParams({
+        fromObject: {
+          ...params,
+        },
+        encoder: new HttpUrlEncoder(),
+      }),
+      true
+    );
   }
 }

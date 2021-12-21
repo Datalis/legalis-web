@@ -47,6 +47,8 @@ export class ThematicDirectoryComponent implements OnInit, AfterViewInit, OnDest
 
   rootPath = 'thematic-directory';
 
+  itemsPerPage = 4;
+
   normatives$?: Observable<PagedResult<Normative> | null>;
 
   constructor(
@@ -57,32 +59,42 @@ export class ThematicDirectoryComponent implements OnInit, AfterViewInit, OnDest
   ) {}
 
   ngOnInit() {
-    this._route.url.subscribe((segments) => {
-      var paths = segments.map((s) => s.path);
-      this.breadcrumbs = this.createBreadcrumbs(paths);
-      this._dataService
-        .getDirectories()
-        .pipe(
-          untilDestroyed(this),
-          finalize(() => {
-            this.loadingDirectories = false;
-          }),
-          map((res) => res.results),
-          shareReplay(1)
-        )
-        .subscribe((res) => {
-          this.directories = this.toArray(res);
-          this.rootDirectories = this.getRootDirectories(this.directories);
-          const parentId = this.getParentId(paths, this.directories);
-          this.currentDirectory = this.directories.find((e) => e.id == parentId);
-          if (this.currentDirectory) {
-            this.childDirectories = this.getChildDirectories(this.directories, this.currentDirectory);
-            this.normatives$ = this._dataService.getNormativesByDirectory(this.currentDirectory.id);
-          } else {
-            this.normatives$ = of(<PagedResult<Normative>>{ results: <Normative>[] });
-          }
-        });
-    });
+    combineLatest([
+      this._route.url.pipe(map((res) => res.map((e) => e.path))),
+      this._route.queryParams,
+      this._dataService.getDirectories().pipe(
+        map((res) => res.results),
+        shareReplay(1)
+      ),
+    ])
+      .pipe(untilDestroyed(this))
+      .subscribe((res) => {
+        const paths = res[0];
+        const queryParams = res[1];
+        const directories = res[2] || [];
+
+        this.breadcrumbs = this.createBreadcrumbs(paths);
+
+        this.directories = this.toArray(directories);
+        this.rootDirectories = this.getRootDirectories(this.directories);
+        const parentId = this.getParentId(paths, this.directories);
+        this.currentDirectory = this.directories.find((e) => e.id == parentId);
+
+        this.currentPage = +queryParams.page || 1;
+
+        if (this.currentDirectory) {
+          this.childDirectories = this.getChildDirectories(this.directories, this.currentDirectory);
+          this.normatives$ = this._dataService.getNormativesByDirectory(
+            this.currentDirectory.id,
+            this.currentPage,
+            this.itemsPerPage
+          );
+        } else {
+          // No current directory. Redirect to first
+          const firstDirectory = this.directories[0];
+          this._router.navigate([this.rootPath, firstDirectory.path]);
+        }
+      });
   }
 
   ngAfterViewInit() {}
@@ -112,6 +124,15 @@ export class ThematicDirectoryComponent implements OnInit, AfterViewInit, OnDest
 
   goToDirectory(item: any) {
     this._router.navigate([this.rootPath, item.path]);
+  }
+
+  getPage(page: number) {
+    this.currentPage = page;
+    this._router.navigate([], {
+      queryParams: { page: this.currentPage },
+      relativeTo: this._route,
+      queryParamsHandling: 'merge',
+    });
   }
 
   createBreadcrumbs(path: string[]): any[] {

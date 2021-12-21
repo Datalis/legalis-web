@@ -128,7 +128,7 @@ body {
   .ngx-slider-pointer {
     background-color: $accent !important;
     border-radius: 3px !important;
-    transform: scale(0.7);
+    transform: scale(0.5);
     top: -30px !important;
     &::after {
       display: none;
@@ -197,4 +197,10 @@ body {
 
 svg {
   pointer-events: none;
+}
+
+mark {
+  //background-color: rgba($blue, 0.45);
+  //font-weight: bold;
+  color: currentColor;
 }

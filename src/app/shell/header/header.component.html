@@ -14,11 +14,17 @@
           </button>
         </div>
       </div>
-      <div class="col-lg-6 col px-lg-0 p-5 align-self-start">
+      <div class="col-lg-6 col px-lg-0 p-4 align-self-start">
         <div class="d-flex flex-column align-items-center justify-content-center h-100">
-          <img class="img-fluid header-logo" src="/assets/legalis-logo.png" />
+          <a routerLink="/"><img class="img-fluid header-logo" src="/assets/legalis-logo.png" /></a>
           <div class="input-group input-group-lg mt-5 header-search">
-            <input class="form-control" type="search" [(ngModel)]="query" placeholder="Buscar..." />
+            <input
+              class="form-control"
+              type="search"
+              (keyup.enter)="onSearchClicked()"
+              [(ngModel)]="query"
+              placeholder="Buscar..."
+            />
             <button class="btn btn-outline-primary" (click)="onSearchClicked()">
               <i class="fas fa-search"></i>
             </button>
@@ -79,7 +85,7 @@
       <i class="fas fa-ellipsis-v text-accent fa-lg"></i>
     </button>
     <div class="dropdown-menu" ngbDropdownMenu>
-      <a routerLink="/home" routerLinkActive="active" ngbDropdownItem>ÍNDICE DE GACETA</a>
+      <a routerLink="/gazettes" routerLinkActive="active" ngbDropdownItem>ÍNDICE DE GACETA</a>
       <a routerLink="/analysis" routerLinkActive="active" ngbDropdownItem>ANÁLISIS</a>
       <a routerLink="/infographics" routerLinkActive="active" ngbDropdownItem>INFOGRAFÍA</a>
       <a routerLink="/glossary" routerLinkActive="active" ngbDropdownItem>GLOSARIO</a>

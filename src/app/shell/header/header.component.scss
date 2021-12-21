@@ -1,7 +1,7 @@
 @import "src/theme/theme-variables";
 
 $border: 1px solid rgba($divider-light, 0.2);
-$header-height: 400px;
+$header-height: 280px;
 
 :host {
   display: block;
@@ -112,7 +112,7 @@ $header-height: 400px;
       }
       a {
         font-weight: 700;
-        font-size: 14px;
+        font-size: 12px;
         &:hover {
           color: rgba($light, 0.8);
         }

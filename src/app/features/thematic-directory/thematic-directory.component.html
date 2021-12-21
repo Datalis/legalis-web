@@ -74,7 +74,7 @@
         </div>
       </div>
       <ng-container *ngIf="currentDirectory as currentDirectory">
-        <div class="directory-results mb-2 mt-4 px-4">
+        <div class="directory-results mt-3 px-4">
           <h5 class="text-blue mb-2 fw-bold">
             <ng-container *ngFor="let b of breadcrumbs; let i = index">
               <span *ngIf="i !== 0">/</span>
@@ -86,18 +86,36 @@
               <a [routerLink]="[child.path]">{{ child.name }}</a>
             </li>
           </ul>
-          <div class="mt-1">
-            <span class="text-accent" *ngIf="!currentDirectory.normatives">No hay normativas relacionadas</span>
-            <span class="text-accent" *ngIf="currentDirectory.normatives === 1">1 normativa relacionada</span>
+          <div class="my-2">
+            <span class="text-accent" *ngIf="!currentDirectory.normatives"
+              >No hay normativas vigentes relacionadas</span
+            >
+            <span class="text-accent" *ngIf="currentDirectory.normatives === 1">1 normativa vigente relacionada</span>
             <span class="text-accent" *ngIf="currentDirectory.normatives > 1"
-              >{{ currentDirectory.normatives }} normativas relacionadas</span
+              >{{ currentDirectory.normatives }} normativas vigentes relacionadas</span
             >
           </div>
         </div>
       </ng-container>
 
       <div class="px-4" *ngIf="normatives$ | async as normatives; else loadingNormative">
-        <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+        <ng-container
+          *ngFor="
+            let item of normatives.results
+              | paginate
+                : {
+                    itemsPerPage: itemsPerPage,
+                    currentPage: currentPage,
+                    totalItems: normatives.count
+                  };
+            let odd = odd
+          "
+        >
+          <app-normative-item [item]="item"></app-normative-item>
+          <div class="my-3"></div>
+        </ng-container>
+
+        <!--<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
           <ngb-panel
             *ngFor="
               let item of normatives.results
@@ -123,10 +141,10 @@
               </div>
             </ng-template>
           </ngb-panel>
-        </ngb-accordion>
+        </ngb-accordion>-->
         <pagination-controls
           *ngIf="normatives.results.length"
-          (pageChange)="currentPage = $event"
+          (pageChange)="getPage($event)"
           previousLabel="Atrás"
           nextLabel="Siguiente"
         ></pagination-controls>

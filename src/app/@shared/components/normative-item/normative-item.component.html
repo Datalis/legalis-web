@@ -1,0 +1,15 @@
+<div class="result-item d-flex flex-column px-4 pb-4" [class.result-item-active]="isActive">
+  <span class="result-state px-2 py-1 text-uppercase align-self-start">{{ item.state }}</span>
+  <a
+    routerLink="/normative/{{ item.id }}"
+    class="text-accent fw-bold mt-2"
+    [innerHtml]="item.name | highlight: searchQuery"
+  ></a>
+  <small class="result-summary my-2" [innerHtml]="item.summary | highlight: searchQuery"></small>
+  <small class="fw-bold my-2 text-muted" *ngIf="!item.summary">---</small>
+  <span class="fw-bold mt-2 text-small">Publicado en: {{ item.gazette }}</span>
+  <span class="fw-bold mt-2 text-small">Emisor: {{ item.organism }}</span>
+  <span class="fw-bold text-blue text-italic mt-2 text-small">
+    {{ item.keywords?.join(', ') }}
+  </span>
+</div>

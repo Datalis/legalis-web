@@ -1,5 +1,5 @@
 <div class="glossary-container container-fluid container-lg px-0 px-md-4 py-4">
-  <div class="d-flex flex-column align-items-center">
+  <div class="d-flex flex-column align-items-center" *ngIf="results$ | async as res; else loadingPage">
     <h5 class="text-blue fw-bold mb-0">GLOSARIO</h5>
     <span class="fw-bold">Breves definiciones de los términos legislativos de mayor uso</span>
     <div class="d-flex flex-column letters-container w-100 mt-4 px-4">
@@ -16,80 +16,29 @@
     </div>
     <div class="results-container mt-4 mx-4">
       <div class="row m-0">
-        <div class="col-md-6">
+        <div
+          class="col-md-6"
+          *ngFor="
+            let item of res.results
+              | paginate: { id: 'results', itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: res.count }
+          "
+        >
           <div class="d-flex flex-column">
-            <span class="text-uppercase text-blue fw-bold">Canasta familiar</span>
-            <p class="">
-              A switch has the markup of a custom checkbox but uses the .form-switch class to render a toggle switch.
-              Consider using role="switch" to more accurately convey the nature of the control to assistive technologies
-              that support this role. In older assistive technologies, it will simply be announced as a regular checkbox
-              as a fallback. Switches also support the disabled attribute.
-            </p>
-            <div class="divider"></div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="d-flex flex-column">
-            <span class="text-uppercase text-blue fw-bold">Canasta familiar</span>
-            <p class="">
-              A switch has the markup of a custom checkbox but uses the .form-switch class to render a toggle switch.
-              Consider using role="switch" to more accurately convey the nature of the control to assistive technologies
-              that support this role. In older assistive technologies, it will simply be announced as a regular checkbox
-              as a fallback. Switches also support the disabled attribute.
-            </p>
-            <div class="divider"></div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="d-flex flex-column">
-            <span class="text-uppercase text-blue fw-bold">Canasta familiar</span>
-            <p class="">
-              A switch has the markup of a custom checkbox but uses the .form-switch class to render a toggle switch.
-              Consider using role="switch" to more accurately convey the nature of the control to assistive technologies
-              that support this role. In older assistive technologies, it will simply be announced as a regular checkbox
-              as a fallback. Switches also support the disabled attribute.
-            </p>
-            <div class="divider"></div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="d-flex flex-column">
-            <span class="text-uppercase text-blue fw-bold">Canasta familiar</span>
-            <p class="">
-              A switch has the markup of a custom checkbox but uses the .form-switch class to render a toggle switch.
-              Consider using role="switch" to more accurately convey the nature of the control to assistive technologies
-              that support this role. In older assistive technologies, it will simply be announced as a regular checkbox
-              as a fallback. Switches also support the disabled attribute.
-            </p>
-            <div class="divider"></div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="d-flex flex-column">
-            <span class="text-uppercase text-blue fw-bold">Canasta familiar</span>
-            <p class="">
-              A switch has the markup of a custom checkbox but uses the .form-switch class to render a toggle switch.
-              Consider using role="switch" to more accurately convey the nature of the control to assistive technologies
-              that support this role. In older assistive technologies, it will simply be announced as a regular checkbox
-              as a fallback. Switches also support the disabled attribute.
-            </p>
-            <div class="divider"></div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="d-flex flex-column">
-            <span class="text-uppercase text-blue fw-bold">Canasta familiar</span>
-            <p class="">
-              A switch has the markup of a custom checkbox but uses the .form-switch class to render a toggle switch.
-              Consider using role="switch" to more accurately convey the nature of the control to assistive technologies
-              that support this role. In older assistive technologies, it will simply be announced as a regular checkbox
-              as a fallback. Switches also support the disabled attribute.
-            </p>
+            <span class="text-uppercase text-blue fw-bold">{{ item.termino }}</span>
+            <p class="">{{ item.description }}</p>
             <div class="divider"></div>
           </div>
         </div>
       </div>
+      <pagination-controls
+        id="results"
+        previousLabel="Atrás"
+        nextLabel="Siguiente"
+        (pageChange)="getPage($event)"
+      ></pagination-controls>
     </div>
-    <div class="divider mt-4"></div>
   </div>
+  <ng-template #loadingPage>
+    <app-loader></app-loader>
+  </ng-template>
 </div>

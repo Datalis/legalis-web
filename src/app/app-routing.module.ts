@@ -16,6 +16,9 @@ const routes: Routes = [
       path: 'thematic-directory',
       loadChildren: () =>
         import('./features/thematic-directory/thematic-directory.module').then((m) => m.ThematicDirectoryModule),
+      data: {
+        title: 'Directorio Temático',
+      },
     },
   ]),
   Shell.childRoutes([
@@ -71,7 +74,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
+  imports: [
+    RouterModule.forRoot(routes, {
+      scrollPositionRestoration: 'enabled',
+    }),
+  ],
   exports: [RouterModule],
   providers: [],
 })
