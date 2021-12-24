@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.router.events.pipe(untilDestroyed(this)).subscribe((ev) => {
-      const currentQuery = this._route.snapshot.queryParams?.q || '';
+      const currentQuery = this._route.snapshot.queryParams?.text || '';
       this.query = decodeURIComponent(currentQuery);
       if (ev instanceof NavigationEnd) {
         this.collapseFilterNav = true;
@@ -28,6 +28,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   onSearchClicked(): void {
-    this.router.navigate(['search'], { queryParams: { q: encodeURIComponent(this.query.trim()) } });
+    this.router.navigate(['search'], { queryParams: { text: this.query.trim() } });
   }
 }

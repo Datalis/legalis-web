@@ -1,9 +1,9 @@
+import { LayoutService } from './../../@shared/services/layout.service';
 import { Normative } from './../../@shared/model/normative';
-import { Filters } from './../../@shared/model/filters';
+import { Params } from '../../@shared/model/params';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SearchResult } from './../../@shared/model/search-result';
-import { map, catchError } from 'rxjs/operators';
-import { Observable, combineLatest, throwError } from 'rxjs';
+import { map, catchError, switchMap, finalize, tap } from 'rxjs/operators';
+import { Observable, throwError, BehaviorSubject, forkJoin, combineLatest } from 'rxjs';
 import { DataService } from '@app/@shared/services/data.service';
 import { Component, OnInit } from '@angular/core';
 import { PagedResult } from '@app/@shared/model/paged-result';
@@ -16,132 +16,118 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   styleUrls: ['./keywords.component.scss'],
 })
 export class KeywordsComponent implements OnInit {
-  hideFilters = true;
+  isLoading = true;
 
-  letters = [
-    'A',
-    'B',
-    'C',
-    'D',
-    'E',
-    'F',
-    'G',
-    'H',
-    'I',
-    'J',
-    'K',
-    'L',
-    'M',
-    'N',
-    'N',
-    'O',
-    'P',
-    'Q',
-    'R',
-    'S',
-    'T',
-    'U',
-    'V',
-    'W',
-    'X',
-    'Y',
-    'Z',
-  ];
+  params = new Params();
 
-  normativeStates: string[] = [];
-  normativeThematics: string[] = [];
+  letters: string[] = [];
+  states: string[] = [];
+  thematics: string[] = [];
   keywords: string[] = [];
-  currentKeywords: any[] = [];
-  currentKeyword?: string;
+  organisms: string[] = [];
+
+  results?: PagedResult<Normative>;
+
+  currentKeyword: string | null = null;
   currentLetter = 'A';
-  currentPage = 1;
+  currentOrder: null | 'date' = null;
 
-  itemsPerPage = 2;
+  get currentKeywords() {
+    return this.keywords.filter((k) => k.startsWith(this.currentLetter));
+  }
 
-  loading = false;
-  error = false;
+  currentLetter$ = new BehaviorSubject(this.currentLetter);
 
-  filters: Filters = new Filters();
-
-  $results?: Observable<PagedResult<Normative>>;
-
-  constructor(private _dataService: DataService, private _route: ActivatedRoute, private _router: Router) {}
+  constructor(
+    private _dataService: DataService,
+    private _route: ActivatedRoute,
+    private _router: Router,
+    private _layoutService: LayoutService
+  ) {}
 
   ngOnInit() {
-    this.loading = true;
     combineLatest([
-      this._dataService.getNormativeStates(),
-      this._dataService.getNormativeThematics(),
-      this._dataService.getNormativeKeywords(),
-      this._route.queryParams,
+      this._dataService.getStates(),
+      this._dataService.getThematics(),
+      this._dataService.getKeywords(),
+      this._dataService.getOrganisms(),
+      this._dataService.letters$,
+      this._route.queryParams.pipe(map((params) => Params.fromObject(params))),
     ])
       .pipe(
         untilDestroyed(this),
         catchError((e) => {
-          this.loading = false;
-          this.error = true;
+          this.isLoading = false;
           return throwError(e);
-        })
+        }),
+        finalize(() => (this.isLoading = false))
       )
-      .subscribe((res) => {
-        this.normativeStates = res[0] || [];
-        this.normativeThematics = res[1] || [];
-        this.keywords = res[2] || [];
-        this.currentKeywords = this.keywords.filter((e) => e.startsWith(this.currentLetter));
-        this.loading = false;
+      .subscribe(([states, thematics, keywords, organisms, letters, params]) => {
+        this.states = states || [];
+        this.thematics = thematics || [];
+        this.keywords = keywords || [];
+        this.letters = letters || [];
+        this.organisms = organisms || [];
 
-        const params = res[3] || {};
-        const { page, keyword, state, organism, year, year_gte, year_lte } = params;
+        this.currentKeyword = params.keyword ? decodeURIComponent(params.keyword) : null;
 
-        this.currentPage = page ? +page : 1;
+        if (this.currentKeyword) {
+          this.params = params;
+          this.params.page_size = 4;
 
-        this.currentKeyword = keyword ? decodeURIComponent(keyword) : undefined;
-
-        if (!this.currentKeyword) {
-          this.currentKeyword = this.currentKeywords[0];
+          this.results = undefined;
+          this._dataService
+            .getNormatives(params)
+            .pipe(untilDestroyed(this))
+            .subscribe((res) => {
+              this.results = res;
+            });
+        } else {
+          this.params.keyword = this.currentKeywords[0];
+          this._router.navigate([], {
+            queryParams: this.params.toObject(),
+            queryParamsHandling: 'merge',
+            replaceUrl: true,
+            relativeTo: this._route,
+          });
         }
 
-        this.filters.keyword = this.currentKeyword || null;
-        this.filters.organism = organism ? decodeURIComponent(organism) : null;
-        this.filters.state = state ? decodeURIComponent(state) : null;
-        this.filters.year = year ? +year : null;
-        this.filters.year_gte = year_gte ? +year_gte : null;
-        this.filters.year_lte = year_lte ? +year_lte : null;
-
-        this.$results = this._dataService.getNormatives(
-          this.filters.year,
-          this.filters.year_gte,
-          this.filters.year_lte,
-          this.filters.state,
-          this.filters.keyword,
-          this.filters.organism,
-          this.currentPage,
-          this.itemsPerPage
-        );
+        this.isLoading = false;
       });
   }
 
-  onKeywordSelected(keyword: string) {
-    this._router.navigate([], {
-      queryParams: {
-        keyword: encodeURIComponent(keyword),
-        page: null, // Reset paging
-      },
-      queryParamsHandling: 'merge',
-    });
+  onOrderChange(): void {
+    this.params.ordering = this.currentOrder;
+    this.getResults();
+  }
+
+  onKeywordChange(keyword: string) {
+    this.params.keyword = keyword;
+    this.getResults();
+  }
+
+  onLetterChange(letter: string) {
+    this.currentLetter = letter;
+    this.currentLetter$.next(this.currentLetter);
+  }
+
+  onFiltersChange(params: Params) {
+    this.params = params;
+    this.getResults();
   }
 
   getPage(page: number) {
-    this.currentPage = page;
-    this._router.navigate([], {
-      queryParams: { page: this.currentPage },
-      relativeTo: this._route,
-      queryParamsHandling: 'merge',
-    });
+    this.params.page = page;
+    this.getResults();
   }
 
-  setCurrentLetter(item: string) {
-    this.currentLetter = item;
-    this.currentKeywords = this.keywords.filter((e) => e.startsWith(this.currentLetter));
+  getResults(): void {
+    this._router
+      .navigate([], {
+        queryParams: this.params.toObject(),
+        queryParamsHandling: 'merge',
+        relativeTo: this._route,
+      })
+      .then(() => this._layoutService.scrollToItem('content'));
   }
 }

@@ -1,13 +1,13 @@
-import { Injectable, NgZone } from '@angular/core';
-import { from, fromEvent } from 'rxjs';
-import { map, mergeAll, distinctUntilChanged, delay, shareReplay } from 'rxjs/operators';
-import { ScreenSize } from '../model/screen-size.enum';
+import { ScreenSize } from '@app/@shared/model/screen-size.enum';
+import { Injectable, NgZone, OnDestroy } from '@angular/core';
+import { Subject, fromEvent, Subscription, merge, scheduled, from } from 'rxjs';
+import { debounceTime, mergeAll, map } from 'rxjs/operators';
 import bph from 'breakpoint-helper';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ScreenSizeService {
+export class ScreenSizeService implements OnDestroy {
   private static readonly BREAKPOINTS = {
     xs: '0px',
     sm: '576px',
@@ -19,17 +19,29 @@ export class ScreenSizeService {
 
   private _bph: any;
 
-  screenSize$ = from([fromEvent(window, 'load'), fromEvent(window, 'resize')])
-    .pipe(
-      delay(100),
-      mergeAll(),
-      map(() => Object.values(ScreenSize)),
-      map((sizes) => sizes.find((s) => this.isMatching(s)))
-    )
-    .pipe(distinctUntilChanged());
+  screenSize$ = new Subject();
+
+  subcriptions$: Subscription[] = [];
 
   constructor(private zone: NgZone) {
     this._bph = bph(ScreenSizeService.BREAKPOINTS);
+    const load$ = fromEvent(window, 'load');
+    const resize$ = fromEvent(window, 'resize');
+    const change$ = from([load$, resize$]).pipe(mergeAll());
+    this.subcriptions$.push(
+      change$
+        .pipe(
+          map(() => Object.values(ScreenSize)),
+          map((sizes) => sizes.find((s) => this.isMatching(s)))
+        )
+        .subscribe((size) => {
+          this.screenSize$.next(size);
+        })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subcriptions$.forEach((s) => s.unsubscribe());
   }
 
   private isMatching(size: string): boolean {

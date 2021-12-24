@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { LoaderComponent } from './components/loader/loader.component';
 import { LottieModule } from 'ngx-lottie';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
 export function playerFactory() {
@@ -22,6 +22,7 @@ export function playerFactory() {
     TranslateModule,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     NgbCollapseModule,
     RouterModule,
     NgxSliderModule,

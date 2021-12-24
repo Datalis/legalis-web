@@ -1,3 +1,5 @@
+@import "/src/theme/theme-variables.scss";
+
 .side-container {
   border-right: 1px solid rgba(#000, 0.2);
   .form-check {
@@ -11,4 +13,18 @@
   background-color: rgba(#000, 0.2);
   margin-top: 1rem;
   margin-bottom: 1rem;
+}
+
+.btn-search {
+  min-width: 150px;
+  border: 1px solid rgba($color: #000000, $alpha: 0.2);
+  letter-spacing: 0.6px;
+  color: $accent;
+  text-transform: uppercase;
+  font-weight: 500 !important;
+  &:hover,
+  &:focus {
+    background-color: $blue;
+    color: $light;
+  }
 }

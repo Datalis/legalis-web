@@ -3,4 +3,5 @@ export class PagedResult<T> {
   public next?: string;
   public previus?: string;
   public results: T[] = [];
+  public error?: any;
 }

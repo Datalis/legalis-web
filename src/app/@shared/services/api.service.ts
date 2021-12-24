@@ -27,4 +27,8 @@ export class APIService {
       params: params,
     });
   }
+
+  public getFile(path: string): Observable<Blob> {
+    return this._httpClient.get(path, { responseType: 'blob' });
+  }
 }

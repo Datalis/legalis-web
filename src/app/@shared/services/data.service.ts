@@ -3,7 +3,7 @@ import { HttpParams, HttpUrlEncodingCodec } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, refCount, share, shareReplay } from 'rxjs/operators';
+import { distinctUntilChanged, refCount, share, shareReplay, map, take } from 'rxjs/operators';
 import { HttpUrlEncoder } from '../http/http-url-encoder';
 import { Directory } from '../model/directory';
 import { Gazette } from '../model/gazette';
@@ -12,128 +12,13 @@ import { PagedResult } from '../model/paged-result';
 import { SearchResult } from '../model/search-result';
 import { APIService } from './api.service';
 import { GlossaryTerm } from '../model/glossary-term';
+import { Params } from '../model/params';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
-  private recent = [
-    {
-      title: 'Título de la norma',
-      subject: 'Temática',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      keywords: ['Palabra clave 1', 'Palabra clave 2'],
-    },
-    {
-      title: 'Título de la norma',
-      subject: 'Temática',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      keywords: ['Palabra clave 1', 'Palabra clave 2'],
-    },
-    {
-      title: 'Título de la norma',
-      subject: 'Temática',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      keywords: ['Palabra clave 1', 'Palabra clave 2'],
-    },
-    {
-      title: 'Título de la norma',
-      subject: 'Temática',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      keywords: ['Palabra clave 1', 'Palabra clave 2'],
-    },
-    {
-      title: 'Título de la norma',
-      subject: 'Temática',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      keywords: ['Palabra clave 1', 'Palabra clave 2'],
-    },
-    {
-      title: 'Título de la norma',
-      subject: 'Temática',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      keywords: ['Palabra clave 1', 'Palabra clave 2'],
-    },
-    {
-      title: 'Título de la norma',
-      subject: 'Temática',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      keywords: ['Palabra clave 1', 'Palabra clave 2'],
-    },
-    {
-      title: 'Título de la norma',
-      subject: 'Temática',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      keywords: ['Palabra clave 1', 'Palabra clave 2'],
-    },
-  ];
-
-  private popular = [
-    {
-      title: 'Título de la norma',
-      subject: 'Temática',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      keywords: ['Palabra clave 1', 'Palabra clave 2'],
-    },
-    {
-      title: 'Título de la norma',
-      subject: 'Temática',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      keywords: ['Palabra clave 1', 'Palabra clave 2'],
-    },
-    {
-      title: 'Título de la norma',
-      subject: 'Temática',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      keywords: ['Palabra clave 1', 'Palabra clave 2'],
-    },
-    {
-      title: 'Título de la norma',
-      subject: 'Temática',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      keywords: ['Palabra clave 1', 'Palabra clave 2'],
-    },
-    {
-      title: 'Título de la norma',
-      subject: 'Temática',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      keywords: ['Palabra clave 1', 'Palabra clave 2'],
-    },
-    {
-      title: 'Título de la norma',
-      subject: 'Temática',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      keywords: ['Palabra clave 1', 'Palabra clave 2'],
-    },
-    {
-      title: 'Título de la norma',
-      subject: 'Temática',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      keywords: ['Palabra clave 1', 'Palabra clave 2'],
-    },
-    {
-      title: 'Título de la norma',
-      subject: 'Temática',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      keywords: ['Palabra clave 1', 'Palabra clave 2'],
-    },
-  ];
+  mockOrganisms: string[] = ['Organismo 1', 'Organismo 2', 'Organismo 3'];
 
   gazetteTypes: string[] = [
     'Ordinaria',
@@ -143,101 +28,102 @@ export class DataService {
     'Extraordinarias Especiales',
   ];
 
+  letters = [
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
+    'K',
+    'L',
+    'M',
+    'N',
+    'N',
+    'O',
+    'P',
+    'Q',
+    'R',
+    'S',
+    'T',
+    'U',
+    'V',
+    'W',
+    'X',
+    'Y',
+    'Z',
+  ];
+
   constructor(private _apiService: APIService) {}
 
-  recentNormative(): Observable<any[]> {
-    return of(this.recent);
+  get letters$() {
+    return of(this.letters).pipe(share());
   }
 
-  popularNormative(): Observable<any[]> {
-    return of(this.popular);
-  }
-
-  /**
-   * Get all gazettes
-   * @returns paged @class Gazette list
-   */
-  getGazettes(
-    type: string | null,
-    year: number | null,
-    year_gte: number | null,
-    year_lte: number | null,
-    thematic: string | null,
-    page: number,
-    itemsPerPage = 10
-  ): Observable<PagedResult<Gazette>> {
-    let params: any = {
-      type,
-      year,
-      year_gte,
-      year_lte,
-      tematica: thematic,
-      page,
-      page_size: itemsPerPage,
-    };
-    params = removeEmpty(params);
-
-    return this._apiService.get<PagedResult<Gazette>>(
-      '/gacetas',
-      new HttpParams({
-        fromObject: { ...params },
-      })
-    );
-  }
-
-  getGazetteTypes(): Observable<string[]> {
+  get gazetteTypes$() {
     return of(this.gazetteTypes);
   }
 
-  /**
-   * Get all normatives
-   * @returns paged @class Normative list
-   */
-  getNormatives(
-    year: number | null,
-    year_gte: number | null,
-    year_lte: number | null,
-    state: string | null,
-    keyword: string | null,
-    organism: string | null,
-    page: number,
-    page_size?: number
-  ): Observable<PagedResult<Normative>> {
-    let params: any = {
-      year,
-      year_gte,
-      year_lte,
-      state,
-      keyword,
-      organism,
-      page,
-      page_size,
-    };
-    params = removeEmpty(params);
-    return this._apiService.get(
-      '/normativas',
+  recentNormative(params: any): Observable<any[]> {
+    return this._apiService
+      .get<any>(
+        '/normativas',
+        new HttpParams({
+          fromObject: {
+            ...params,
+          },
+          encoder: new HttpUrlEncoder(),
+        })
+      )
+      .pipe(
+        map((res) => res.results),
+        take(10)
+      );
+  }
+
+  popularNormative(): Observable<any[]> {
+    return this._apiService
+      .get<any>(
+        '/normativas',
+        new HttpParams({
+          fromObject: {
+            ordering: '',
+            year: 2021,
+          },
+          encoder: new HttpUrlEncoder(),
+        })
+      )
+      .pipe(
+        map((res) => res.results),
+        take(10)
+      );
+  }
+
+  getGazettes(params: Params): Observable<PagedResult<Gazette>> {
+    let _params = removeEmpty(params);
+    return this._apiService.get<PagedResult<Gazette>>(
+      '/gacetas',
       new HttpParams({
-        fromObject: {
-          ...params,
-        },
+        fromObject: _params,
         encoder: new HttpUrlEncoder(),
       })
     );
   }
 
-  getNormativesByDirectory(directory: number, page = 1, itemsPerPage = 10): Observable<PagedResult<Normative>> {
-    let params: any = {
-      directory,
-      page,
-      page_size: itemsPerPage,
-    };
-    params = removeEmpty(params);
-    return this._apiService.get<PagedResult<Normative>>(
+  getGazetteById(id: string): Observable<Gazette> {
+    return this._apiService.get<Gazette>(`/gacetas/${id}/`);
+  }
+
+  getNormatives(params: Params): Observable<PagedResult<Normative>> {
+    let _params = removeEmpty(params);
+    return this._apiService.get(
       '/normativas',
       new HttpParams({
-        fromObject: {
-          ...params,
-        },
+        fromObject: _params,
         encoder: new HttpUrlEncoder(),
       })
     );
@@ -259,64 +145,51 @@ export class DataService {
     return this._apiService.get<Normative>(`/normativas/${normativeId}`);
   }
 
-  getNormativeStates(): Observable<string[]> {
+  getStates(): Observable<string[]> {
     return this._apiService.get<string[]>('/normativas/estados').pipe(share());
   }
 
-  getNormativeThematics(): Observable<string[]> {
+  getThematics(): Observable<string[]> {
     return this._apiService.get<string[]>('/normativas/tematicas').pipe(share());
   }
 
-  getNormativeKeywords(): Observable<string[]> {
-    return this._apiService.get('/normativas/keywords');
+  getKeywords(): Observable<string[]> {
+    return this._apiService.get<string[]>('/normativas/keywords').pipe(share());
   }
 
-  /**
-   * Get all directories
-   * @returns paged @class Directory list
-   */
+  getOrganisms(): Observable<string[]> {
+    return this._apiService.get<string[]>('/normativas/organismos').pipe(share());
+  }
+
+  getGazettesResume(): Observable<any[]> {
+    return this._apiService.get<any[]>('/gacetas/resumen').pipe(share());
+  }
+
+  getNormativesResume(): Observable<any[]> {
+    return this._apiService.get<any[]>('/normativas/resumen').pipe(share());
+  }
+
   getDirectories(): Observable<PagedResult<Directory>> {
-    return this._apiService.get<PagedResult<Directory>>('/directorios');
+    return this._apiService.get<PagedResult<Directory>>('/directorios').pipe(share());
   }
 
   getLatestNews(): Observable<any[]> {
     return this._apiService.get<any[]>(environment.newsApiUrl).pipe(share());
   }
 
-  getSearchResults(
-    query: string,
-    year: number | null,
-    year_gte: number | null,
-    year_lte: number | null,
-    state: string | null,
-    keyword: string | null,
-    organism: string | null,
-    thematic: string | null,
-    page: number,
-    page_size?: number
-  ): Observable<PagedResult<SearchResult>> {
-    let params: any = {
-      text: query,
-      year,
-      year_gte,
-      year_lte,
-      state,
-      keyword,
-      organism,
-      tematica: thematic,
-      page,
-      page_size,
-    };
-    params = removeEmpty(params);
+  getSearchResults(params: Params): Observable<PagedResult<SearchResult>> {
+    let _params = removeEmpty(params);
     return this._apiService.get(
       '/search',
       new HttpParams({
-        fromObject: {
-          ...params,
-        },
+        fromObject: _params,
         encoder: new HttpUrlEncoder(),
       }),
       true
     );
+  }
+
+  downloadFile(url: string): Observable<Blob> {
+    return this._apiService.getFile(url);
   }
 }

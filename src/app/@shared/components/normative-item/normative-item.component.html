@@ -1,4 +1,7 @@
-<div class="result-item d-flex flex-column px-4 pb-4" [class.result-item-active]="isActive">
+<div
+  class="result-item d-flex flex-column align-items-start text-start px-4 pb-4"
+  [class.result-item-active]="isActive"
+>
   <span class="result-state px-2 py-1 text-uppercase align-self-start">{{ item.state }}</span>
   <a
     routerLink="/normative/{{ item.id }}"

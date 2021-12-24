@@ -1,70 +1,89 @@
-<div class="gazettes-container container-fluid container-lg px-0 px-md-4 py-4">
-  <div class="row" *ngIf="!loading; else pageLoading">
-    <div class="col-lg-4">
+<div class="gazettes-container container-fluid container-lg px-0 px-lg-4 pb-4 pt-lg-4">
+  <div class="row" *ngIf="!isLoading; else loading">
+    <div class="col-md-4">
       <app-filters
-        [states]="normativeStates"
-        [thematics]="normativeThematics"
-        [filters]="filters"
-        (filtersChange)="onFiltersChange($event)"
+        [states]="states"
+        [thematics]="thematics"
+        [organisms]="organisms"
+        [params]="params"
+        (paramsChange)="onFiltersChange($event)"
       ></app-filters>
     </div>
-    <div class="col-lg-8">
+    <div class="col-md-8" id="content">
       <div class="d-flex flex-column ps-lg-4 text-center text-lg-start">
-        <span class="mb-1 fw-bold mb-0">RESULTADOS DE LA BUSQUEDA</span>
-        <span class="text-blue"
+        <h5 class="mb-1 fw-bold mb-0 text-blue">RESULTADOS DE LA BÚSQUEDA</h5>
+        <div class="divider"></div>
+        <span *ngIf="currentSearchQuery" class="text-blue fw-bold"
           >Mostrando resultados para: <em class="text-accent">{{ currentSearchQuery }}</em></span
         >
-        <ng-container *ngIf="results$ | async as res; else loading">
-          <div class="d-flex align-items-start mt-2">
-            <span class="text-blue"
-              >Resultados obtenidos: <span class="text-accent">{{ res.count }}</span></span
-            >
-            <div class="ms-auto">
-              <span class="text-blue">Ordenar</span>
-              <div class="d-flex">
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    <em>Relevancia</em>
-                  </label>
-                </div>
-                <div class="form-check ms-4">
-                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    <em>Mas recientes</em>
-                  </label>
-                </div>
+        <div class="d-flex flex-column flex-lg-row align-items-center mt-2">
+          <span class="text-blue fw-bold"
+            >Resultados obtenidos: <span class="text-accent">{{ results?.count || 0 }}</span></span
+          >
+          <div class="d-flex flex-lg-column ms-lg-auto mt-2">
+            <span class="text-blue fw-bold me-4">Ordenar</span>
+            <div class="d-flex mt-1">
+              <div class="form-check text-small">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  [value]="null"
+                  [(ngModel)]="currentOrder"
+                  (ngModelChange)="onOrderChange()"
+                  id="default_order"
+                />
+                <label class="form-check-label" for="default_order">
+                  <em class="text-blue">Relevancia</em>
+                </label>
+              </div>
+              <div class="form-check text-small ms-4">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  value="date"
+                  [(ngModel)]="currentOrder"
+                  (ngModelChange)="onOrderChange()"
+                  id="recent_order"
+                />
+                <label class="form-check-label" for="recent_order">
+                  <em class="text-blue">Mas recientes</em>
+                </label>
               </div>
             </div>
           </div>
-          <div class="result-list mt-2 pe-2">
-            <span *ngIf="res.count === 0" class="text-muted">No se encontraron resultados para la búsqueda.</span>
-            <ng-container
-              *ngFor="
-                let item of res.results
-                  | paginate
-                    : { id: 'results', itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: res.count };
-                let odd = odd
-              "
-            >
-              <app-normative-item [item]="item" [searchQuery]="currentSearchQuery"></app-normative-item>
-              <div class="divider"></div>
-            </ng-container>
-          </div>
-          <pagination-controls
-            id="results"
-            previousLabel="Atrás"
-            nextLabel="Siguiente"
-            (pageChange)="getPage($event)"
-          ></pagination-controls>
-        </ng-container>
-        <ng-template #loading>
-          <app-loader></app-loader>
-        </ng-template>
+        </div>
+        <div class="result-list mt-2" *ngIf="results; else loading">
+          <app-empty-results *ngIf="results.count === 0"></app-empty-results>
+          <ng-container
+            *ngFor="
+              let item of results.results
+                | paginate
+                  : {
+                      id: 'results',
+                      itemsPerPage: params.page_size,
+                      currentPage: params.page,
+                      totalItems: results.count
+                    };
+              let odd = odd
+            "
+          >
+            <app-normative-item [item]="item" [searchQuery]="currentSearchQuery"></app-normative-item>
+            <!--<div class="divider"></div>-->
+            <div class="mb-2"></div>
+          </ng-container>
+        </div>
+        <pagination-controls
+          *ngIf="results"
+          id="results"
+          [responsive]="true"
+          previousLabel="Atrás"
+          nextLabel="Siguiente"
+          (pageChange)="getPage($event)"
+        ></pagination-controls>
       </div>
     </div>
   </div>
-  <ng-template #pageLoading>
+  <ng-template #loading>
     <app-loader></app-loader>
   </ng-template>
 </div>

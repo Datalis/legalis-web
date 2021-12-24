@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouteReuseStrategy, RouterModule } from '@angular/router';
+import { Event, Router, RouteReuseStrategy, RouterModule, Scroll, UrlSerializer } from '@angular/router';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { TranslateModule } from '@ngx-translate/core';
@@ -20,6 +20,9 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { CachingInterceptor } from './@shared/http/caching.interceptor';
+import { RouterUrlSerializer } from './@shared/router-url-serializer';
+import { ViewportScroller } from '@angular/common';
+import { filter } from 'rxjs/operators';
 
 @NgModule({
   imports: [
@@ -56,6 +59,10 @@ import { CachingInterceptor } from './@shared/http/caching.interceptor';
       provide: HTTP_INTERCEPTORS,
       useClass: CachingInterceptor,
       multi: true,
+    },
+    {
+      provide: UrlSerializer,
+      useClass: RouterUrlSerializer,
     },
     {
       provide: RouteReuseStrategy,

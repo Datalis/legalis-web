@@ -8,4 +8,5 @@ export class Gazette {
   public data?: any;
   public download_count?: number;
   public revision?: number;
+  public normatives: any[] = [];
 }

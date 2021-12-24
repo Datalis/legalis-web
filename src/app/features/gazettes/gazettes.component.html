@@ -1,55 +1,52 @@
 <div class="gazettes-container container-fluid container-lg px-0 px-md-4 py-4">
-  <div class="row">
+  <div class="row" *ngIf="!isLoading; else loading">
     <div class="col-lg-4 d-none d-lg-block">
       <app-filters
-        [showCollapsed]="false"
         [showState]="false"
         [showGazetteType]="true"
         [gazetteTypes]="types"
         [thematics]="thematics"
-        (filtersChange)="onFiltersChange($event)"
-        [filters]="filters"
+        [organisms]="organisms"
+        (paramsChange)="onFiltersChange($event)"
+        [params]="params"
       ></app-filters>
     </div>
-    <div class="col-lg-8 col-12">
+    <div class="col-lg-8 col-12" id="content">
       <div class="d-flex flex-column ps-lg-4 text-center text-lg-start">
         <h5 class="text-accent mb-1 fw-bold mb-0 text-blue">INDICE DE GACETA</h5>
-        <div class="d-lg-none mt-2">
-          <app-filters
-            #filterMobile
-            (filtersChange)="onFiltersChange($event)"
-            [filters]="filters"
-            [showCollapsed]="true"
-            [showState]="false"
-            [showGazetteType]="true"
-            [gazetteTypes]="types"
-            [thematics]="thematics"
-          ></app-filters>
-        </div>
-        <div class="resume-container d-none d-lg-flex px-4 py-4 row bg-blue-light mt-2 mx-0 text-start">
-          <h5 class="col-12 col-lg-2 text-blue fw-bold">2021</h5>
+        <div class="d-lg-none mt-2"></div>
+        <div
+          class="resume-container d-none d-lg-flex px-4 py-4 row bg-blue-light mt-2 mx-0 text-start"
+          *ngIf="params.year"
+        >
+          <h5 class="col-12 col-lg-2 text-blue fw-bold">{{ params.year }}</h5>
           <div class="col-12 col-lg-5 d-flex flex-column flex-grow-1 mt-2 mt-lg-0">
-            <span class="fw-bold text-accent">26 GACETAS ORDINARIAS</span>
-            <small class="mt-1"><span class="me-1 text-accent">65</span> Gacetas Ordinarias</small>
-            <small class="mt-1"><span class="me-1 text-accent">65</span> Gacetas Extraordinarias</small>
-            <small class="mt-1"><span class="me-1 text-accent">65</span> Gacetas Ordinarias Especiales</small>
-            <small class="mt-1"><span class="me-1 text-accent">65</span> Gacetas Extraordinarias Especiales</small>
+            <span class="fw-bold text-accent">{{ resume.gazettesTotal }} GACETAS ORDINARIAS</span>
+            <div class="row mt-1">
+              <ng-container *ngFor="let type of resume.gazette?.types">
+                <small class="col-2 text-end text-accent ps-0">{{ type.count }}</small>
+                <small class="col-10 ps-0">{{ type.type }}</small>
+              </ng-container>
+            </div>
+            <!--<small class="mt-1" ><span class="me-1 text-accent">{{ type?.count < 10 ? '&nbsp;' + type?.count : type?.count }}</span> {{ type?.type }}</small>-->
           </div>
           <div class="col-12 col-lg-5 d-flex flex-column mt-3 mt-lg-0">
-            <span class="fw-bold">126 NORMAS EMITIDAS</span>
-            <small class="mt-1"><span class="me-1 text-accent">65</span> Leyes</small>
-            <small class="mt-1"><span class="me-1 text-accent">65</span> Decretos Leyes</small>
-            <small class="mt-1"><span class="me-1 text-accent">65</span> Decretos Leyes Presidenciales</small>
-            <small class="mt-1"><span class="me-1 text-accent">65</span> Decretos</small>
-            <small class="mt-1"><span class="me-1 text-accent">65</span> Resoluciones</small>
+            <span class="fw-bold">{{ resume.normativesTotal }} NORMAS EMITIDAS</span>
+            <div class="row mt-1">
+              <ng-container *ngFor="let type of resume.normative?.types">
+                <small class="col-2 text-end text-accent ps-0">{{ type.count }}</small>
+                <small class="col-10 ps-0">{{ type.normtype }}</small>
+              </ng-container>
+            </div>
           </div>
         </div>
-        <div id="gazetteResults" class="gazettes-container mt-2" *ngIf="gazettes$ | async as gazettes; else loading">
+        <div id="gazetteResults" class="gazettes-container mt-2" *ngIf="results$ | async as res; else loading">
           <div
             class="gazette-item d-flex flex-column mt-2"
             *ngFor="
-              let gazette of gazettes.results
-                | paginate: { id: 'gazettes', itemsPerPage: 10, currentPage: currentPage, totalItems: gazettes.count }
+              let gazette of res.results
+                | paginate
+                  : { id: 'gazettes', itemsPerPage: params.page_size, currentPage: params.page, totalItems: res.count }
             "
           >
             <div class="gazette-header bg-blue-light py-2 px-4 d-flex">
@@ -58,8 +55,8 @@
                 <small class="text-uppercase">{{ gazette.date | date: 'dd/MM/YYYY' }}</small>
               </div>
               <a
-                href="https://api-gaceta.datalis.dev/files/{{ gazette.file }}"
-                target="blank"
+                *ngIf="gazette.id"
+                (click)="downloadGazette(gazette.id)"
                 class="gazette-download d-flex flex-column align-items-center"
               >
                 <small class="text-uppercase text-dark">Descargar gaceta</small>
@@ -68,11 +65,7 @@
             </div>
             <div class="gazette-content"></div>
           </div>
-          <div *ngIf="gazettes.count === 0">
-            <app-empty-results></app-empty-results>
-          </div>
           <pagination-controls
-            *ngIf="gazettes.count !== 0"
             [responsive]="true"
             id="gazettes"
             previousLabel="Atrás"
@@ -80,10 +73,10 @@
             (pageChange)="getPage($event)"
           ></pagination-controls>
         </div>
-        <ng-template #loading>
-          <app-loader></app-loader>
-        </ng-template>
       </div>
     </div>
   </div>
+  <ng-template #loading>
+    <app-loader></app-loader>
+  </ng-template>
 </div>

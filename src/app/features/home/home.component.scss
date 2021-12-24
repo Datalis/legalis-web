@@ -12,10 +12,13 @@
 
 .recent-item {
   border-bottom: 1px solid rgba(#000, 0.35);
+  height: 115px;
+  display: block;
   p {
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
+    line-height: 1;
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 14px;

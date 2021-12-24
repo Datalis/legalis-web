@@ -17,12 +17,15 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  padding-top: 1rem;
+  .directory-menu-toggle {
+    cursor: pointer;
+  }
   .directory-item {
     display: flex;
     align-items: center;
     flex-direction: column;
     margin-bottom: 1.25rem;
+    cursor: pointer;
     &.active {
       .directory-icon svg path {
         fill: $accent;
@@ -46,7 +49,10 @@
       text-align: center;
       line-height: 1;
       text-transform: uppercase;
-      font-size: 11px;
+      font-size: 10px;
+      @include media-breakpoint-down(lg) {
+        font-size: 8px;
+      }
       color: rgba($color: $light, $alpha: 0.75);
       transition: color 0.1s ease;
     }
@@ -56,6 +62,9 @@
 .directory-results {
   display: flex;
   flex-direction: column;
+  .breadcrumb-link {
+    cursor: pointer;
+  }
   .directory-icon {
     svg {
       height: 38px;
@@ -64,6 +73,10 @@
       }
     }
   }
+}
+
+#content {
+  min-height: 300px;
 }
 
 .directory-children {
@@ -84,6 +97,8 @@
     margin-bottom: 0.25rem;
     a {
       font-size: 12px;
+      cursor: pointer;
+      color: $blue !important;
     }
   }
 }

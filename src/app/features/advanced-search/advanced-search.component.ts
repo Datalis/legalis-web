@@ -1,10 +1,9 @@
-import { removeEmpty } from './../../@shared/utils/helpers';
-import { Filters } from './../../@shared/model/filters';
-import { catchError, tap } from 'rxjs/operators';
+import { Params } from '../../@shared/model/params';
+import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { DataService } from '@app/@shared/services/data.service';
 import { Component, OnInit } from '@angular/core';
-import { combineLatest, throwError } from 'rxjs';
+import { throwError, Observable, forkJoin } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
@@ -14,7 +13,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   styleUrls: ['./advanced-search.component.scss'],
 })
 export class AdvancedSearchComponent implements OnInit {
-  slideYearSelected = 2010;
+  slideYearSelected = 1990;
   slideMinYear = 1990;
   slideMaxYear = new Date().getFullYear();
 
@@ -22,6 +21,8 @@ export class AdvancedSearchComponent implements OnInit {
     floor: this.slideMinYear,
     ceil: this.slideMaxYear,
   };
+
+  isLoading = true;
 
   get years(): number[] {
     const _res: number[] = [];
@@ -31,54 +32,49 @@ export class AdvancedSearchComponent implements OnInit {
     return _res;
   }
 
-  loading = false;
+  states: any[] = [];
+  thematics: any[] = [];
+  organisms: any[] = [];
 
-  normativeStates: string[] = [];
-  normativeThematics: string[] = [];
-
-  filters: Filters = new Filters();
+  params: Params = new Params();
 
   constructor(private _dataService: DataService, private _router: Router) {}
 
   ngOnInit() {
-    this.loading = true;
-    combineLatest([this._dataService.getNormativeStates(), this._dataService.getNormativeThematics()])
-      .pipe(
-        untilDestroyed(this),
-        catchError((e) => {
-          this.loading = false;
-          return throwError(e);
-        })
-      )
-      .subscribe((res) => {
-        this.normativeStates = res[0];
-        this.normativeThematics = res[1];
-        this.loading = false;
+    this.params.search_field = 'text';
+    forkJoin([this._dataService.getStates(), this._dataService.getThematics(), this._dataService.getOrganisms()])
+      .pipe(untilDestroyed(this))
+      .subscribe(([states, thematics, organisms]) => {
+        this.states = states;
+        this.thematics = thematics;
+        this.organisms = organisms;
+        this.isLoading = false;
       });
   }
 
   reset(): void {
-    this.filters = new Filters();
+    this.params = new Params();
+    this.params.search_field = 'text';
   }
 
   search(): void {
-    let params = removeEmpty(this.filters);
-    Object.keys(params).forEach((k) => {
-      params[k] = encodeURIComponent(params[k]);
-    });
     this._router.navigate(['/search'], {
-      queryParams: {
-        ...params,
-      },
+      queryParams: this.params.toObject(),
       queryParamsHandling: 'merge',
     });
   }
 
+  onYearChanged(): void {
+    this.params.year_gte = null;
+    this.params.year_lte = null;
+  }
+
   onSliderHighValueChange(value: number) {
-    this.filters.year_lte = value;
+    this.params.year_lte = value;
   }
 
   onSliderValueChange(value: number) {
-    this.filters.year_gte = value;
+    this.params.year_gte = value;
+    this.params.year = value;
   }
 }

@@ -1,5 +1,5 @@
 <div class="advanced-search-container container-fluid container-lg px-0 px-md-4 py-4">
-  <ng-container *ngIf="!loading; else loadingPage">
+  <ng-container *ngIf="!isLoading; else loading">
     <div class="row mb-md-4">
       <div class="col-md-8 col-sm-12 offset-md-4 px-5 px-md-4 text-center text-md-start">
         <h5 class="fw-bold text-accent mb-0">BÚSQUEDA AVANZADA</h5>
@@ -16,21 +16,21 @@
             id="normativeState--default"
             name="normativeState"
             [value]="null"
-            [(ngModel)]="filters.state"
+            [(ngModel)]="params.state"
           />
           <label class="form-check-label" for="normativeState--default"> Todos los estados </label>
         </div>
-        <div class="form-check text-small" *ngFor="let item of normativeStates; let i = index">
+        <div class="form-check text-small" *ngFor="let state of states; let i = index">
           <input
             class="form-check-input"
             type="radio"
             id="normativeState--{{ i }}"
             name="normativeState"
-            [value]="item"
-            [(ngModel)]="filters.state"
+            [value]="state.state"
+            [(ngModel)]="params.state"
           />
           <label class="form-check-label" for="normativeState--{{ i }}">
-            {{ item }}
+            {{ state.state }} <small class="ms-2 text-accent">{{ state.count }}</small>
           </label>
         </div>
 
@@ -45,21 +45,21 @@
             id="normativeThematic--default"
             name="normativeThematic"
             [value]="null"
-            [(ngModel)]="filters.thematic"
+            [(ngModel)]="params.tematica"
           />
-          <label class="form-check-label" for="normativeThematic--default"> Todas las temáticas</label>
+          <label class="form-check-label" for="normativeThematic--default">Todas las temáticas</label>
         </div>
-        <div class="form-check text-small" *ngFor="let item of normativeThematics; let i = index">
+        <div class="form-check text-small" *ngFor="let thematic of thematics; let i = index">
           <input
             class="form-check-input"
             type="radio"
             id="normativeThematic--{{ i }}"
-            [value]="item"
+            [value]="thematic"
             name="normativeThematic"
-            [(ngModel)]="filters.thematic"
+            [(ngModel)]="params.tematica"
           />
           <label class="form-check-label" for="normativeThematic--{{ i }}">
-            {{ item }}
+            {{ thematic }}
           </label>
         </div>
       </div>
@@ -68,7 +68,7 @@
         <div class="row">
           <div class="col-lg-6">
             <label class="form-control-label">Seleccione el año</label>
-            <select class="form-select" [(ngModel)]="filters.year">
+            <select class="form-select" [(ngModel)]="params.year" (ngModelChange)="onYearChanged()">
               <option selected disabled [ngValue]="null">Seleccionar</option>
               <option *ngFor="let y of years" [ngValue]="y">
                 {{ y }}
@@ -78,8 +78,8 @@
           <div class="col-lg-6 mt-2 mt-lg-0">
             <label for="customRange3" class="form-control-label">Seleccione el período</label>
             <ngx-slider
-              [value]="filters.year_gte || slideYearSelected"
-              [highValue]="filters.year_lte || slideMaxYear"
+              [value]="params.year_gte || slideYearSelected"
+              [highValue]="params.year_lte || slideMaxYear"
               (highValueChange)="onSliderHighValueChange($event)"
               (valueChange)="onSliderValueChange($event)"
               [options]="sliderOpts"
@@ -88,23 +88,25 @@
         </div>
         <div class="divider mt-4"></div>
         <div class="row">
-          <div class="col-sm-6">
+          <!--<div class="col-sm-6">
             <label class="form-group-label">IDENTIFICADOR DE LA NORMA</label>
             <select class="form-select">
               <option selected disabled>Seleccionar</option>
             </select>
             <small class="text-muted"> Para multiples identificadores... </small>
-          </div>
+          </div>-->
           <div class="col-sm-6">
             <label class="form-group-label">EMISOR DE LA NORMA</label>
-            <input class="form-control" placeholder="Organismo" />
+            <select class="form-select" name="organism" [(ngModel)]="params.organism">
+              <option [ngValue]="null">Seleccionar</option>
+              <option *ngFor="let o of organisms" [ngValue]="o">{{ o }}</option>
+            </select>
           </div>
         </div>
         <div class="divider"></div>
         <label class="form-group-label">PALABRAS Y FRASES</label>
         <div class="row">
           <div class="col-md-3 d-flex flex-column">
-            <label class="form-group-label">Buscar en:</label>
             <div class="form-check text-small text-italic mt-2">
               <input
                 class="form-check-input"
@@ -112,7 +114,7 @@
                 name="searchField"
                 id="searchField1"
                 value="text"
-                [(ngModel)]="filters.search_field"
+                [(ngModel)]="params.search_field"
               />
               <label class="form-check-label" for="searchField1"> En el texto de la norma </label>
             </div>
@@ -123,7 +125,7 @@
                 name="searchField"
                 id="searchField2"
                 value="summary"
-                [(ngModel)]="filters.search_field"
+                [(ngModel)]="params.search_field"
               />
               <label class="form-check-label" for="searchField2"> En el resumen </label>
             </div>
@@ -134,7 +136,7 @@
                 name="searchField"
                 id="searchField3"
                 value="title"
-                [(ngModel)]="filters.search_field"
+                [(ngModel)]="params.search_field"
               />
               <label class="form-check-label" for="searchField3"> En el título </label>
             </div>
@@ -144,12 +146,12 @@
             </div>-->
           </div>
           <div class="col-md-9 mt-2">
-            <label class="form-control-label">Con todas estas palabras</label>
+            <!--<label class="form-control-label">Con todas estas palabras</label>
             <input class="form-control" />
             <label class="form-control-label mt-2">Con algunas de estas palabras</label>
             <input class="form-control" />
-            <label class="form-control-label mt-2">Con esta frase exacta</label>
-            <input class="form-control" [(ngModel)]="filters.q" />
+            <label class="form-control-label mt-2">Con esta frase exacta</label>-->
+            <input class="form-control" placeholder="Palabra o frase a buscar" [(ngModel)]="params.text" />
           </div>
         </div>
         <!--<div class="divider mt-4"></div>-->
@@ -157,11 +159,11 @@
     </div>
     <div class="divider mt-0"></div>
     <div class="d-flex justify-content-center mt-4">
-      <button class="btn btn-outline-primary fw-bold text-accent me-2" (click)="search()">BUSCAR</button>
-      <button class="btn btn-link text-accent text-italic" (click)="reset()">Reiniciar</button>
+      <button class="btn btn-search fw-bold me-2" (click)="search()">Buscar</button>
+      <button class="btn btn-link text-accent text-italic" (click)="reset()"><small>Reiniciar</small></button>
     </div>
   </ng-container>
-  <ng-template #loadingPage>
+  <ng-template #loading>
     <app-loader></app-loader>
   </ng-template>
 </div>

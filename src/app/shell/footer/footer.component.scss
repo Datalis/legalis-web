@@ -7,6 +7,29 @@
   a {
     color: #fafafa;
   }
+
+  .footer-info {
+    border-bottom: 1px solid $divider-blue-light !important;
+  }
+
+  .footer-news {
+    border-bottom: 1px solid $divider-blue-light !important;
+    @include media-breakpoint-up(lg) {
+      border-bottom: none !important;
+      border-right: 1px solid $divider-blue-light !important;
+    }
+  }
+
+  .footer-subscribe {
+    text-align: center;
+    @include media-breakpoint-up(lg) {
+      text-align: left;
+    }
+    .form-control-email {
+      max-width: 400px;
+      margin: auto;
+    }
+  }
 }
 
 .border-top {
@@ -18,27 +41,53 @@
 }
 
 .border-lg-end {
-  @include media-breakpoint-up(md) {
+  border: none;
+  @include media-breakpoint-up(lg) {
     border-right: 1px solid $divider-blue-light !important;
   }
 }
 
 ::ng-deep .carousel-item {
-  padding-bottom: 0.5rem;
-  padding-top: 0.5rem;
   height: 100%;
-  img {
-    object-fit: cover !important;
-    object-position: center;
-    height: 230px !important;
+  display: flex;
+  position: relative;
+  .carousel-image {
+    flex-basis: 40%;
+    @include media-breakpoint-down(md) {
+      flex-basis: 100%;
+    }
+    img {
+      object-fit: cover !important;
+      object-position: center;
+      height: 100% !important;
+    }
   }
-  p {
-    margin-bottom: 0 !important;
-    display: -webkit-box;
-    -webkit-line-clamp: 10 !important;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 14px;
+  .carousel-content {
+    display: flex;
+    flex-direction: column;
+    padding: 0.25rem 1rem;
+    flex-basis: 60%;
+    @include media-breakpoint-down(md) {
+      position: absolute;
+      width: 100%;
+      top: 0;
+      bottom: 0;
+      padding: 1rem;
+      justify-content: flex-end;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.633473457742472) 0%, rgba(0, 0, 0, 0.15448186110381656) 100%);
+    }
+    p {
+      line-height: 1.1;
+      margin-bottom: 0 !important;
+      display: -webkit-box;
+      -webkit-line-clamp: 6 !important;
+      @include media-breakpoint-down(md) {
+        -webkit-line-clamp: 4 !important;
+      }
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 14px;
+    }
   }
 }

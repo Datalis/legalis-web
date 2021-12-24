@@ -1,27 +1,31 @@
+import { LayoutService } from './../../services/layout.service';
 import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Filters } from '@app/@shared/model/filters';
+import { Subject, Observable, Subscription } from 'rxjs';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Params } from '@app/@shared/model/params';
+import { ScreenSizeService } from '@app/@shared/services/screen-size.service';
+import { FormControl, FormGroup } from '@angular/forms';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-filters',
   templateUrl: './filters.component.html',
   styleUrls: ['./filters.component.scss'],
 })
-export class FiltersComponent implements OnInit {
-  @Input()
-  filters: Filters = new Filters();
-  filtersChange$ = new Subject();
+export class FiltersComponent implements OnInit, OnDestroy {
+  @Input() params: Params = new Params();
+  @Output() paramsChange = new EventEmitter();
 
-  @Input()
-  showCollapsed = true;
+  showCollapsed: boolean = false;
 
   @Input() states: any[] = [];
   @Input() thematics: any[] = [];
   @Input() gazetteTypes: any[] = [];
+  @Input() organisms: any[] = [];
 
-  @Input() slideYearSelected = 2010;
+  @Input() slideYearSelected = 1990;
   @Input() slideMinYear = 1990;
   @Input() slideMaxYear = new Date().getFullYear();
   @Input() years = this._years;
@@ -37,6 +41,8 @@ export class FiltersComponent implements OnInit {
     ceil: this.slideMaxYear,
   };
 
+  paramsChange$ = new Subject();
+
   private get _years(): number[] {
     const _res: number[] = [];
     for (let i = this.slideMinYear; i <= this.slideMaxYear; i++) {
@@ -45,26 +51,41 @@ export class FiltersComponent implements OnInit {
     return _res;
   }
 
-  @Output()
-  filtersChange = new EventEmitter();
-
-  constructor(private _router: Router) {
-    this.filtersChange$.pipe(debounceTime(400)).subscribe((res) => this.filtersChange.emit(res));
+  constructor(private _layoutService: LayoutService) {
+    this.paramsChange$.pipe(debounceTime(400)).subscribe(() => {
+      this.paramsChange.emit(this.params);
+    });
   }
 
-  ngOnInit() {}
-
-  onFiltersChange(): void {
-    this.filtersChange$.next(this.filters);
+  ngOnInit(): void {
+    this._layoutService.isSmallScreen$.pipe(untilDestroyed(this)).subscribe((small) => {
+      this.showCollapsed = small;
+    });
   }
 
-  onSliderHighValueChange(value: any) {
-    this.filters.year_lte = value;
-    this.filtersChange$.next(this.filters);
+  ngOnDestroy(): void {
+    this.paramsChange$.unsubscribe();
   }
 
-  onSliderValueChange(value: any) {
-    this.filters.year_gte = value;
-    this.filtersChange$.next(this.filters);
+  onYearChanged(): void {
+    this.params.year_gte = null;
+    this.params.year_lte = null;
+    this.paramsChange$.next();
+  }
+
+  onSliderHighValueChange(value: number) {
+    this.params.year_lte = value;
+    this.paramsChange$.next();
+  }
+
+  onSliderValueChange(value: number) {
+    this.params.year_gte = value;
+    this.params.year = value;
+    this.paramsChange$.next();
+  }
+
+  reset(): void {
+    this.params = new Params();
+    this.paramsChange$.next();
   }
 }
