@@ -3,14 +3,13 @@
 .divider {
   width: 100%;
   height: 1px;
-  background-color: $divider-blue-light;
+  background-color: rgba(#000, 0.2);
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
 
 #content {
-  padding-top: 1rem;
-  .divider {
-    background-color: $divider-dark !important;
+  h5 {
+    margin-top: 0.75rem;
   }
 }

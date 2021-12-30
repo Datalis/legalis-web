@@ -44,7 +44,10 @@
 }
 
 .results-panel {
+  h5 {
+    margin-top: 0.75rem;
+  }
   .divider {
-    background-color: $divider-dark;
+    background-color: rgba($divider-dark, 0.5);
   }
 }

@@ -2,23 +2,28 @@
 
 .result-item {
   //min-height: 250px;
-  background-color: $light;
-  border: 1px solid rgba($blue-light, 0.2);
+  background-color: $surface;
+  //border: 1px solid rgba($blue-light, 0.2);
   .result-summary {
     font-size: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+    line-height: 1.1;
   }
 
   .result-state {
     color: $light;
     font-size: 14px;
     text-align: center;
-    background-color: $blue-light;
+    background-color: $blue;
     min-width: 100px;
   }
 
   &-active {
-    border: none;
-    background-color: $blue-light;
     .result-state {
       background-color: $accent;
     }

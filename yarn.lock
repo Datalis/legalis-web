@@ -8260,6 +8260,11 @@ neo-async@^2.6.2:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
+ng2-pdfjs-viewer@^6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/ng2-pdfjs-viewer/-/ng2-pdfjs-viewer-6.0.2.tgz#74ee93c0400611acd878cd914ce49481a93ec42d"
+  integrity sha512-rhtSVMyF4leji5E1jkvLvkRpGVOxFxMjllOdi3u0QCSHVOajP6PfDDsug8gvafaSI8+8Nsqvmu3pCA15b0r8Kw==
+
 ngx-lottie@^8.0.1:
   version "8.0.1"
   resolved "https://registry.yarnpkg.com/ngx-lottie/-/ngx-lottie-8.0.1.tgz#5a0a21ffd2749a80b744254c7204e44bd672ddaa"

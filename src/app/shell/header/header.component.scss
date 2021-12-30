@@ -15,12 +15,26 @@ $header-height: 280px;
 
   .header-wrapper {
     position: relative;
-    background: rgb(23, 71, 138);
-    background: linear-gradient(0deg, rgba(23, 71, 138, 0.4962359943977591) 0%, rgba(0, 0, 0, 0) 100%);
+    //background: rgb(23, 71, 138);
+    background: linear-gradient(0deg, rgba(17, 49, 94) 0%, rgba(0, 0, 0, 0) 100%);
   }
 
   .header-container {
     height: $header-height;
+
+    .header-social {
+      button {
+        border-color: rgba($light, 0.85) !important;
+        color: rgba($light, 0.85) !important;
+        &:hover,
+        &:focus {
+          border-color: transparent !important;
+          background-color: $light !important;
+          color: $blue !important;
+        }
+      }
+    }
+
     .header-logo {
       height: 120px;
       width: auto;
@@ -28,16 +42,15 @@ $header-height: 280px;
     .header-nav {
       display: flex;
       flex-direction: column;
-      padding: 3rem;
       a {
         padding-bottom: 0.5rem;
         padding-top: 0.5rem;
         border-bottom: 1px solid $divider-blue-light;
         font-size: 14px;
-        font-weight: bold;
-        color: $blue-light;
+        font-weight: 500;
+        color: rgba($light, 0.85);
         &:hover {
-          color: rgba($light, 0.8);
+          color: $light;
         }
         &:last-child {
           border-bottom: none;
@@ -56,7 +69,7 @@ $header-height: 280px;
         border: 1px solid rgba($color: $light, $alpha: 0.1);
         color: $light;
         &::placeholder {
-          color: rgba($light, 0.5);
+          color: rgba($light, 0.5) !important;
         }
         &:focus {
           box-shadow: none;
@@ -67,7 +80,7 @@ $header-height: 280px;
         &:hover,
         &:focus,
         &:active {
-          color: $light;
+          color: $blue;
           box-shadow: none;
         }
       }
@@ -75,7 +88,7 @@ $header-height: 280px;
   }
 
   .header-tabs {
-    background-color: $blue;
+    background-color: linear-gradient(0deg, rgba(17, 49, 94) 0%, rgba(0, 0, 0, 0) 100%);
     width: 100%;
     display: flex;
     align-items: center;
@@ -93,28 +106,31 @@ $header-height: 280px;
     }
 
     .tab {
-      padding: 1.2rem 2rem;
+      padding: 1rem 2rem;
       min-width: 150px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-right: 1px solid $divider-blue-light;
-      &:first-child {
-        border-left: 1px solid $divider-blue-light;
-      }
+      //border-right: 1px solid rgba($color: $blue-light, $alpha: 0.25);
+      //&:first-child {
+      //border-left: 1px solid rgba($color: $blue-light, $alpha: 0.25);
+      //}
       @include media-breakpoint-down(lg) {
         border-right: none;
-        border-bottom: 1px solid $divider-blue-light;
+        border-bottom: 1px solid rgba($color: $blue-light, $alpha: 0.25);
         &:first-child {
-          border-top: 1px solid $divider-blue-light;
+          border-top: 1px solid rgba($color: $blue-light, $alpha: 0.25);
           border-left: none;
         }
       }
       a {
+        color: rgba($light, 0.85);
         font-weight: 700;
         font-size: 12px;
+        transition: color 0.2s ease;
+        letter-spacing: 0.5px;
         &:hover {
-          color: rgba($light, 0.8);
+          color: $light;
         }
         &.active {
           color: $accent;
@@ -162,7 +178,7 @@ $header-height: 280px;
       }
 
       &.active {
-        color: $accent;
+        color: $primary;
       }
 
       &:last-child {

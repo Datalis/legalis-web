@@ -1,9 +1,9 @@
 <div class="advanced-search-container container-fluid container-lg px-0 px-md-4 py-4">
   <ng-container *ngIf="!isLoading; else loading">
-    <div class="row mb-md-4">
-      <div class="col-md-8 col-sm-12 offset-md-4 px-5 px-md-4 text-center text-md-start">
-        <h5 class="fw-bold text-accent mb-0">BÚSQUEDA AVANZADA</h5>
-        <div class="divider d-md-none mt-4"></div>
+    <div class="row mb-md-2">
+      <div class="col-12 px-5 px-md-4 text-center">
+        <h5 class="fw-bold text-blue">BÚSQUEDA AVANZADA</h5>
+        <div class="divider mt-4"></div>
       </div>
     </div>
     <div class="row">
@@ -63,19 +63,18 @@
           </label>
         </div>
       </div>
-      <div class="col-md-9 px-5 px-md-4 pb-4 pt-4 pt-lg-0">
+      <div class="col-md-9 px-5 px-md-4 pb-4">
         <label class="form-group-label">AÑO DE PUBLICACIÓN</label>
         <div class="row">
-          <div class="col-lg-6">
+          <div class="col-sm-6">
             <label class="form-control-label">Seleccione el año</label>
-            <select class="form-select" [(ngModel)]="params.year" (ngModelChange)="onYearChanged()">
-              <option selected disabled [ngValue]="null">Seleccionar</option>
-              <option *ngFor="let y of years" [ngValue]="y">
+            <ng-select [(ngModel)]="params.year" placeholder="Seleccionar" (ngModelChange)="onYearChanged()">
+              <ng-option *ngFor="let y of years" [value]="y">
                 {{ y }}
-              </option>
-            </select>
+              </ng-option>
+            </ng-select>
           </div>
-          <div class="col-lg-6 mt-2 mt-lg-0">
+          <div class="col-sm-6 mt-2 mt-lg-0">
             <label for="customRange3" class="form-control-label">Seleccione el período</label>
             <ngx-slider
               [value]="params.year_gte || slideYearSelected"
@@ -86,7 +85,7 @@
             ></ngx-slider>
           </div>
         </div>
-        <div class="divider mt-4"></div>
+        <div class="divider"></div>
         <div class="row">
           <!--<div class="col-sm-6">
             <label class="form-group-label">IDENTIFICADOR DE LA NORMA</label>
@@ -97,17 +96,22 @@
           </div>-->
           <div class="col-sm-6">
             <label class="form-group-label">EMISOR DE LA NORMA</label>
-            <select class="form-select" name="organism" [(ngModel)]="params.organism">
+            <!--<select class="form-select form-select-sm" name="organism" [(ngModel)]="params.organism">
               <option [ngValue]="null">Seleccionar</option>
               <option *ngFor="let o of organisms" [ngValue]="o">{{ o }}</option>
-            </select>
+            </select>-->
+            <ng-select [(ngModel)]="params.organism" placeholder="Seleccionar">
+              <ng-option *ngFor="let o of organisms" [value]="o">
+                {{ o }}
+              </ng-option>
+            </ng-select>
           </div>
         </div>
         <div class="divider"></div>
         <label class="form-group-label">PALABRAS Y FRASES</label>
         <div class="row">
           <div class="col-md-3 d-flex flex-column">
-            <div class="form-check text-small text-italic mt-2">
+            <div class="form-check text-small text-italic">
               <input
                 class="form-check-input"
                 type="radio"
@@ -118,7 +122,7 @@
               />
               <label class="form-check-label" for="searchField1"> En el texto de la norma </label>
             </div>
-            <div class="form-check text-small text-italic mt-2">
+            <div class="form-check text-small text-italic">
               <input
                 class="form-check-input"
                 type="radio"
@@ -129,7 +133,7 @@
               />
               <label class="form-check-label" for="searchField2"> En el resumen </label>
             </div>
-            <div class="form-check text-small text-italic mt-2 mb-4">
+            <div class="form-check text-small text-italic">
               <input
                 class="form-check-input"
                 type="radio"
@@ -145,7 +149,7 @@
               <label class="form-check-label" for="flexRadioDefault1"> Incluir sinónimos y variantes ortográficas </label>
             </div>-->
           </div>
-          <div class="col-md-9 mt-2">
+          <div class="col-md-9">
             <!--<label class="form-control-label">Con todas estas palabras</label>
             <input class="form-control" />
             <label class="form-control-label mt-2">Con algunas de estas palabras</label>
@@ -160,7 +164,7 @@
     <div class="divider mt-0"></div>
     <div class="d-flex justify-content-center mt-4">
       <button class="btn btn-search fw-bold me-2" (click)="search()">Buscar</button>
-      <button class="btn btn-link text-accent text-italic" (click)="reset()"><small>Reiniciar</small></button>
+      <button class="btn btn-link text-accent" (click)="reset()"><small>Reiniciar</small></button>
     </div>
   </ng-container>
   <ng-template #loading>

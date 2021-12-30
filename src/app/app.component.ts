@@ -24,9 +24,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private viewportScroller: ViewportScroller,
-    private titleService: Title //private translateService: TranslateService,
-  ) //private i18nService: I18nService
-  {}
+    private titleService: Title //private translateService: TranslateService, //private i18nService: I18nService
+  ) {}
 
   ngOnInit() {
     // Setup logger

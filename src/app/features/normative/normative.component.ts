@@ -1,9 +1,11 @@
+import { switchMap } from 'rxjs/operators';
 import { LayoutService } from './../../@shared/services/layout.service';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Normative } from '@app/@shared/model/normative';
 import { DataService } from '@app/@shared/services/data.service';
-import { Observable } from 'rxjs';
+import { Observable, EMPTY } from 'rxjs';
+import { Gazette } from '@app/@shared/model/gazette';
 
 @Component({
   selector: 'app-normative',
@@ -12,6 +14,7 @@ import { Observable } from 'rxjs';
 })
 export class NormativeComponent implements OnInit, AfterViewInit {
   normative$?: Observable<Normative>;
+  gazette$?: Observable<Gazette>;
 
   constructor(
     private _dataService: DataService,
@@ -21,7 +24,10 @@ export class NormativeComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     const id = this._route.snapshot.params?.id;
-    id && (this.normative$ = this._dataService.getNormativeById(id));
+    this.normative$ = this._dataService.getNormativeById(id);
+    this.gazette$ = this.normative$.pipe(
+      switchMap((n) => (n.gazette ? this._dataService.getGazetteById(n.gazette) : EMPTY))
+    );
   }
 
   ngAfterViewInit(): void {

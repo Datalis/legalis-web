@@ -32,9 +32,21 @@
       </div>
     </div>
     <div class="col-lg-4">
-      <div class="bg-blue-light d-flex flex-column align-items-center justify-content-center p-2">
-        <small class="text-uppercase">Descargar gaceta que contiene la norma</small>
-        <i class="fas fa-download text-accent mt-2"></i>
+      <div
+        class="bg-blue-light d-flex flex-column align-items-start justify-content-center px-3 py-2"
+        *ngIf="gazette$ | async as gazette"
+      >
+        <small class="text-uppercase text-blue">Gaceta que contiene la norma</small>
+        <div class="d-flex w-100">
+          <div class="d-flex flex-column flex-grow-1">
+            <span>Gaceta {{ gazette.type }} No. {{ gazette.number }}</span>
+            <small class="text-accent">{{ gazette.date | date }}</small>
+          </div>
+          <div class="d-flex align-items-end">
+            <small class="text-small text-blue me-3"><i class="fas fa-eye me-1"></i> VER</small>
+            <small class="text-small text-blue"><i class="fas fa-file-download me-1"></i> DESCARGAR</small>
+          </div>
+        </div>
       </div>
     </div>
   </div>

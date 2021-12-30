@@ -71,15 +71,14 @@
         <div class="divider"></div>
         <div class="col-12 col-12 text-start">
           <label class="fw-bold form-group-label text-small">EMISOR</label>
-          <select
-            class="form-select form-select-sm"
+          <ng-select
             name="organism"
             [(ngModel)]="params.organism"
             (ngModelChange)="paramsChange$.next()"
+            placeholder="Seleccionar"
           >
-            <option [ngValue]="null">Seleccionar</option>
-            <option *ngFor="let o of organisms" [ngValue]="o">{{ o }}</option>
-          </select>
+            <ng-option *ngFor="let o of organisms" [value]="o">{{ o }}</ng-option>
+          </ng-select>
         </div>
       </ng-container>
       <div class="divider" *ngIf="showYear"></div>
@@ -88,15 +87,14 @@
         <div class="row">
           <div class="col-12">
             <label for="" class="form-control-label">Seleccione el año</label>
-            <select
-              class="form-select form-select-sm"
+            <ng-select
               name="year"
               [(ngModel)]="params.year"
               (ngModelChange)="onYearChanged()"
+              placeholder="Seleccionar"
             >
-              <option [ngValue]="null">Seleccionar</option>
-              <option *ngFor="let y of years" [ngValue]="y">{{ y }}</option>
-            </select>
+              <ng-option *ngFor="let y of years" [value]="y">{{ y }}</ng-option>
+            </ng-select>
           </div>
           <div class="col-12">
             <label class="form-control-label mt-2">Seleccione el período</label>

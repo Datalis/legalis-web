@@ -17,6 +17,9 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  .directory-menu-row {
+    margin: 0;
+  }
   .directory-menu-toggle {
     cursor: pointer;
   }
@@ -30,8 +33,11 @@
       .directory-icon svg path {
         fill: $accent;
       }
+      .directory-name {
+        color: $accent;
+      }
     }
-    &:hover {
+    &:hover:not(.active) {
       .directory-name {
         color: $light;
       }
@@ -41,7 +47,7 @@
       svg {
         height: 34px;
         path {
-          fill: $primary;
+          fill: rgba($color: $light, $alpha: 0.85);
         }
       }
     }
@@ -50,6 +56,7 @@
       line-height: 1;
       text-transform: uppercase;
       font-size: 10px;
+      font-weight: 700;
       @include media-breakpoint-down(lg) {
         font-size: 8px;
       }
@@ -87,7 +94,7 @@
   align-items: center;
   flex-wrap: wrap;
   li {
-    background-color: rgba($color: $primary, $alpha: 0.4);
+    background-color: $surface;
     border-radius: 35px;
     display: flex;
     align-items: center;

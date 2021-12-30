@@ -18,7 +18,7 @@ export class LayoutService implements OnDestroy {
   private subscriptions$: Subscription[] = [];
 
   constructor(private viewportScroller: ViewportScroller, private _screenSize: ScreenSizeService) {
-    this.viewportScroller.setOffset([80, 0]);
+    this.viewportScroller.setOffset([0, 80]);
     this.subscriptions$.push(
       this._screenSize.screenSize$
         .pipe(

@@ -12,7 +12,7 @@
       ></app-filters>
     </div>
     <div class="col-lg-8 col-12" id="content">
-      <div class="d-flex flex-column ps-lg-4 text-center text-lg-start">
+      <div class="d-flex flex-column text-center text-lg-start">
         <h5 class="text-accent mb-1 fw-bold mb-0 text-blue">INDICE DE GACETA</h5>
         <div class="d-lg-none mt-2"></div>
         <div
@@ -49,10 +49,16 @@
                   : { id: 'gazettes', itemsPerPage: params.page_size, currentPage: params.page, totalItems: res.count }
             "
           >
-            <div class="gazette-header bg-blue-light py-2 px-4 d-flex">
+            <div class="gazette-header bg-surface py-2 px-4 d-flex">
               <div class="d-flex flex-column flex-grow-1 text-start">
-                <span class="text-blue">Gaceta {{ gazette.type }} No. {{ gazette.number }}</span>
-                <small class="text-uppercase">{{ gazette.date | date: 'dd/MM/YYYY' }}</small>
+                <span class="text-blue fw-bold">Gaceta Oficial No. {{ gazette.number }}</span>
+                <div class="d-flex">
+                  <small class="text-uppercase me-2">{{ gazette.date | date: 'dd/MM/YYYY' }}</small>
+                  <small class="text-uppercase">{{ gazette.type }}</small>
+                </div>
+                <div>
+                  {{ gazette.normatives | json }}
+                </div>
               </div>
               <a
                 *ngIf="gazette.id"

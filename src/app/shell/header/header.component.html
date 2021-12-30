@@ -1,8 +1,8 @@
 <header class="header-wrapper" id="top">
-  <div class="header-container">
+  <div class="header-container container">
     <div class="row m-0 h-100">
       <div class="col-lg-3 d-none d-lg-flex justify-content-start align-items-start">
-        <div class="d-flex align-items-center justify-content-center p-5 header-social">
+        <div class="d-flex align-items-center justify-content-center pe-5 pt-5 header-social">
           <button class="btn btn-outline-light btn-sm border-2 me-3">
             <i class="fab fa-facebook"></i>
           </button>
@@ -15,9 +15,9 @@
         </div>
       </div>
       <div class="col-lg-6 col px-lg-0 p-4 align-self-start">
-        <div class="d-flex flex-column align-items-center justify-content-center h-100">
+        <div class="container d-flex flex-column align-items-center justify-content-center h-100">
           <a routerLink="/"><img class="img-fluid header-logo" src="/assets/legalis-logo.png" /></a>
-          <div class="input-group input-group-lg mt-5 header-search">
+          <div class="input-group input-group-lg mt-4 header-search">
             <input
               class="form-control"
               type="search"
@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="col-lg-3 d-none d-lg-flex justify-content-end align-self-start">
-        <nav class="header-nav" role="navigation">
+        <nav class="header-nav ps-5 pt-5" role="navigation">
           <a routerLink="/gazettes" routerLinkActive="active">ÍNDICE DE GACETA</a>
           <a routerLink="/analysis" routerLinkActive="active">ANÁLISIS</a>
           <a routerLink="/infographics" routerLinkActive="active">INFOGRAFÍA</a>
@@ -58,7 +58,7 @@
   </nav>
   <nav class="header-tabs d-flex flex-column d-lg-none" role="navigation">
     <div class="header-tabs-toggler" (click)="collapse.toggle()">
-      <span class="text-uppercase text-accent fw-bold mb-3">Otras opciones de búsqueda</span>
+      <span class="text-uppercase text-accent fw-bold mb-2">Otras opciones de búsqueda</span>
       <i
         class="fas fa-lg text-accent"
         [class.fa-chevron-down]="collapseFilterNav"
@@ -82,7 +82,7 @@
   </nav>
   <div class="header-menu" ngbDropdown>
     <button class="dropdown-toggle" ngbDropdownToggle>
-      <i class="fas fa-ellipsis-v text-accent fa-lg"></i>
+      <i class="fas fa-ellipsis-v text-primary fa-lg"></i>
     </button>
     <div class="dropdown-menu" ngbDropdownMenu>
       <a routerLink="/gazettes" routerLinkActive="active" ngbDropdownItem>ÍNDICE DE GACETA</a>

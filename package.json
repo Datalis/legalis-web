@@ -45,6 +45,7 @@
     "e": "^0.2.1",
     "express": "^4.17.1",
     "lottie-web": "^5.8.1",
+    "ng2-pdfjs-viewer": "^6.0.2",
     "ngx-lottie": "^8.0.1",
     "ngx-pagination": "^5.1.1",
     "rxjs": "^6.6.3",

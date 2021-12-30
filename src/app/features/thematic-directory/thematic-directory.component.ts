@@ -51,8 +51,6 @@ export class ThematicDirectoryComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
-    this.params.state = 'Vigente';
-    this.params.year = null;
     combineLatest([
       this._route.url.pipe(map((res) => res.map((e) => e.path))),
       this._route.queryParams.pipe(map((params) => Params.fromObject(params))),
@@ -60,7 +58,10 @@ export class ThematicDirectoryComponent implements OnInit, AfterViewInit {
     ])
       .pipe(untilDestroyed(this))
       .subscribe(([paths, params, res]) => {
+        this.params.year = null;
+        this.params.page_size = this.itemsPerPage;
         this.params.page = params.page || 1;
+        console.log(this.params.page);
         this.directories = this.toArray(res.results);
         this.breadcrumbs = this.createBreadcrumbs(paths);
         this.rootDirectories = this.getRootDirectories(this.directories);
@@ -78,6 +79,8 @@ export class ThematicDirectoryComponent implements OnInit, AfterViewInit {
         }
         this.isLoading = false;
       });
+
+    this._layoutService.isSmallScreen$.pipe(untilDestroyed(this)).subscribe((small) => (this.isMenuCollapsed = small));
   }
 
   ngAfterViewInit() {}
@@ -112,7 +115,9 @@ export class ThematicDirectoryComponent implements OnInit, AfterViewInit {
   }
 
   goToSubDirectory(path: any[]): void {
-    this._router.navigate(path, { relativeTo: this._route });
+    this._router.navigate(path, { relativeTo: this._route }).then(() => {
+      this._layoutService.scrollToItem('content');
+    });
   }
 
   isActiveDirectory(item: any): boolean {
@@ -123,11 +128,15 @@ export class ThematicDirectoryComponent implements OnInit, AfterViewInit {
 
   getPage(page: number) {
     this.currentPage = page;
-    this._router.navigate([], {
-      queryParams: { page: this.currentPage },
-      relativeTo: this._route,
-      queryParamsHandling: 'merge',
-    });
+    this._router
+      .navigate([], {
+        queryParams: { page: this.currentPage },
+        relativeTo: this._route,
+        queryParamsHandling: 'merge',
+      })
+      .then(() => {
+        this._layoutService.scrollToItem('content');
+      });
   }
 
   createBreadcrumbs(path: string[]): any[] {

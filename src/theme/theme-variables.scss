@@ -15,14 +15,14 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 // Color system
 //
 
-$primary: #74b1e1;
-$secondary: #687988;
+$primary: #6cc1ff;
+$secondary: #515151;
 $accent: #f94848;
 $white: #ffffff;
 $black: #000000;
 $light: #fafafa;
 $dark: #212121;
-$blue: #19478a;
+$blue: rgb(17, 49, 94);
 $blue-light: #a0b7d0;
 $surface: #e7e6e6;
 
@@ -51,6 +51,8 @@ $theme-colors: (
 
 $link-decoration: none;
 $input-btn-focus-width: 0.15rem;
+
+$body-color: #2e2e2e;
 
 $font-family-sans-serif: "Lato", system-ui, -apple-system;
 

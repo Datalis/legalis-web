@@ -53,7 +53,6 @@ export class GazettesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.params.page_size = 10;
     combineLatest([
       this._dataService.getThematics(),
       this._dataService.getGazettesResume(),
@@ -76,6 +75,7 @@ export class GazettesComponent implements OnInit {
         this.gazettesResume = gazetteResume || [];
         this.normativesResume = normativesResume || [];
         this.params = params;
+        this.params.page_size = 10;
         this.results$ = this._dataService.getGazettes(params);
         this.isLoading = false;
       });

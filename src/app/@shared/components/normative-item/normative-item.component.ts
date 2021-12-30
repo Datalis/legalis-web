@@ -8,6 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class NormativeItemComponent implements OnInit {
   @Input() item: any;
   @Input() searchQuery = '';
+  @Input() showState = true;
 
   expanded = false;
 
@@ -16,6 +17,6 @@ export class NormativeItemComponent implements OnInit {
   ngOnInit() {}
 
   get isActive(): boolean {
-    return this.item.state == 'Activa' || this.item.state == 'Vigente';
+    return this.item.state == 'Vigente' || this.item.state == 'Activa';
   }
 }

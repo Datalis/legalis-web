@@ -17,14 +17,12 @@
 
 .btn-search {
   min-width: 150px;
-  border: 1px solid rgba($color: #000000, $alpha: 0.2);
-  letter-spacing: 0.6px;
-  color: $accent;
-  text-transform: uppercase;
-  font-weight: 500 !important;
-  &:hover,
+  border: 1px solid $blue;
+  color: $light;
+  background-color: $blue;
+  /*&:hover,
   &:focus {
     background-color: $blue;
     color: $light;
-  }
+  }*/
 }

@@ -1,8 +1,8 @@
 <div class="keywords-container container-fluid container-lg px-0 px-lg-4 py-4">
   <div class="d-flex flex-column align-items-center" *ngIf="!isLoading; else loading">
-    <h5 class="text-accent fw-bold mb-0">PALABRAS CLAVE</h5>
+    <h5 class="text-blue fw-bold mb-0">PALABRAS CLAVE</h5>
     <div class="d-flex flex-column bg-blue w-100 mt-4">
-      <div class="d-flex flex-wrap align-items-center justify-content-center py-4 px-4">
+      <div class="d-flex flex-wrap align-items-center justify-content-center py-2 px-4">
         <div
           *ngFor="let item of letters"
           (click)="onLetterChange(item)"
@@ -15,7 +15,7 @@
       <div class="divider m-0"></div>
       <div class="row py-2 keyword-selector">
         <div
-          class="result col-sm-12 col-md-6 col-lg-4 text-center p-2 text-light"
+          class="result col-sm-12 col-md-6 col-lg-4 text-center p-1 text-light"
           *ngFor="let k of currentKeywords"
           (click)="onKeywordChange(k)"
           [class.text-accent]="params.keyword === k"
@@ -35,8 +35,8 @@
           (paramsChange)="onFiltersChange($event)"
         ></app-filters>
       </div>
-      <div class="col-md-8 p-0 ps-lg-4 pt-lg-2 results-panel" id="content">
-        <h5 class="fw-bold text-blue px-4 px-lg-0 text-center text-lg-start">{{ currentKeyword }}</h5>
+      <div class="col-md-8 px-2 ps-lg-4 pe-lg-0 results-panel" id="content">
+        <h5 class="fw-bold text-blue px-4 px-lg-0 mb-0 text-center text-lg-start">{{ currentKeyword }}</h5>
         <div class="divider"></div>
         <div class="d-flex flex-column flex-lg-row align-items-center mb-2">
           <span class="text-blue fw-bold"
@@ -45,7 +45,7 @@
           <div class="d-flex flex-lg-column mt-2 mt-lg-0 ms-lg-auto">
             <span class="text-blue fw-bold flex-grow-1 me-4">Ordenar</span>
             <div class="d-flex mt-1">
-              <div class="form-check text-small text-italic text-blue me-4">
+              <div class="form-check text-small text-italic me-4">
                 <input
                   class="form-check-input"
                   type="radio"
@@ -56,7 +56,7 @@
                 />
                 <label class="form-check-label" for="default_order"> Relevancia </label>
               </div>
-              <div class="form-check text-small text-italic text-blue">
+              <div class="form-check text-small text-italic">
                 <input
                   class="form-check-input"
                   type="radio"
@@ -86,7 +86,7 @@
             "
           >
             <app-normative-item [item]="item"></app-normative-item>
-            <div class="divider"></div>
+            <div class="mb-2"></div>
           </ng-container>
           <div *ngIf="results.count === 0">
             <app-empty-results></app-empty-results>
