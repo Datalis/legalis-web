@@ -61,8 +61,7 @@ export class ThematicDirectoryComponent implements OnInit, AfterViewInit {
         this.params.year = null;
         this.params.page_size = this.itemsPerPage;
         this.params.page = params.page || 1;
-        console.log(this.params.page);
-        this.directories = this.toArray(res.results);
+        this.directories = this.toArray(res);
         this.breadcrumbs = this.createBreadcrumbs(paths);
         this.rootDirectories = this.getRootDirectories(this.directories);
         const parentId = this.getParentId(paths, this.directories);

@@ -89,8 +89,8 @@
             <label for="" class="form-control-label">Seleccione el año</label>
             <ng-select
               name="year"
-              [(ngModel)]="params.year"
-              (ngModelChange)="onYearChanged()"
+              [ngModel]="params.year"
+              (ngModelChange)="onYearChanged($event)"
               placeholder="Seleccionar"
             >
               <ng-option *ngFor="let y of years" [value]="y">{{ y }}</ng-option>

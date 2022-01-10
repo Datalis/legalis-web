@@ -15,6 +15,7 @@ export class Params {
   normtype: string | null = null;
   name: string | null = null;
   directory: string | null = null;
+  startswith: string | null = null;
   id: string | null = null;
 
   constructor() {}

@@ -18,8 +18,6 @@ import { Params } from '../model/params';
   providedIn: 'root',
 })
 export class DataService {
-  mockOrganisms: string[] = ['Organismo 1', 'Organismo 2', 'Organismo 3'];
-
   gazetteTypes: string[] = [
     'Ordinaria',
     'Extraordinaria',
@@ -43,7 +41,7 @@ export class DataService {
     'L',
     'M',
     'N',
-    'N',
+    'Ñ',
     'O',
     'P',
     'Q',
@@ -129,14 +127,13 @@ export class DataService {
     );
   }
 
-  getGlossaryTerms(page = 1, itemsPerPage = 10): Observable<PagedResult<GlossaryTerm>> {
+  getGlossaryTerms(params: Params): Observable<PagedResult<GlossaryTerm>> {
+    let _params = removeEmpty(params);
     return this._apiService.get(
       '/glosario',
       new HttpParams({
-        fromObject: {
-          page,
-          page_size: itemsPerPage,
-        },
+        fromObject: _params,
+        encoder: new HttpUrlEncoder(),
       })
     );
   }
@@ -169,8 +166,8 @@ export class DataService {
     return this._apiService.get<any[]>('/normativas/resumen').pipe(share());
   }
 
-  getDirectories(): Observable<PagedResult<Directory>> {
-    return this._apiService.get<PagedResult<Directory>>('/directorios').pipe(share());
+  getDirectories(): Observable<Directory[]> {
+    return this._apiService.get<Directory[]>('/directorios').pipe(share());
   }
 
   getLatestNews(): Observable<any[]> {
@@ -189,7 +186,11 @@ export class DataService {
     );
   }
 
-  downloadFile(url: string): Observable<Blob> {
+  getAboutUsInfo(): Observable<any> {
+    return this._apiService.get('/quienessomos');
+  }
+
+  downloadFile(url: string) {
     return this._apiService.getFile(url);
   }
 }

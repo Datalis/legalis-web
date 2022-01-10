@@ -1,0 +1,13 @@
+@import "/src/theme/theme-variables.scss";
+
+.viewer-container {
+  height: calc(100vh - 100px);
+  padding: 0.25rem !important;
+}
+
+.btn-ok {
+  min-width: 150px;
+  border: 1px solid $blue;
+  color: $light;
+  background-color: $blue;
+}

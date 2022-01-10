@@ -1,3 +1,6 @@
+import { Observable } from 'rxjs';
+import { PagedResult } from '@app/@shared/model/paged-result';
+import { DataService } from '@app/@shared/services/data.service';
 import { Component, OnInit } from '@angular/core';
 
 import { environment } from '@env/environment';
@@ -10,7 +13,11 @@ import { environment } from '@env/environment';
 export class AboutComponent implements OnInit {
   version: string | null = environment.version;
 
-  constructor() {}
+  results$?: Observable<PagedResult<any>>;
+
+  constructor(private _dataService: DataService) {
+    this.results$ = this._dataService.getAboutUsInfo();
+  }
 
   ngOnInit() {}
 }

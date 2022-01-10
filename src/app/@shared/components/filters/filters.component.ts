@@ -7,6 +7,7 @@ import { Params } from '@app/@shared/model/params';
 import { ScreenSizeService } from '@app/@shared/services/screen-size.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Options } from '@angular-slider/ngx-slider';
 
 @UntilDestroy()
 @Component({
@@ -36,9 +37,10 @@ export class FiltersComponent implements OnInit, OnDestroy {
   @Input() showGazetteType = false;
   @Input() showThematics = true;
 
-  sliderOpts = {
+  sliderOpts: Options = {
     floor: this.slideMinYear,
     ceil: this.slideMaxYear,
+    step: 1,
   };
 
   paramsChange$ = new Subject();
@@ -67,20 +69,22 @@ export class FiltersComponent implements OnInit, OnDestroy {
     this.paramsChange$.unsubscribe();
   }
 
-  onYearChanged(): void {
+  onYearChanged(year: any): void {
     this.params.year_gte = null;
     this.params.year_lte = null;
+    this.params.year = year;
     this.paramsChange$.next();
   }
 
   onSliderHighValueChange(value: number) {
+    this.params.year = null;
     this.params.year_lte = value;
     this.paramsChange$.next();
   }
 
   onSliderValueChange(value: number) {
+    this.params.year = null;
     this.params.year_gte = value;
-    this.params.year = value;
     this.paramsChange$.next();
   }
 

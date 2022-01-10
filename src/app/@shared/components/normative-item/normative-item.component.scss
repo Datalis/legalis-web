@@ -11,7 +11,17 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 12px;
+    line-height: 1.1;
+    font-weight: bold;
+  }
+
+  .result-text {
+    font-size: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
     line-height: 1.1;
   }
 

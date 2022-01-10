@@ -94,7 +94,7 @@ export class GazettesComponent implements OnInit {
   }
 
   downloadGazette(id: string) {
-    this._dataService
+    /*this._dataService
       .getGazetteById(id)
       .pipe(untilDestroyed(this))
       .subscribe((res) => {
@@ -106,7 +106,7 @@ export class GazettesComponent implements OnInit {
             const fileUrl = URL.createObjectURL(data);
             window.open(fileUrl, '_blank');
           });
-      });
+      });*/
   }
 
   getPage(page: number): void {

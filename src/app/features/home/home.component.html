@@ -1,16 +1,16 @@
 <div class="home-container container-fluid container-lg px-0 px-md-4">
   <div *ngIf="!isLoading; else loading">
     <div class="bg-blue-light my-md-5" *ngIf="recent">
-      <h5 class="border-bottom p-4 text-center fw-bold mb-0">NORMATIVA RECIENTE</h5>
+      <h5 class="border-bottom p-4 text-center text-blue fw-bold mb-0">NORMATIVA RECIENTE</h5>
       <div class="d-flex flex-column px-4 py-2 border-bottom">
         <h6 class="mb-1 fw-bold">{{ recent?.name }}</h6>
-        <span class="text-italic fw-light">{{ recent?.date }}</span>
+        <small class="fw-light">{{ recent?.date }}</small>
       </div>
-      <div class="recent-container row mx-2 py-3">
-        <div class="col-md-6 col-sm-12 px-4 pb-4" *ngFor="let item of recent.normatives">
+      <div class="recent-container row mx-0 py-3">
+        <div class="col-md-6 col-sm-12 px-4 py-2" *ngFor="let item of recent.normatives">
           <a class="recent-item pb-2" [routerLink]="['/normative', item.id]">
             <h6 class="text-accent mb-0 fw-bold">{{ item.name }}</h6>
-            <small class="text-blue text-uppercase fw-bold">{{ item.normtype }}</small>
+            <small class="text-small text-blue text-uppercase fw-bold">{{ item.normtype }}</small>
             <p class="mb-1 text-dark">
               {{ item.summary }}
             </p>
@@ -19,8 +19,8 @@
         </div>
       </div>
     </div>
-    <div class="d-flex flex-column align-items-center my-5 px-5 mx-md-0">
-      <h5 class="mb-5 fw-bold">NORMATIVA POPULAR</h5>
+    <div class="d-flex flex-column align-items-center my-5 px-lg-0 px-5 mx-md-0">
+      <h5 class="mb-4 text-blue fw-bold">NORMATIVA POPULAR</h5>
       <carousel [cellWidth]="280" #carousel>
         <a
           class="carousel-cell px-4 py-3 bg-blue-light d-flex flex-column"
@@ -39,8 +39,8 @@
         </a>
       </carousel>
     </div>
-    <div class="row mb-lg-4">
-      <div class="col-lg-6 d-flex flex-column align-items-stretch justify-content-between">
+    <div class="row mx-0 mb-lg-4">
+      <div class="col-lg-6 ps-0 d-flex flex-column align-items-stretch justify-content-between">
         <div class="bg-blue-light p-4 d-flex flex-column flex-grow-1 mb-2">
           <h6 class="text-light fw-bold text-uppercase text-center">Análisis</h6>
           <span class="mt-4 text-light fw-bold mb-2">Preguntas frecuentes</span>

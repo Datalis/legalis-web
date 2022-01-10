@@ -1,1 +1,14 @@
-<p>pdf-viewer works!</p>
+<div class="viewer-container modal-body">
+  <ng2-pdfjs-viewer
+    [pdfSrc]="pdfFile!!"
+    [viewBookmark]="false"
+    [fullScreen]="false"
+    [openFile]="false"
+    [print]="false"
+  ></ng2-pdfjs-viewer>
+</div>
+<div class="modal-footer">
+  <div class="ms-auto">
+    <button class="btn btn-ok" (click)="close()">Cerrar</button>
+  </div>
+</div>

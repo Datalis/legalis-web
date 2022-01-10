@@ -1,4 +1,5 @@
-import { HttpClient, HttpContext, HttpHeaders, HttpParams } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { HttpClient, HttpContext, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -28,7 +29,7 @@ export class APIService {
     });
   }
 
-  public getFile(path: string): Observable<Blob> {
-    return this._httpClient.get(path, { responseType: 'blob' });
+  public getFile(path: string): Observable<HttpResponse<Blob>> {
+    return this._httpClient.get(path, { observe: 'response', responseType: 'blob' });
   }
 }

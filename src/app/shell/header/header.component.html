@@ -44,6 +44,9 @@
   </div>
   <nav class="header-tabs d-none d-lg-flex" role="navigation">
     <div class="tab">
+      <a routerLink="/home" routerLinkActive="active">INICIO</a>
+    </div>
+    <div class="tab">
       <a routerLink="/advanced-search" routerLinkActive="active">BÚSQUEDA AVANZADA</a>
     </div>
     <div class="tab">
@@ -66,6 +69,9 @@
       ></i>
     </div>
     <div #collapse="ngbCollapse" class="w-100" [(ngbCollapse)]="collapseFilterNav">
+      <div class="tab">
+        <a routerLink="/" routerLinkActive="active">INICIO</a>
+      </div>
       <div class="tab">
         <a routerLink="/advanced-search" routerLinkActive="active">BÚSQUEDA AVANZADA</a>
       </div>

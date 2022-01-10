@@ -9,6 +9,9 @@ html,
 body {
   text-justify: distribute;
   font-weight: normal;
+  &.modal-open {
+    overflow: hidden;
+  }
 }
 
 .text-accent {
@@ -81,6 +84,7 @@ body {
 
 // Carousel
 .carousel {
+  z-index: 800 !important;
   .carousel-arrow {
     background-color: transparent !important;
     box-shadow: none !important;
@@ -274,7 +278,8 @@ svg {
 }
 
 mark {
-  //background-color: rgba($blue, 0.45);
-  //font-weight: bold;
+  //background-color: rgba(#fcf8e3, 0.6);
+  font-weight: bold;
   color: currentColor;
+  padding: 0 0.3rem;
 }
