@@ -57,13 +57,13 @@
             class="form-check-input"
             id="type_{{ i }}"
             type="radio"
-            [value]="item"
+            [value]="item.type"
             name="type"
             [(ngModel)]="params.type"
             (ngModelChange)="paramsChange$.next()"
           />
           <label class="form-check-label" for="type_{{ i }}">
-            {{ item }}
+            {{ item.type }} <small class="ms-2 text-accent">{{ item.count }}</small>
           </label>
         </div>
       </div>
@@ -129,13 +129,13 @@
             class="form-check-input"
             type="radio"
             id="thematic_{{ i }}"
-            [value]="item"
+            [value]="item.name"
             name="tematica"
             [(ngModel)]="params.tematica"
             (ngModelChange)="paramsChange$.next()"
           />
           <label class="form-check-label" for="thematic_{{ i }}">
-            {{ item }}
+            {{ item.name }} <small class="ms-2 text-accent">{{ item.count }}</small>
           </label>
         </div>
       </div>

@@ -1,22 +1,23 @@
-/* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars */
+/* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { NormativeItemComponent } from './normative-item.component';
+import { GazetteItemComponent } from './gazette-item.component';
 
-describe('NormativeItemComponent', () => {
-  let component: NormativeItemComponent;
-  let fixture: ComponentFixture<NormativeItemComponent>;
+describe('GazetteItemComponent', () => {
+  let component: GazetteItemComponent;
+  let fixture: ComponentFixture<GazetteItemComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [NormativeItemComponent],
-    }).compileComponents();
+      declarations: [ GazetteItemComponent ]
+    })
+    .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NormativeItemComponent);
+    fixture = TestBed.createComponent(GazetteItemComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

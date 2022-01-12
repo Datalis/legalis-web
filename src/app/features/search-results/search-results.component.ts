@@ -1,10 +1,10 @@
+import { Normative } from '@app/@shared/model/normative';
 import { LayoutService } from './../../@shared/services/layout.service';
 import { PagedResult } from './../../@shared/model/paged-result';
-import { catchError, finalize, switchMap, map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { DataService } from '@app/@shared/services/data.service';
-import { Observable, forkJoin, throwError, combineLatest } from 'rxjs';
+import { throwError, combineLatest } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SearchResult } from './../../@shared/model/search-result';
 import { Component, OnInit } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Params } from '@app/@shared/model/params';
@@ -16,7 +16,7 @@ import { Params } from '@app/@shared/model/params';
   styleUrls: ['./search-results.component.scss'],
 })
 export class SearchResultsComponent implements OnInit {
-  results?: PagedResult<SearchResult>;
+  results?: PagedResult<Normative>;
 
   states: any[] = [];
   thematics: any[] = [];
@@ -38,9 +38,9 @@ export class SearchResultsComponent implements OnInit {
 
   ngOnInit() {
     combineLatest([
-      this._dataService.getStates(),
-      this._dataService.getThematics(),
-      this._dataService.getOrganisms(),
+      this._dataService.getNormativeStates(),
+      this._dataService.getNormativeThematics(),
+      this._dataService.getNormativeOrganisms(),
       this._route.queryParams.pipe(map((params) => Params.fromObject(params))),
     ])
       .pipe(

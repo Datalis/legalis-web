@@ -9,8 +9,8 @@ export class Params {
   tematica: string | null = null;
   search_field: 'name' | 'text' | 'summary' | 'keywords' | 'tags' | null = null;
   type: string | null = null;
-  page: number = 1;
-  page_size: number = 10;
+  page: number | null = null;
+  page_size: number | null = null;
   ordering: string | null = null;
   normtype: string | null = null;
   name: string | null = null;
@@ -18,7 +18,9 @@ export class Params {
   startswith: string | null = null;
   id: string | null = null;
 
-  constructor() {}
+  constructor(obj: object = {}) {
+    Object.assign(this, obj);
+  }
 
   static fromObject(params: any) {
     let _params = new Params();

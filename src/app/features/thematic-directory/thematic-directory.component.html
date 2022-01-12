@@ -84,8 +84,8 @@
             let item of normatives.results
               | paginate
                 : {
-                    itemsPerPage: params.page_size,
-                    currentPage: params.page,
+                    itemsPerPage: params.page_size || 10,
+                    currentPage: params.page || 1,
                     totalItems: normatives.count
                   };
             let odd = odd

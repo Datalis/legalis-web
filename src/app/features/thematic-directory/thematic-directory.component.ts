@@ -74,7 +74,7 @@ export class ThematicDirectoryComponent implements OnInit, AfterViewInit {
         } else {
           this.childDirectories = this.getChildDirectories(this.directories, this.currentDirectory);
           this.params.directory = this.currentDirectory.id;
-          this.results$ = this._dataService.getNormatives(this.params);
+          this.results$ = this._dataService.getNormativeList(this.params);
         }
         this.isLoading = false;
       });

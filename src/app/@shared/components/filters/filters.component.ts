@@ -1,13 +1,13 @@
+import { GazetteType } from './../../model/gazette-type';
+import { NormativeThematic } from './../../model/normative-thematic';
 import { LayoutService } from './../../services/layout.service';
-import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs/operators';
-import { Subject, Observable, Subscription } from 'rxjs';
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
+import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { Params } from '@app/@shared/model/params';
-import { ScreenSizeService } from '@app/@shared/services/screen-size.service';
-import { FormControl, FormGroup } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Options } from '@angular-slider/ngx-slider';
+import { NormativeState } from '@app/@shared/model/normative-state';
 
 @UntilDestroy()
 @Component({
@@ -21,10 +21,10 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
   showCollapsed: boolean = false;
 
-  @Input() states: any[] = [];
-  @Input() thematics: any[] = [];
-  @Input() gazetteTypes: any[] = [];
-  @Input() organisms: any[] = [];
+  @Input() states: NormativeState[] = [];
+  @Input() thematics: NormativeThematic[] = [];
+  @Input() gazetteTypes: GazetteType[] = [];
+  @Input() organisms: string[] = [];
 
   @Input() slideYearSelected = 1990;
   @Input() slideMinYear = 1990;

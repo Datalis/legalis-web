@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ng-x-rocket": {
+    "legalis": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -30,7 +30,9 @@
               "src/manifest.webmanifest",
               "src/assets"
             ],
-            "styles": ["src/main.scss"],
+            "styles": [
+              "src/main.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -75,10 +77,10 @@
           "options": {},
           "configurations": {
             "production": {
-              "browserTarget": "ng-x-rocket:build:production"
+              "browserTarget": "legalis:build:production"
             },
             "development": {
-              "browserTarget": "ng-x-rocket:build:development"
+              "browserTarget": "legalis:build:development"
             },
             "ci": {
               "progress": false
@@ -89,7 +91,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ng-x-rocket:build"
+            "browserTarget": "legalis:build"
           }
         },
         "test": {
@@ -109,11 +111,17 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
           }
         }
       }
     }
   },
-  "defaultProject": "ng-x-rocket"
+  "defaultProject": "legalis",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }

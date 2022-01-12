@@ -1,0 +1,15 @@
+<div class="gazette-item d-flex flex-column mt-2">
+  <div class="gazette-header py-3 px-4 d-flex flex-column text-start">
+    <span class="text-blue fw-bold">Gaceta Oficial No. {{ item.number }}</span>
+      <div class="d-flex">
+        <small class="text-uppercase me-2">{{ item.date | date: 'dd/MM/YYYY' }}</small>
+        <small class="text-uppercase">{{ item.type }}</small>
+      </div>
+  </div>
+  <div class="gazette-content py-3 px-4 flex-grow-1">
+    <div *ngFor="let n of item.normatives" class="d-flex flex-column mb-2">
+      <a class="text-blue mb-1 fw-bold" [routerLink]="['/normative', n.id]">{{n.name}}</a>
+      <small style="line-height: 1.1;" class="text-small">{{n.summary}}</small>
+    </div>
+  </div>
+</div>

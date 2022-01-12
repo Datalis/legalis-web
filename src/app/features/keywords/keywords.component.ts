@@ -8,6 +8,8 @@ import { DataService } from '@app/@shared/services/data.service';
 import { Component, OnInit } from '@angular/core';
 import { PagedResult } from '@app/@shared/model/paged-result';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { NormativeState } from '@app/@shared/model/normative-state';
+import { NormativeThematic } from '@app/@shared/model/normative-thematic';
 
 @UntilDestroy()
 @Component({
@@ -20,9 +22,10 @@ export class KeywordsComponent implements OnInit {
 
   params = new Params();
 
+  states: NormativeState[] = [];
+  thematics: NormativeThematic[] = [];
+
   letters: string[] = [];
-  states: string[] = [];
-  thematics: string[] = [];
   keywords: string[] = [];
   organisms: string[] = [];
 
@@ -47,10 +50,10 @@ export class KeywordsComponent implements OnInit {
 
   ngOnInit() {
     combineLatest([
-      this._dataService.getStates(),
-      this._dataService.getThematics(),
-      this._dataService.getKeywords(),
-      this._dataService.getOrganisms(),
+      this._dataService.getNormativeStates(),
+      this._dataService.getNormativeThematics(),
+      this._dataService.getNormativeKeywords(),
+      this._dataService.getNormativeOrganisms(),
       this._dataService.letters$,
       this._route.queryParams.pipe(map((params) => Params.fromObject(params))),
     ])
@@ -77,7 +80,7 @@ export class KeywordsComponent implements OnInit {
 
           this.results = undefined;
           this._dataService
-            .getNormatives(params)
+            .getNormativeList(params)
             .pipe(untilDestroyed(this))
             .subscribe((res) => {
               this.results = res;

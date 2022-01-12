@@ -1,3 +1,5 @@
+import { GazetteType } from './../../@shared/model/gazette-type';
+import { NormativeThematic } from './../../@shared/model/normative-thematic';
 import { catchError, finalize, map, switchMap, tap } from 'rxjs/operators';
 import { LayoutService } from './../../@shared/services/layout.service';
 import { Params } from '@app/@shared/model/params';
@@ -20,13 +22,16 @@ import { FiltersComponent } from '@app/@shared/components/filters/filters.compon
 export class GazettesComponent implements OnInit {
   isLoading = true;
 
-  thematics: string[] = [];
-  types: string[] = [];
+  thematics: NormativeThematic[] = [];
+  types: GazetteType[] = [];
   organisms: string[] = [];
   gazettesResume: any[] = [];
   normativesResume: any[] = [];
 
-  params = new Params();
+  params = new Params({
+    page_size: 2,
+    year: 2021
+  });
 
   results$?: Observable<PagedResult<Gazette> | null>;
 
@@ -54,12 +59,12 @@ export class GazettesComponent implements OnInit {
 
   ngOnInit() {
     combineLatest([
-      this._dataService.getThematics(),
-      this._dataService.getGazettesResume(),
+      this._dataService.getNormativeThematics(),
       this._dataService.getNormativesResume(),
-      this._dataService.getOrganisms(),
-      this._dataService.gazetteTypes$,
-      this._route.queryParams.pipe(map((params) => Params.fromObject(params))),
+      this._dataService.getNormativeOrganisms(),
+      this._dataService.getGazettesResume(),
+      this._dataService.getGazetteTypes(),
+      this._route.queryParams,
     ])
       .pipe(
         untilDestroyed(this),
@@ -68,15 +73,19 @@ export class GazettesComponent implements OnInit {
           return throwError(e);
         })
       )
-      .subscribe(([thematics, gazetteResume, normativesResume, organisms, types, params]) => {
+      .subscribe(([thematics, normativesResume, organisms, gazetteResume, types, queryParams]) => {
         this.thematics = thematics || [];
         this.types = types || [];
         this.organisms = organisms || [];
         this.gazettesResume = gazetteResume || [];
         this.normativesResume = normativesResume || [];
-        this.params = params;
-        this.params.page_size = 10;
-        this.results$ = this._dataService.getGazettes(params);
+        this.params = new Params({
+          ...this.params,
+          ...queryParams
+        })
+        //this.params.page_size = 6;
+        //if (!this.params.year) this.params.year = 2021;
+        this.results$ = this._dataService.getGazetteList(this.params);
         this.isLoading = false;
       });
   }

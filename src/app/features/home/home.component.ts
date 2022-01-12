@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     let _p = new Params();
     _p.id = 'goc-2021-o115_0.pdf';
-    forkJoin([this.dataService.getGazettes(_p), this.dataService.popularNormative()]).subscribe(([recent, popular]) => {
+    forkJoin([this.dataService.getGazetteList(_p), this.dataService.popularNormative()]).subscribe(([recent, popular]) => {
       if (recent.results) {
         const gazette = recent.results[0];
         this.recent = gazette;

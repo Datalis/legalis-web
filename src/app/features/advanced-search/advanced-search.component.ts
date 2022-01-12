@@ -38,11 +38,11 @@ export class AdvancedSearchComponent implements OnInit {
 
   params: Params = new Params();
 
-  constructor(private _dataService: DataService, private _router: Router) {}
+  constructor(private _dataService: DataService, private _router: Router) { }
 
   ngOnInit() {
     this.params.search_field = 'text';
-    forkJoin([this._dataService.getStates(), this._dataService.getThematics(), this._dataService.getOrganisms()])
+    forkJoin([this._dataService.getNormativeStates(), this._dataService.getNormativeThematics(), this._dataService.getNormativeOrganisms()])
       .pipe(untilDestroyed(this))
       .subscribe(([states, thematics, organisms]) => {
         this.states = states;

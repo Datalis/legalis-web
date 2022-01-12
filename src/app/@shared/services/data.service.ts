@@ -1,15 +1,14 @@
-import { removeEmpty } from '@app/@shared';
-import { HttpParams, HttpUrlEncodingCodec } from '@angular/common/http';
+import { NormativeThematic } from './../model/normative-thematic';
+import { NormativeState } from './../model/normative-state';
+import { GazetteType } from './../model/gazette-type';
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, refCount, share, shareReplay, map, take } from 'rxjs/operators';
-import { HttpUrlEncoder } from '../http/http-url-encoder';
+import { share, map, take } from 'rxjs/operators';
 import { Directory } from '../model/directory';
 import { Gazette } from '../model/gazette';
 import { Normative } from '../model/normative';
 import { PagedResult } from '../model/paged-result';
-import { SearchResult } from '../model/search-result';
 import { APIService } from './api.service';
 import { GlossaryTerm } from '../model/glossary-term';
 import { Params } from '../model/params';
@@ -18,13 +17,6 @@ import { Params } from '../model/params';
   providedIn: 'root',
 })
 export class DataService {
-  gazetteTypes: string[] = [
-    'Ordinaria',
-    'Extraordinaria',
-    'Especiales',
-    'Ordinaria Especiales',
-    'Extraordinarias Especiales',
-  ];
 
   letters = [
     'A',
@@ -56,26 +48,18 @@ export class DataService {
     'Z',
   ];
 
-  constructor(private _apiService: APIService) {}
+  constructor(private _apiService: APIService) { }
 
   get letters$() {
     return of(this.letters).pipe(share());
   }
 
-  get gazetteTypes$() {
-    return of(this.gazetteTypes);
-  }
-
+  /** Replace */
   recentNormative(params: any): Observable<any[]> {
     return this._apiService
       .get<any>(
         '/normativas',
-        new HttpParams({
-          fromObject: {
-            ...params,
-          },
-          encoder: new HttpUrlEncoder(),
-        })
+        params
       )
       .pipe(
         map((res) => res.results),
@@ -83,16 +67,14 @@ export class DataService {
       );
   }
 
+  /** Replace */
   popularNormative(): Observable<any[]> {
     return this._apiService
       .get<any>(
         '/normativas',
-        new HttpParams({
-          fromObject: {
-            ordering: '',
-            year: 2021,
-          },
-          encoder: new HttpUrlEncoder(),
+        Params.fromObject({
+          ordering: '',
+          year: 2021,
         })
       )
       .pipe(
@@ -101,65 +83,48 @@ export class DataService {
       );
   }
 
-  getGazettes(params: Params): Observable<PagedResult<Gazette>> {
-    let _params = removeEmpty(params);
-    return this._apiService.get<PagedResult<Gazette>>(
-      '/gacetas',
-      new HttpParams({
-        fromObject: _params,
-        encoder: new HttpUrlEncoder(),
-      })
-    );
+  getGazetteList(params: Params) {
+    return this._apiService.get<PagedResult<Gazette>>('/gacetas', params);
   }
 
-  getGazetteById(id: string): Observable<Gazette> {
-    return this._apiService.get<Gazette>(`/gacetas/${id}/`);
+  getGazetteById(gazetteId: string) {
+    return this._apiService.get<Gazette>(`/gacetas/${gazetteId}/`);
   }
 
-  getNormatives(params: Params): Observable<PagedResult<Normative>> {
-    let _params = removeEmpty(params);
-    return this._apiService.get(
-      '/normativas',
-      new HttpParams({
-        fromObject: _params,
-        encoder: new HttpUrlEncoder(),
-      })
-    );
-  }
-
-  getGlossaryTerms(params: Params): Observable<PagedResult<GlossaryTerm>> {
-    let _params = removeEmpty(params);
-    return this._apiService.get(
-      '/glosario',
-      new HttpParams({
-        fromObject: _params,
-        encoder: new HttpUrlEncoder(),
-      })
-    );
-  }
-
-  getNormativeById(normativeId: number): Observable<Normative> {
-    return this._apiService.get<Normative>(`/normativas/${normativeId}`);
-  }
-
-  getStates(): Observable<string[]> {
-    return this._apiService.get<string[]>('/normativas/estados').pipe(share());
-  }
-
-  getThematics(): Observable<string[]> {
-    return this._apiService.get<string[]>('/normativas/tematicas').pipe(share());
-  }
-
-  getKeywords(): Observable<string[]> {
-    return this._apiService.get<string[]>('/normativas/keywords').pipe(share());
-  }
-
-  getOrganisms(): Observable<string[]> {
-    return this._apiService.get<string[]>('/normativas/organismos').pipe(share());
+  getGazetteTypes() {
+    return this._apiService.get<GazetteType[]>('/gacetas/tipos');
   }
 
   getGazettesResume(): Observable<any[]> {
     return this._apiService.get<any[]>('/gacetas/resumen').pipe(share());
+  }
+
+  getNormativeList(params: Params): Observable<PagedResult<Normative>> {
+    return this._apiService.get('/normativas', params);
+  }
+
+  getNormativeById(normativeId: number) {
+    return this._apiService.get<Normative>(`/normativas/${normativeId}`);
+  }
+
+  getGlossaryTerms(params: Params) {
+    return this._apiService.get<PagedResult<GlossaryTerm>>('/glosario', params);
+  }
+
+  getNormativeStates() {
+    return this._apiService.get<NormativeState[]>('/normativas/estados').pipe(share());
+  }
+
+  getNormativeThematics() {
+    return this._apiService.get<NormativeThematic[]>('/normativas/tematicas').pipe(share());
+  }
+
+  getNormativeKeywords() {
+    return this._apiService.get<string[]>('/normativas/keywords').pipe(share());
+  }
+
+  getNormativeOrganisms() {
+    return this._apiService.get<string[]>('/normativas/organismos').pipe(share());
   }
 
   getNormativesResume(): Observable<any[]> {
@@ -174,14 +139,10 @@ export class DataService {
     return this._apiService.get<any[]>(environment.newsApiUrl).pipe(share());
   }
 
-  getSearchResults(params: Params): Observable<PagedResult<SearchResult>> {
-    let _params = removeEmpty(params);
+  getSearchResults(params: Params): Observable<PagedResult<Normative>> {
     return this._apiService.get(
       '/search',
-      new HttpParams({
-        fromObject: _params,
-        encoder: new HttpUrlEncoder(),
-      }),
+      params,
       true
     );
   }

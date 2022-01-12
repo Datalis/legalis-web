@@ -1,0 +1,14 @@
+@import "/src/theme/theme-variables.scss";
+
+.gazette-item {
+    height: 350px;
+    .gazette-header {
+        background-color: $blue-light;
+    }
+    .gazette-content {
+        background-color: $surface;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+    }
+}

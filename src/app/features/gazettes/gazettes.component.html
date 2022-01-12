@@ -1,24 +1,15 @@
 <div class="gazettes-container container-fluid container-lg px-0 px-md-4 py-4">
   <div class="row" *ngIf="!isLoading; else loading">
     <div class="col-lg-4 d-none d-lg-block">
-      <app-filters
-        [showState]="false"
-        [showGazetteType]="true"
-        [gazetteTypes]="types"
-        [thematics]="thematics"
-        [organisms]="organisms"
-        (paramsChange)="onFiltersChange($event)"
-        [params]="params"
-      ></app-filters>
+      <app-filters [showState]="false" [showGazetteType]="true" [gazetteTypes]="types" [thematics]="thematics"
+        [organisms]="organisms" (paramsChange)="onFiltersChange($event)" [params]="params"></app-filters>
     </div>
     <div class="col-lg-8 col-12" id="content">
-      <div class="d-flex flex-column text-center text-lg-start">
+      <div class="d-flex flex-column text-center text-lg-start h-100">
         <h5 class="text-accent mb-1 fw-bold mb-0 text-blue">INDICE DE GACETA</h5>
         <div class="d-lg-none mt-2"></div>
-        <div
-          class="resume-container d-none d-lg-flex px-4 py-4 row bg-blue-light mt-2 mx-0 text-start"
-          *ngIf="params.year"
-        >
+        <div class="resume-container d-none d-lg-flex px-4 py-4 row bg-blue-light mt-2 mx-0 text-start"
+          *ngIf="params.year">
           <h5 class="col-12 col-lg-2 text-blue fw-bold">{{ params.year }}</h5>
           <div class="col-12 col-lg-5 d-flex flex-column flex-grow-1 mt-2 mt-lg-0">
             <span class="fw-bold text-accent">{{ resume.gazettesTotal }} GACETAS ORDINARIAS</span>
@@ -40,46 +31,17 @@
             </div>
           </div>
         </div>
-        <div id="gazetteResults" class="gazettes-container mt-2" *ngIf="results$ | async as res; else loading">
-          <div
-            class="gazette-item d-flex flex-column mt-2"
-            *ngFor="
-              let gazette of res.results
-                | paginate
-                  : { id: 'gazettes', itemsPerPage: params.page_size, currentPage: params.page, totalItems: res.count }
-            "
-          >
-            <div class="gazette-header bg-surface py-2 px-4 d-flex">
-              <div class="d-flex flex-column flex-grow-1 text-start">
-                <span class="text-blue fw-bold">Gaceta Oficial No. {{ gazette.number }}</span>
-                <div class="d-flex">
-                  <small class="text-uppercase me-2">{{ gazette.date | date: 'dd/MM/YYYY' }}</small>
-                  <small class="text-uppercase">{{ gazette.type }}</small>
-                </div>
-                <div>
-                  {{ gazette.normatives | json }}
-                </div>
-              </div>
-              <a
-                *ngIf="gazette.id"
-                (click)="downloadGazette(gazette.id)"
-                class="gazette-download d-flex flex-column align-items-center"
-              >
-                <small class="text-uppercase text-dark">Descargar gaceta</small>
-                <i class="fas fa-download text-accent mt-1"></i>
-              </a>
-            </div>
-            <div class="gazette-content"></div>
-          </div>
-          <pagination-controls
-            [responsive]="true"
-            id="gazettes"
-            previousLabel="Atrás"
-            nextLabel="Siguiente"
-            (pageChange)="getPage($event)"
-          ></pagination-controls>
+        <div class="gazettes-container d-flex flex-column justify-content-end mt-2 flex-grow-1" *ngIf="results$ | async as res; else loading">
+          <app-gazette-item 
+            *ngFor="let gazette of res.results | paginate: { id: 'gazettes', itemsPerPage: params.page_size || 10, currentPage: params.page || 1, totalItems: res.count }"
+            [item]="gazette">
+          </app-gazette-item>
         </div>
       </div>
+    </div>
+    <div class="col-sm-12">
+      <pagination-controls [responsive]="true" id="gazettes" previousLabel="Atrás" nextLabel="Siguiente"
+      (pageChange)="getPage($event)"></pagination-controls>
     </div>
   </div>
   <ng-template #loading>

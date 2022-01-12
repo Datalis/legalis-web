@@ -1,31 +1,31 @@
+import { HttpUrlEncoder } from './../http/http-url-encoder';
+import { removeEmpty } from '@app/@shared';
 import { map } from 'rxjs/operators';
 import { HttpClient, HttpContext, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Params } from '../model/params';
 
 @Injectable({
   providedIn: 'root',
 })
 export class APIService {
-  private readonly JSON_CONTENT_TYPE = 'application/json';
-  private readonly MULTIPART_CONTENT_TYPE = '';
-  private readonly FORM_URL_ENCODED_CONTENT_TYPE = '';
 
   private _headers: HttpHeaders = new HttpHeaders({
-    'Content-Type': this.JSON_CONTENT_TYPE,
-    Accept: this.JSON_CONTENT_TYPE,
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
   });
 
   constructor(private _httpClient: HttpClient) {}
 
-  public get<T>(path: string, params: HttpParams = new HttpParams(), disableCaching = false): Observable<T> {
-    let _headers = this._headers;
-    if (disableCaching) {
-      _headers = this._headers.append('no-cache', '');
-    }
+  public get<T>(path: string, params?: Params, disableCaching = false): Observable<T> {
+    const _params = params ? removeEmpty(params) : {};
     return this._httpClient.get<T>(path, {
-      headers: _headers,
-      params: params,
+      headers: disableCaching ? this._headers.append('no-cache', '') : this._headers,
+      params: new HttpParams({
+        fromObject: _params,
+        encoder: new HttpUrlEncoder()
+      }),
     });
   }
 
