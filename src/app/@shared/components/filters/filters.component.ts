@@ -37,10 +37,15 @@ export class FiltersComponent implements OnInit, OnDestroy {
   @Input() showGazetteType = false;
   @Input() showThematics = true;
 
+  @Input() allowUnsetYear = true;
+
+  isRangeActive = false;
+
   sliderOpts: Options = {
     floor: this.slideMinYear,
     ceil: this.slideMaxYear,
     step: 1,
+    disabled: true
   };
 
   paramsChange$ = new Subject();
@@ -77,19 +82,30 @@ export class FiltersComponent implements OnInit, OnDestroy {
   }
 
   onSliderHighValueChange(value: number) {
-    this.params.year = null;
     this.params.year_lte = value;
     this.paramsChange$.next();
   }
 
   onSliderValueChange(value: number) {
-    this.params.year = null;
     this.params.year_gte = value;
     this.paramsChange$.next();
   }
 
   reset(): void {
     this.params = new Params();
+    this.paramsChange$.next();
+  }
+
+  setRangeActive(active: boolean) {
+    this.sliderOpts = { ...this.sliderOpts, disabled: !active } 
+    this.params.year = null;
+    if (!active) {
+      this.params.year_gte = null;
+      this.params.year_lte = null;
+    } else {
+      this.params.year_gte = this.slideMinYear;
+      this.params.year_lte = this.slideMaxYear;
+    }
     this.paramsChange$.next();
   }
 }

@@ -21,7 +21,7 @@ export class APIService {
   public get<T>(path: string, params?: Params, disableCaching = false): Observable<T> {
     const _params = params ? removeEmpty(params) : {};
     return this._httpClient.get<T>(path, {
-      headers: disableCaching ? this._headers.append('no-cache', '') : this._headers,
+      headers: this._headers,
       params: new HttpParams({
         fromObject: _params,
         encoder: new HttpUrlEncoder()

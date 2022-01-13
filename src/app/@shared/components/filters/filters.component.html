@@ -92,13 +92,24 @@
               [ngModel]="params.year"
               (ngModelChange)="onYearChanged($event)"
               placeholder="Seleccionar"
+              [clearable]="allowUnsetYear"
+              [disabled]="isRangeActive"
             >
               <ng-option *ngFor="let y of years" [value]="y">{{ y }}</ng-option>
             </ng-select>
           </div>
-          <div class="col-12">
+          <div class="col-12 mt-1">
             <label class="form-control-label mt-2">Seleccione el período</label>
-            <ngx-slider
+            <div class="d-flex align-items-start me-2">
+              <input
+              class="form-check-input me-3"
+              style="margin-top: 0.35rem;"
+              type="checkbox"
+              name="toggle_range"
+              [(ngModel)]="isRangeActive"
+              (ngModelChange)="setRangeActive($event)"
+            />
+              <ngx-slider
               name="year_range"
               [value]="params.year_gte || this.slideYearSelected"
               [highValue]="params.year_lte || this.slideMaxYear"
@@ -106,6 +117,7 @@
               (valueChange)="onSliderValueChange($event)"
               [options]="sliderOpts"
             ></ngx-slider>
+            </div>
           </div>
         </div>
       </div>

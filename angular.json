@@ -82,8 +82,7 @@
             "development": {
               "browserTarget": "legalis:build:development"
             },
-            "ci": {
-            }
+            "ci": {}
           },
           "defaultConfiguration": "development"
         },

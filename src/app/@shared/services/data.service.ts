@@ -12,6 +12,7 @@ import { PagedResult } from '../model/paged-result';
 import { APIService } from './api.service';
 import { GlossaryTerm } from '../model/glossary-term';
 import { Params } from '../model/params';
+import { GazetteResume } from '../model/gazette-resume';
 
 @Injectable({
   providedIn: 'root',
@@ -95,8 +96,8 @@ export class DataService {
     return this._apiService.get<GazetteType[]>('/gacetas/tipos');
   }
 
-  getGazettesResume(): Observable<any[]> {
-    return this._apiService.get<any[]>('/gacetas/resumen').pipe(share());
+  getGazettesResume() {
+    return this._apiService.get<GazetteResume[]>('/gacetas/resumen').pipe(share());
   }
 
   getNormativeList(params: Params): Observable<PagedResult<Normative>> {

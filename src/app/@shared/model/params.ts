@@ -18,8 +18,15 @@ export class Params {
   startswith: string | null = null;
   id: string | null = null;
 
-  constructor(obj: object = {}) {
-    Object.assign(this, obj);
+  constructor(obj: any = {}) {
+    Object.assign(this, {
+      ...obj,
+      year: obj.year ? +obj.year : null,
+      year_gte: obj.year_gte ? +obj.year_gte : null,
+      year_lte: obj.year_lte ? +obj.year_lte : null,
+      page: obj.page ? +obj.page : null,
+      page_size: obj.page_size ? +obj.page_size : null,
+    });
   }
 
   static fromObject(params: any) {

@@ -72,13 +72,15 @@ body {
   }
 }
 
-.form-check {
-  .form-check-input {
-    &:checked {
-      background-color: $accent;
-      border-color: $accent;
-      box-shadow: 0 0 0 0.15rem rgba($accent, 0.25);
-    }
+.form-check-input {
+  &:checked {
+    background-color: $accent !important;
+    border-color: $accent;
+    box-shadow: 0 0 0 0.15rem rgba($accent, 0.25) !important;
+  }
+  &:focus {
+    border-color: $accent;
+    box-shadow: 0 0 0 0.15rem rgba($accent, 0.25) !important;
   }
 }
 
@@ -129,6 +131,14 @@ body {
 
 .ngx-slider {
   margin-top: 28px !important;
+  &[disabled] {
+    .ngx-slider-pointer {
+      background-color: #ccc !important;
+    }
+    .ngx-slider-selection {
+      background: #ccc !important;
+    }
+  }
   .ngx-slider-bar-wrapper {
     margin-top: -32px !important;
   }
