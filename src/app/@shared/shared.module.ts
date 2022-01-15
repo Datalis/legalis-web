@@ -1,3 +1,4 @@
+import { FileSaverModule } from 'ngx-filesaver';
 import { PdfViewerComponent } from './components/pdf-viewer/pdf-viewer.component';
 import { EmptyResultsComponent } from './components/empty-results/empty-results.component';
 import { NgbCollapse, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
@@ -31,6 +32,7 @@ export function playerFactory() {
     NgxSliderModule,
     NgSelectModule,
     PdfJsViewerModule,
+    FileSaverModule,
     LottieModule.forRoot({ player: playerFactory }),
   ],
   declarations: [

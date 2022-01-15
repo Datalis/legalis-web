@@ -1,48 +1,52 @@
-<div class="gazettes-container container-fluid container-lg px-0 px-md-4 py-4">
+<div class="gazettes-container container-fluid container-lg px-md-4 py-4">
   <div class="row" *ngIf="!isLoading; else loading">
     <div class="col-lg-4 d-none d-lg-block">
       <app-filters [showState]="false" [showGazetteType]="true" [gazetteTypes]="types" [thematics]="thematics"
-        [organisms]="organisms" (paramsChange)="onFiltersChange($event)" [params]="params" >
+        [organisms]="organisms" (paramsChange)="onFiltersChange($event)" [params]="params">
       </app-filters>
     </div>
-    <div class="col-lg-8 col-12" id="content">
-      <h5 class="text-accent mb-1 fw-bold mb-0 text-blue">INDICE DE GACETA</h5>
+    <div class="col-lg-8 col-12 d-flex flex-column" id="content">
+      <h5 class="text-accent mb-1 fw-bold mb-0 text-blue text-center text-lg-start">ÍNDICE DE GACETA</h5>
       <div class="d-lg-none mt-2"></div>
-      <div class="resume-container d-none d-lg-flex px-4 py-3 row bg-blue-light mt-2 mx-0 text-start" *ngIf="resume">
-        <h5 class="col-12 col-lg-2 text-blue fw-bold h-100 px-0">
-          <span>{{ resume.year }}</span>
-          -
-          <span *ngIf="resume.year_end">{{ resume.year_end }}</span>
-        </h5>
-        <div class="col-12 col-lg-5 d-flex flex-column flex-grow-1 mt-2 mt-lg-0 h-100">
-          <span class="fw-bold">{{ resume.gazettes.total }} GACETAS ORDINARIAS</span>
-          <div class="mt-1">
-            <ng-container *ngFor="let type of resume.gazettes.types">
-              <div class="row">
-                <small class="text-small col-2 text-end text-accent ps-0">{{ type.count }}</small>
-                <small class="text-small col-10 ps-0">{{ type.type }}</small>
-              </div>
-            </ng-container>
+      <div class="resume-container row d-flex flex-column bg-surface mt-2 mx-0 text-start" *ngIf="resume">
+        <div class="col-12 px-3 py-2">
+          <div class="row mx-0">
+            <div class="d-flex px-0">
+              <h5 class="flex-grow-1 fw-bold text-blue mb-0"><span>{{ resume.year }}</span> - <span
+                *ngIf="resume.year_end">{{ resume.year_end }}</span></h5>
+              <span class="resume-toggler text-blue text-center p-0 pointer" (click)="collapse.toggle()">
+                <i class="fas fa-angle-down"></i>
+              </span>
+            </div>
+            <small class="col-4 p-0 fw-bold flex-grow-1 mt-1"><span class="me-1">{{ resume.gazettes.total }}</span> GACETAS ORDINARIAS</small>
+            <small class="col-4 p-0 fw-bold flex-grow-1 mt-1"><span class="me-1">{{ resume.normatives.total }}</span> NORMAS EMITIDAS</small>
           </div>
-          <!--<small class="mt-1" ><span class="me-1 text-accent">{{ type?.count < 10 ? '&nbsp;' + type?.count : type?.count }}</span> {{ type?.type }}</small>-->
         </div>
-        <div class="col-12 col-lg-5 d-flex flex-column mt-3 mt-lg-0 h-100">
-          <span class="fw-bold">{{ resume.normatives.total }} NORMAS EMITIDAS</span>
-          <div class="resume-item-list d-flex flex-column flex-wrap mt-1">
-            <ng-container *ngFor="let type of resume.normatives.types">
-              <div class="resume-item row">
-                <small class="col-sm-2 text-small text-end text-accent ps-0">{{ type.count }}</small>
-                <small class="col-sm-10 text-small ps-0">{{ type.normtype }}</small>
-              </div>
-            </ng-container>
+        <div class="col-12 pb-3" #collapse="ngbCollapse" [(ngbCollapse)]="resumeMenuCollapsed">
+          <div class="row mx-0">
+            <div class="col-6">
+              <ng-container *ngFor="let type of resume.gazettes.types">
+                <a class="row" (click)="searchByGazetteType(type.type)">
+                  <small class="text-small col-2 text-end text-accent ps-0">{{ type.count }}</small>
+                  <small class="text-dark text-small col-10 ps-0">{{ type.type }}</small>
+                </a>
+              </ng-container>
+            </div>
+            <div class="col-6">
+              <ng-container *ngFor="let type of resume.normatives.types">
+                <a class="resume-item row">
+                  <small class="col-2 text-small text-end text-accent ps-0">{{ type.count }}</small>
+                  <small class="col-10 text-dark text-small ps-0">{{ type.normtype }}</small>
+                </a>
+              </ng-container>
+            </div>
           </div>
         </div>
       </div>
       <ng-container *ngIf="results$ | async as res; else loading">
-        <div class="d-flex flex-column text-center text-lg-start h-100">
-
-          <div class="gazettes-container d-flex flex-column justify-content-start mb-2 flex-grow-1">
-            <app-gazette-item class="mt-2"
+        <div class="flex-grow-1 overflow-y-auto d-flex flex-column text-center text-lg-start mt-2">
+          <div class="gazettes-container d-flex flex-column justify-content-start flex-grow-1">
+            <app-gazette-item
               *ngFor="let gazette of res.results | paginate: { id: 'gazettes', itemsPerPage: params.page_size || 10, currentPage: params.page || 1, totalItems: res.count }"
               [item]="gazette">
             </app-gazette-item>

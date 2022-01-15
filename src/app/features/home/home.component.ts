@@ -27,13 +27,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
-    let _p = new Params();
-    _p.id = 'goc-2021-o115_0.pdf';
-    forkJoin([this.dataService.getGazetteList(_p), this.dataService.popularNormative()]).subscribe(([recent, popular]) => {
-      if (recent.results) {
-        const gazette = recent.results[0];
-        this.recent = gazette;
-      }
+
+    forkJoin([
+      this.dataService.getLatestGazette(), 
+      this.dataService.popularNormative()]
+    )
+    .pipe().subscribe(([recent, popular]) => {
+      this.recent = recent;
       this.popular = popular || [];
       this.isLoading = false;
     });

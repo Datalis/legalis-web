@@ -228,9 +228,9 @@ body {
     }
   }
   .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
-    padding: 4px 10px;
+    //padding: 4px 10px;
     transition: all 0.1s ease;
-    font-size: 12px;
+    font-size: 14px;
     &.ng-option-selected {
       background-color: rgba($secondary, 0.1);
     }
@@ -292,4 +292,8 @@ mark {
   font-weight: bold;
   color: currentColor;
   padding: 0 0.3rem;
+}
+
+a {
+  cursor: pointer;
 }

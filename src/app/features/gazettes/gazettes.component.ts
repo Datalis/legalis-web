@@ -1,3 +1,6 @@
+import { HttpResponse } from '@angular/common/http';
+import { PdfViewerComponent } from './../../@shared/components/pdf-viewer/pdf-viewer.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { groupBy } from './../../@shared/utils/helpers';
 import { GazetteType } from './../../@shared/model/gazette-type';
 import { NormativeThematic } from './../../@shared/model/normative-thematic';
@@ -34,12 +37,13 @@ export class GazettesComponent implements OnInit {
   normativesResume: NormativeResume[] = [];
 
   params = new Params({
-    page_size: 2,
-    year: 2021
+    page_size: 6,
+    //year: 2021
   });
 
   resume: any = null;
-
+  resumeMenuCollapsed = true;
+  
   results$?: Observable<PagedResult<Gazette> | null>;
 
   @ViewChild('filterMobile', { read: FiltersComponent }) filterMobile?: FiltersComponent;
@@ -61,7 +65,8 @@ export class GazettesComponent implements OnInit {
     private _dataService: DataService,
     private _route: ActivatedRoute,
     private _router: Router,
-    private _layout: LayoutService
+    private _layout: LayoutService,
+    private _modal: NgbModal
   ) { }
 
   ngOnInit() {
@@ -132,20 +137,15 @@ export class GazettesComponent implements OnInit {
       });
   }
 
-  downloadGazette(id: string) {
-    /*this._dataService
-      .getGazetteById(id)
-      .pipe(untilDestroyed(this))
-      .subscribe((res) => {
-        const url = `https://api-gaceta.datalis.dev/files/${res.file}`;
-        this._dataService
-          .downloadFile(url)
-          .pipe(untilDestroyed(this))
-          .subscribe((data) => {
-            const fileUrl = URL.createObjectURL(data);
-            window.open(fileUrl, '_blank');
-          });
-      });*/
+  
+  searchByGazetteType(type: string) {
+    const _params = new Params({
+      page_size: 6,
+      type,
+    })
+    this.params = _params;
+    this.resumeMenuCollapsed = true;
+    this.getResults();
   }
 
   getPage(page: number): void {

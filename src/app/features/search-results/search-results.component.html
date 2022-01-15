@@ -10,7 +10,7 @@
       ></app-filters>
     </div>
     <div class="col-md-8 p-0" id="content">
-      <div class="d-flex flex-column ps-lg-2 text-center text-lg-start">
+      <div class="d-flex flex-column ps-lg-2 text-center text-lg-start h-100">
         <h5 class="fw-bold mb-0 text-blue">RESULTADOS DE LA BÚSQUEDA</h5>
         <div class="divider"></div>
         <span *ngIf="currentSearchQuery" class="text-blue fw-bold"
@@ -52,7 +52,7 @@
             </div>
           </div>
         </div>
-        <div class="result-list mt-2" *ngIf="results; else loading">
+        <div class="result-list mt-2 flex-grow-1 d-flex flex-column" *ngIf="results; else loading" style="overflow-y: auto;">
           <app-empty-results *ngIf="results.count === 0"></app-empty-results>
           <ng-container
             *ngFor="
@@ -67,12 +67,16 @@
               let odd = odd
             "
           >
-            <app-normative-item [item]="item" [searchQuery]="currentSearchQuery"></app-normative-item>
+            <app-normative-item [showText]="true" [item]="item" [searchQuery]="currentSearchQuery"></app-normative-item>
             <!--<div class="divider"></div>-->
             <div class="mb-2"></div>
           </ng-container>
         </div>
-        <pagination-controls
+        
+      </div>
+    </div>
+    <div class="col-sm-12 mt-2">
+      <pagination-controls
           *ngIf="results"
           id="results"
           [responsive]="true"
@@ -80,8 +84,9 @@
           nextLabel="Siguiente"
           (pageChange)="getPage($event)"
         ></pagination-controls>
-      </div>
+        <div class="divider m-0"></div>
     </div>
+    
   </div>
   <ng-template #loading>
     <app-loader></app-loader>

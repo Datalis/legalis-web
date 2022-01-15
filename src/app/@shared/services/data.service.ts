@@ -55,6 +55,13 @@ export class DataService {
     return of(this.letters).pipe(share());
   }
 
+  getLatestGazette() {
+    const params = new Params();
+    params.page_size = 1;
+    params.page = 1;
+    return this.getGazetteList(params).pipe(map((res) => res.results?.[0] || null))
+  }
+
   /** Replace */
   recentNormative(params: any): Observable<any[]> {
     return this._apiService

@@ -9,6 +9,7 @@ export class NormativeItemComponent implements OnInit {
   @Input() item: any;
   @Input() searchQuery = '';
   @Input() showState = true;
+  @Input() showText = false
 
   expanded = false;
 

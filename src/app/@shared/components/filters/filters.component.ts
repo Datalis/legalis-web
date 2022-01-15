@@ -39,13 +39,11 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
   @Input() allowUnsetYear = true;
 
-  isRangeActive = false;
 
   sliderOpts: Options = {
     floor: this.slideMinYear,
     ceil: this.slideMaxYear,
     step: 1,
-    disabled: true
   };
 
   paramsChange$ = new Subject();
@@ -93,19 +91,6 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
   reset(): void {
     this.params = new Params();
-    this.paramsChange$.next();
-  }
-
-  setRangeActive(active: boolean) {
-    this.sliderOpts = { ...this.sliderOpts, disabled: !active } 
-    this.params.year = null;
-    if (!active) {
-      this.params.year_gte = null;
-      this.params.year_lte = null;
-    } else {
-      this.params.year_gte = this.slideMinYear;
-      this.params.year_lte = this.slideMaxYear;
-    }
     this.paramsChange$.next();
   }
 }

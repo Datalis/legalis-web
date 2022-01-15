@@ -23,6 +23,7 @@ export class AdvancedSearchComponent implements OnInit {
   };
 
   isLoading = true;
+  searchText = "";
 
   get years(): number[] {
     const _res: number[] = [];
@@ -75,6 +76,14 @@ export class AdvancedSearchComponent implements OnInit {
 
   onSliderValueChange(value: number) {
     this.params.year_gte = value;
-    this.params.year = value;
+    //this.params.year = value;
+  }
+
+  setExactWordsSearch(words: string) {
+    this.params.text = `"${words}"`;
+  }
+
+  setSomeWordsSearch(words: string) {
+    this.params.text = words;
   }
 }
