@@ -65,36 +65,18 @@
   <div class="container">
     <div class="footer-nav d-flex flex-wrap text-center text-lg-start align-items-center justify-content-center py-4">
       <div class="d-flex flex-column m-4">
-        <a href="#" class="mb-2">Indice de gaceta</a>
-        <a href="#" class="mb-2">Análisis</a>
-        <a href="#" class="mb-2">Infografía</a>
-        <a href="#" class="mb-2">Análisis</a>
-        <a href="#" class="mb-2">Infografía</a>
-        <a href="#" class="mb-2">Indice de gaceta</a>
+        <a (click)="goTo('/')" class="mb-2">Inicio</a>
+        <a (click)="goTo('/advanced-search')" class="mb-2">Búsqueda Avanzada</a>
+        <a (click)="goTo('/thematic-directory')" class="mb-2">Directorio Temático</a>
+        <a (click)="goTo('/keywords')" class="mb-2">Palabra Clave</a>
+        <a (click)="goTo('/how-to-search')" class="mb-2">Como buscar</a>
       </div>
       <div class="d-flex flex-column m-4">
-        <a href="#" class="mb-2">Indice de gaceta</a>
-        <a href="#" class="mb-2">Análisis</a>
-        <a href="#" class="mb-2">Infografía</a>
-        <a href="#" class="mb-2">Análisis</a>
-        <a href="#" class="mb-2">Infografía</a>
-        <a href="#" class="mb-2">Indice de gaceta</a>
-      </div>
-      <div class="d-flex flex-column m-4">
-        <a href="#" class="mb-2">Indice de gaceta</a>
-        <a href="#" class="mb-2">Análisis</a>
-        <a href="#" class="mb-2">Infografía</a>
-        <a href="#" class="mb-2">Análisis</a>
-        <a href="#" class="mb-2">Infografía</a>
-        <a href="#" class="mb-2">Indice de gaceta</a>
-      </div>
-      <div class="d-flex flex-column m-4">
-        <a href="#" class="mb-2">Indice de gaceta</a>
-        <a href="#" class="mb-2">Análisis</a>
-        <a href="#" class="mb-2">Infografía</a>
-        <a href="#" class="mb-2">Análisis</a>
-        <a href="#" class="mb-2">Infografía</a>
-        <a href="#" class="mb-2">Indice de gaceta</a>
+        <a (click)="goTo('/gazettes')" class="mb-2">Indice de gaceta</a>
+        <a (click)="goTo('/analysis')" class="mb-2">Análisis</a>
+        <a (click)="goTo('/infographics')" class="mb-2">Infografía</a>
+        <a (click)="goTo('/glossary')" class="mb-2">Glosario</a>
+        <a (click)="goTo('/about')" class="mb-2">Quienes Somos</a>
       </div>
     </div>
   </div>
