@@ -5,9 +5,19 @@
   padding: 0.25rem !important;
 }
 
-.btn-ok {
+.btn {
   min-width: 150px;
-  border: 1px solid $blue;
-  color: $light;
-  background-color: $blue;
+  //border: 1px solid $blue;
+  font-weight: 500;
+  box-shadow: none !important;
+}
+
+app-loader ::ng-deep .loading-wrapper {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  background-color: #fafafa;
 }

@@ -89,7 +89,7 @@ export class ThematicDirectoryComponent implements OnInit, AfterViewInit {
   }
 
   private getChildDirectories(directories: any[], current: any) {
-    return directories?.filter((e) => e.parentId == current.id) || [];
+    return (directories?.filter((e) => e.parentId == current.id) || []).slice(0, 10);
   }
 
   getParentId(path: string[], arr: any[]): number | null {
@@ -109,13 +109,13 @@ export class ThematicDirectoryComponent implements OnInit, AfterViewInit {
 
   goToDirectory(path: any[]): void {
     this._router.navigate(path).then(() => {
-      this._layoutService.scrollToItem('content');
-    });
+      this._layoutService.scrollToElement("#content");
+    })
   }
 
   goToSubDirectory(path: any[]): void {
     this._router.navigate(path, { relativeTo: this._route }).then(() => {
-      this._layoutService.scrollToItem('content');
+      this._layoutService.scrollToElement('#content');
     });
   }
 
@@ -134,7 +134,7 @@ export class ThematicDirectoryComponent implements OnInit, AfterViewInit {
         queryParamsHandling: 'merge',
       })
       .then(() => {
-        this._layoutService.scrollToItem('content');
+        this._layoutService.scrollToElement('#content');
       });
   }
 

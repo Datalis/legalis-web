@@ -28,9 +28,9 @@ export class FooterComponent implements OnInit {
 
   goTo(path: string) {
     this._router.navigate([path]).then(() => {
-      setTimeout(() => {
+      /*setTimeout(() => {
         this._layoutService.scrollToTop();
-      }, 100)
+      }, 100)*/
     });
   }
 }

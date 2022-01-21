@@ -19,6 +19,8 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { CachingInterceptor } from './@shared/http/caching.interceptor';
 import { RouterUrlSerializer } from './@shared/router-url-serializer';
+import { NgScrollbarModule } from 'ngx-scrollbar';
+import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 
 @NgModule({
   imports: [
@@ -32,8 +34,9 @@ import { RouterUrlSerializer } from './@shared/router-url-serializer';
     ShellModule,
     HomeModule,
     AboutModule,
+    NgScrollbarModule,
     LoadingBarModule,
-    //LoadingBarRouterModule,
+   // LoadingBarRouterModule,
     LoadingBarHttpClientModule,
     //AuthModule,
     AppRoutingModule, // must be imported as the last module as it contains the fallback route

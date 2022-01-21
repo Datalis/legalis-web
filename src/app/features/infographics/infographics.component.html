@@ -1,43 +1,38 @@
 <div class="infographics-container container-fluid container-lg px-0 px-md-4 py-4">
   <div class="d-flex flex-column align-items-center">
     <h5 class="text-blue fw-bold mb-0">INFOGRAFÍAS</h5>
-    <span class="fw-bold">Herramientas...</span>
+    <!--<span class="fw-bold">Herramientas...</span>-->
   </div>
-  <div class="row mt-4">
+  <div class="row mt-4" *ngIf="results$ | async as res; else loading">
     <div class="col-md-6 pe-lg-4 border-right-accent">
-      <div class="d-flex flex-column">
-        <div class="article bg-gray">
+      <div class="d-flex flex-column info-container">
+        <div class="article bg-surface mb-2 d-flex flex-column" *ngFor="let item of res.results">
           <h6 class="fw-bold text-light bg-accent text-center px-4 py-4 mb-0">
-            Proyecto de ley de Símbolos Nacionales de la República de Cuba
+            {{item.titulo}}
           </h6>
-          <div class="p-4">
-            <p class="mb-3">
-              Browser default checkboxes and radios are replaced with the help of .form-check, a series of classes for
-              both input types that improves the layout and behavior of their HTML elements, that provide greater
-              customization and cross browser consistency. Checkboxes are for selecting one or several options in a
-              list, while radios are for selecting one option from many.
+          <div class="p-4 d-flex flex-column flex-grow-1">
+            <p class="mb-3 flex-grow-1">
+              {{item.descripcion}}
             </p>
-            <a class="text-accent text-italic fw-bold" href="#">Leer más</a>
-          </div>
-        </div>
-        <div class="article bg-gray mt-2">
-          <h6 class="fw-bold text-light bg-blue-light text-center px-4 py-4 mb-0">
-            Proyecto de ley de Símbolos Nacionales de la República de Cuba
-          </h6>
-          <div class="p-4">
-            <p class="mb-3">
-              Browser default checkboxes and radios are replaced with the help of .form-check, a series of classes for
-              both input types that improves the layout and behavior of their HTML elements, that provide greater
-              customization and cross browser consistency. Checkboxes are for selecting one or several options in a
-              list, while radios are for selecting one option from many.
-            </p>
-            <a class="text-accent text-italic fw-bold" href="#">Leer más</a>
+            <a class="text-accent text-italic fw-bold ms-auto" routerLink="/infographics/{{item.id}}">Leer más</a>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-md-6 d-flex align-items-center justify-content-center">
-      <img class="img-fluid" src="/assets/infografia.png" alt="" />
+    <div class="col-md-6 ps-lg-4 d-flex align-items-start justify-content-center">
+      <img class="img-fluid h-100" style="object-fit: cover; object-position: center;" [src]="((images$ | async) || [{url: ''}] )[0].url" alt="" (click)="openGallery(gallery)" />
+
     </div>
   </div>
 </div>
+<ng-template #loading>
+  <app-loader></app-loader>
+</ng-template>
+<ng-template #gallery let-c="close" let-d="dismiss">
+  <ngx-image-gallery
+        #gallery
+        [conf]="config"
+        [images]="(images$ | async) || []"
+        (onClose)="c('')"
+      ></ngx-image-gallery>
+</ng-template>

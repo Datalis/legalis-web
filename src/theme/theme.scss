@@ -62,13 +62,14 @@ body {
 
 .form-select,
 .form-control {
-  font-weight: 500;
+  font-weight: 400;
+  font-size: 14px;
   &:focus {
     box-shadow: 0 0 0 0.15rem rgba($accent, 0.25);
     border: 1px solid rgba($accent, 0.85);
   }
   &::placeholder {
-    color: rgba($secondary, 0.6) !important;
+    color: rgba($dark, 0.5) !important;
   }
 }
 
@@ -176,6 +177,7 @@ body {
 }
 
 .ng-select {
+  height: 35px !important;
   &.ng-select-focused {
     .ng-select-container {
       box-shadow: 0 0 0 0.15rem rgba($accent, 0.25) !important;
@@ -220,11 +222,17 @@ body {
   }
   .ng-select-container {
     box-shadow: none !important;
-    .ng-value-container .ng-input > input {
-      font-weight: 500 !important;
-      &::placeholder {
-        color: rgba($secondary, 0.6) !important;
-      }
+    .ng-value-container .ng-value {
+      font-size: 14px !important;
+    }
+    .ng-value-container .ng-input input {
+      font-weight: 400 !important;
+      font-size: 14px !important;
+    }
+    .ng-value-container .ng-placeholder {
+      font-weight: 400 !important;
+      font-size: 14px !important;
+      color: rgba($dark, .5);
     }
   }
   .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
@@ -296,4 +304,26 @@ mark {
 
 a {
   cursor: pointer;
+}
+
+.gallery-backdrop {
+  opacity: 0.8 !important;
+}
+.gallery-modal {
+  max-width: 90vw !important;
+  .modal-content {
+    border: none !important;
+    background-color: transparent !important;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .inline {
+      height: 100%;
+    }
+    .title {
+      color: #fafafa !important;
+    }
+  }
 }

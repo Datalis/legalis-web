@@ -3,7 +3,7 @@ import { LayoutService } from './../../@shared/services/layout.service';
 import { PagedResult } from './../../@shared/model/paged-result';
 import { catchError, map } from 'rxjs/operators';
 import { DataService } from '@app/@shared/services/data.service';
-import { throwError, combineLatest } from 'rxjs';
+import { throwError, combineLatest, of } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -55,7 +55,7 @@ export class SearchResultsComponent implements OnInit {
         this.thematics = thematics || [];
         this.organisms = organisms || [];
         this.params = params;
-        this.params.page_size = 5;
+        this.params.page_size = 4;
         this.currentSearchQuery = decodeURIComponent(this.params.text || '');
         this.results = undefined;
         this._dataService
@@ -77,7 +77,7 @@ export class SearchResultsComponent implements OnInit {
         relativeTo: this._route,
       })
       .then(() => {
-        this._layoutService.scrollToItem('content');
+        this._layoutService.scrollToElement('#content');
       });
   }
 

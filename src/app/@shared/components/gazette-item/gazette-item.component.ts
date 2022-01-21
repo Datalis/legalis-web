@@ -29,18 +29,16 @@ export class GazetteItemComponent implements OnInit {
   }
 
   showGazettePdf(file: any) {
-    const url = `https://api-gaceta.datalis.dev/files/${file}`;
-    this._dataService
-      .downloadFile(url)
-      .pipe(untilDestroyed(this))
-      .subscribe((res) => {
-        this._modal.open(PdfViewerComponent, {
-          centered: true,
-          size: 'xl',
-          scrollable: true,
-          backdrop: 'static',
-        }).componentInstance.pdfFile = res.body;
-      });
+    const modalRef = this._modal.open(PdfViewerComponent, {
+      centered: true,
+      size: 'xl',
+      scrollable: true,
+      backdrop: 'static',
+    });
+    modalRef.shown.toPromise().then(() => {
+      const viewer: PdfViewerComponent = modalRef.componentInstance;
+      viewer.openPdf(file);
+    })
   }
 
   downloadGazettePdf(id: any, file: any): Observable<HttpResponse<Blob>> {

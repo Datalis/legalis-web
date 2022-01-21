@@ -78,6 +78,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes, {
       scrollPositionRestoration: 'disabled',
       preloadingStrategy: PreloadAllModules,
+
     }),
   ],
   exports: [RouterModule],

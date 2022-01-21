@@ -52,9 +52,9 @@ export class NormativeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
+    /*setTimeout(() => {
       this._layoutService.scrollToTop();
-    }, 1);
+    }, 1);*/
   }
 
   isActive(item: any): boolean {
@@ -62,8 +62,17 @@ export class NormativeComponent implements OnInit, AfterViewInit {
   }
 
   showGazettePdf(file: any) {
-    const url = `https://api-gaceta.datalis.dev/files/${file}`;
-    this._dataService
+    const modalRef = this._modal.open(PdfViewerComponent, {
+      centered: true,
+      size: 'xl',
+      scrollable: true,
+      backdrop: 'static',
+    });
+    modalRef.shown.toPromise().then(() => {
+      const viewer: PdfViewerComponent = modalRef.componentInstance;
+      viewer.openPdf(file);
+    })
+    /*this._dataService
       .downloadFile(url)
       .pipe(untilDestroyed(this))
       .subscribe((res) => {
@@ -73,7 +82,7 @@ export class NormativeComponent implements OnInit, AfterViewInit {
           scrollable: true,
           backdrop: 'static',
         }).componentInstance.pdfFile = res.body;
-      });
+      });*/
   }
 
   downloadGazettePdf(id: any, file: any): Observable<HttpResponse<Blob>> {

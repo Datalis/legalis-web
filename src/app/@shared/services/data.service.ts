@@ -13,6 +13,7 @@ import { APIService } from './api.service';
 import { GlossaryTerm } from '../model/glossary-term';
 import { Params } from '../model/params';
 import { GazetteResume } from '../model/gazette-resume';
+import { Infographic } from '../model/infographic';
 
 @Injectable({
   providedIn: 'root',
@@ -124,7 +125,10 @@ export class DataService {
   }
 
   getNormativeThematics() {
-    return this._apiService.get<NormativeThematic[]>('/normativas/tematicas').pipe(share());
+    return this._apiService.get<NormativeThematic[]>('/normativas/tematicas').pipe(
+      map(res => res.splice(0,20)),
+      share()
+    );
   }
 
   getNormativeKeywords() {
@@ -135,16 +139,24 @@ export class DataService {
     return this._apiService.get<string[]>('/normativas/organismos').pipe(share());
   }
 
-  getNormativesResume(): Observable<any[]> {
+  getNormativesResume() {
     return this._apiService.get<any[]>('/normativas/resumen').pipe(share());
   }
 
-  getDirectories(): Observable<Directory[]> {
+  getDirectories() {
     return this._apiService.get<Directory[]>('/directorios').pipe(share());
   }
 
-  getLatestNews(): Observable<any[]> {
+  getLatestNews() {
     return this._apiService.get<any[]>(environment.newsApiUrl).pipe(share());
+  }
+
+  getInfographics() {
+    return this._apiService.get<PagedResult<Infographic>>('/infografia')
+  }
+
+  getInfographic(id: number) {
+    return this._apiService.get<Infographic>(`/infografia/${id}`);
   }
 
   getSearchResults(params: Params): Observable<PagedResult<Normative>> {

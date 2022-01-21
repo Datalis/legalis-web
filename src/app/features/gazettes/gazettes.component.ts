@@ -43,7 +43,7 @@ export class GazettesComponent implements OnInit {
 
   resume: any = null;
   resumeMenuCollapsed = true;
-  
+
   results$?: Observable<PagedResult<Gazette> | null>;
 
   @ViewChild('filterMobile', { read: FiltersComponent }) filterMobile?: FiltersComponent;
@@ -133,11 +133,11 @@ export class GazettesComponent implements OnInit {
         relativeTo: this._route,
       })
       .then(() => {
-        this._layout.scrollToItem('content');
+        this._layout.scrollToElement('#content');
       });
   }
 
-  
+
   searchByGazetteType(type: string) {
     const _params = new Params({
       page_size: 6,

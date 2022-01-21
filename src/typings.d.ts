@@ -5,6 +5,8 @@
 // Allow .json files imports
 declare module '*.json';
 
+//declare module 'highlight-words-core';
+
 // SystemJS module definition
 declare var module: NodeModule;
 interface NodeModule {

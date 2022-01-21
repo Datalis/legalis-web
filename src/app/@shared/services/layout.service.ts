@@ -11,14 +11,16 @@ import { ScreenSize } from '../model/screen-size.enum';
 export class LayoutService implements OnDestroy {
   isSmallScreen$ = new BehaviorSubject(false);
 
+  scrollToElement$ = new Subject<string>();
+  scrollToTop$ = new Subject();
+
   get isSmallScreen() {
     return this.isSmallScreen$.value;
   }
 
   private subscriptions$: Subscription[] = [];
 
-  constructor(private viewportScroller: ViewportScroller, private _screenSize: ScreenSizeService) {
-    this.viewportScroller.setOffset([0, 80]);
+  constructor(private _screenSize: ScreenSizeService) {
     this.subscriptions$.push(
       this._screenSize.screenSize$
         .pipe(
@@ -34,10 +36,10 @@ export class LayoutService implements OnDestroy {
   }
 
   scrollToTop(): void {
-    this.viewportScroller.scrollToPosition([0, 0]);
+    this.scrollToTop$.next(true);
   }
 
-  scrollToItem(id: any) {
-    this.viewportScroller.scrollToAnchor(id);
+  scrollToElement(anchor: string) {
+    this.scrollToElement$.next(anchor);
   }
 }

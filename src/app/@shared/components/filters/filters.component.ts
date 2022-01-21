@@ -46,7 +46,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
     step: 1,
   };
 
-  paramsChange$ = new Subject();
+  paramsChange$ = new Subject<void>();
 
   private get _years(): number[] {
     const _res: number[] = [];

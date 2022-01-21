@@ -1,3 +1,4 @@
+import { NgScrollbarModule } from 'ngx-scrollbar';
 import { FormsModule } from '@angular/forms';
 import { FooterComponent } from './footer/footer.component';
 import { NgModule } from '@angular/core';
@@ -21,7 +22,7 @@ import { SharedModule } from '@app/@shared';
     FormsModule,
     I18nModule,
     SharedModule,
-    RouterModule,
+    RouterModule
   ],
   declarations: [HeaderComponent, FooterComponent, ShellComponent],
 })

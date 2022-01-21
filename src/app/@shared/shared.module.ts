@@ -1,3 +1,4 @@
+import { NgScrollbarModule } from 'ngx-scrollbar';
 import { FileSaverModule } from 'ngx-filesaver';
 import { PdfViewerComponent } from './components/pdf-viewer/pdf-viewer.component';
 import { EmptyResultsComponent } from './components/empty-results/empty-results.component';
@@ -33,6 +34,7 @@ export function playerFactory() {
     NgSelectModule,
     PdfJsViewerModule,
     FileSaverModule,
+    NgScrollbarModule,
     LottieModule.forRoot({ player: playerFactory }),
   ],
   declarations: [

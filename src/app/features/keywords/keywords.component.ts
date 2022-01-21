@@ -131,6 +131,6 @@ export class KeywordsComponent implements OnInit {
         queryParamsHandling: 'merge',
         relativeTo: this._route,
       })
-      .then(() => this._layoutService.scrollToItem('content'));
+      .then(() => this._layoutService.scrollToElement('#content'));
   }
 }
