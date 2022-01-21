@@ -3,5 +3,7 @@
   width: 100vw;
   display: block;
 
-
+  ng-scrollbar ::ng-deep .app-scroller > .ng-scroll-content {
+    width: 100vw !important;
+  }
 }

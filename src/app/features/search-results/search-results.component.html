@@ -15,7 +15,7 @@
         <div class="divider"></div>
         <div class="d-flex flex-column flex-lg-row align-items-start" *ngIf="results?.count">
           <span *ngIf="currentSearchQuery" class="fw-bold">Mostrando <span class="text-accent">{{ results?.count || 0 }}</span> resultados para: <em class="text-accent">{{ currentSearchQuery }}</em></span>
-          <span *ngIf="!currentSearchQuery">Mostrando <span class="text-accent">{{ results?.count || 0 }}</span> resultados</span>
+          <span *ngIf="!currentSearchQuery" class="fw-bold">Mostrando <span class="text-accent">{{ results?.count || 0 }}</span> resultados</span>
           <div class="d-flex ms-lg-auto">
             <span class="me-4 fw-bold">Ordenar por:</span>
             <div class="d-flex mt-1">

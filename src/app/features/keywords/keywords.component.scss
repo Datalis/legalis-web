@@ -14,7 +14,7 @@
 .keyword-selector {
   margin: 0;
   height: 250px;
-  overflow-y: auto;
+  //overflow-y: auto;
   @include media-breakpoint-down(md) {
     max-height: 500px;
   }

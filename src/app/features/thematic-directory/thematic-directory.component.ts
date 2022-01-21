@@ -36,7 +36,7 @@ export class ThematicDirectoryComponent implements OnInit, AfterViewInit {
 
   rootPath = 'thematic-directory';
 
-  itemsPerPage = 4;
+  itemsPerPage = 3;
 
   results$?: Observable<PagedResult<Normative> | null>;
 
@@ -74,7 +74,12 @@ export class ThematicDirectoryComponent implements OnInit, AfterViewInit {
         } else {
           this.childDirectories = this.getChildDirectories(this.directories, this.currentDirectory);
           this.params.directory = this.currentDirectory.id;
-          this.results$ = this._dataService.getNormativeList(this.params);
+          this.results$ = this._dataService.getNormativeList(this.params).pipe(
+            map((res) => ({
+              ...res,
+              results: res.results.filter(e => e.state == 'Activa' || e.state == 'Vigente')
+            }))
+          );
         }
         this.isLoading = false;
       });

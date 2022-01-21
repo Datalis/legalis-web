@@ -1,3 +1,4 @@
+import { NgScrollbarModule } from 'ngx-scrollbar';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -8,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { KeywordsComponent } from './keywords.component';
 
 @NgModule({
-  imports: [CommonModule, SharedModule, NgbModule, FormsModule, NgxPaginationModule, KeywordsRoutes],
+  imports: [CommonModule, SharedModule, NgbModule, NgScrollbarModule, FormsModule, NgxPaginationModule, KeywordsRoutes],
   declarations: [KeywordsComponent],
 })
 export class KeywordsModule {}
