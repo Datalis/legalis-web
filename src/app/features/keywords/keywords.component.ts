@@ -33,7 +33,7 @@ export class KeywordsComponent implements OnInit {
 
   currentKeyword: string | null = null;
   currentLetter = 'A';
-  currentOrder: null | 'date' = null;
+  currentOrder: null | 'year' = null;
 
   get currentKeywords() {
     return this.keywords.filter((k) => k.startsWith(this.currentLetter));

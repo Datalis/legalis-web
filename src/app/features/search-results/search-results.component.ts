@@ -27,7 +27,7 @@ export class SearchResultsComponent implements OnInit {
 
   currentSearchQuery: string = '';
 
-  currentOrder: null | 'date' = null;
+  sortByYear = false;
 
   constructor(
     private _dataService: DataService,
@@ -88,7 +88,8 @@ export class SearchResultsComponent implements OnInit {
   }
 
   onOrderChange(): void {
-    this.params.ordering = this.currentOrder;
+    //this.params.ordering = this.currentOrder;
+    this.params.sort_by_year = this.sortByYear || null;
     this.getResults();
   }
 

@@ -39,11 +39,11 @@
         <h5 class="fw-bold text-blue px-4 px-lg-0 mb-0 text-center text-lg-start">{{ currentKeyword }}</h5>
         <div class="divider mt-3"></div>
         <div class="d-flex flex-column flex-lg-row align-items-start mb-2" *ngIf="results?.count">
-          <span class="text-blue fw-bold"
+          <span class="fw-bold"
             >Mostrando <span class="text-accent">{{results?.count}}</span> resultados</span
           >
           <div class="d-flex mt-2 mt-lg-0 ms-lg-auto">
-            <span class="text-blue fw-bold flex-grow-1 me-4">Ordenar</span>
+            <span class="fw-bold flex-grow-1 me-4">Ordenar por:</span>
             <div class="d-flex mt-1">
               <div class="form-check text-small text-italic me-4">
                 <input
@@ -61,7 +61,7 @@
                   class="form-check-input"
                   type="radio"
                   id="recent_order"
-                  value="date"
+                  value="year"
                   [(ngModel)]="currentOrder"
                   (ngModelChange)="onOrderChange()"
                 />

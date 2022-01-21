@@ -17,6 +17,7 @@ export class Params {
   directory: string | null = null;
   startswith: string | null = null;
   id: string | null = null;
+  sort_by_year: boolean | null = null;
 
   constructor(obj: any = {}) {
     Object.assign(this, {
