@@ -55,7 +55,7 @@ export class SearchResultsComponent implements OnInit {
         this.thematics = thematics || [];
         this.organisms = organisms || [];
         this.params = params;
-        this.params.page_size = 4;
+        this.params.page_size = 5;
         this.currentSearchQuery = decodeURIComponent(this.params.text || '');
         this.results = undefined;
         this._dataService

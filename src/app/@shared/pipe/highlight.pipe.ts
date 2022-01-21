@@ -6,19 +6,21 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class HighlightPipe implements PipeTransform {
   transform(value: string, args: any): any {
     if (!value) return;
-    if (!args) return value;
+    if (!args) return;
 
     const INTERVAL = 180;
 
     // clean string;
-    value = new DOMParser().parseFromString(value, 'text/html').body.textContent || "";
-    const validReg = new RegExp(/[^a-zA-Z0-9 ]/g);
-    value = value.replace(validReg, '');
+
 
     const re = new RegExp(args, 'gi');
     const matches = value.match(re);
 
-    if (!matches) return value;
+    if (!matches) return;
+
+    value = new DOMParser().parseFromString(value, 'text/html').body.textContent || "";
+    const validReg = new RegExp(/[]/g);
+    //value = value.replace(validReg, '');
 
     const m = matches[0];
     const length = m.length;
@@ -30,7 +32,7 @@ export class HighlightPipe implements PipeTransform {
 
     console.log({m, length, start, end, extStart, extEnd, text, value})
 
-    text = `[...${text}...]`
+    text = `${text}...`
 
     return text.replace(re, '<mark>$&</mark>');
   }

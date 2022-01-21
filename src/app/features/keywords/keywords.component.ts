@@ -76,7 +76,7 @@ export class KeywordsComponent implements OnInit {
 
         if (this.currentKeyword) {
           this.params = params;
-          this.params.page_size = 4;
+          this.params.page_size = 5;
 
           this.results = undefined;
           this._dataService

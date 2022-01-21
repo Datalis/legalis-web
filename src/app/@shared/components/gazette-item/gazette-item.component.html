@@ -1,7 +1,7 @@
 <div class="gazette-item d-flex flex-column">
   <div class="gazette-header py-2 px-3 d-flex">
     <div class="d-flex flex-column text-start flex-grow-1">
-      <span class="text-blue">Gaceta Oficial No. {{ item.number }}</span>
+      <span class="text-blue fw-bold">Gaceta Oficial No. {{ item.number }}</span>
       <div class="d-flex align-items-center">
         <small class="text-small text-uppercase me-2">{{ item.date | date: 'dd/MM/YYYY' }}</small>
         <small class="text-small text-uppercase">{{ item.type }}</small>
@@ -15,12 +15,12 @@
       [http]="downloadGazettePdf(item?.id, item?.file)"><i class="fas fa-file-download me-1"></i> DESCARGAR</small>
     </div>
   </div>
-  <div class="gazette-content py-3 px-4 flex-grow-1" [(ngbCollapse)]="contentCollapsed">
-    <ng-scrollbar>
+  <div class="gazette-content p-3 flex-grow-1" [(ngbCollapse)]="contentCollapsed">
+    <ng-scrollbar track="vertical" >
       <div *ngFor="let n of item.normatives; let i = index" class="d-flex flex-column">
-        <div class="divider" *ngIf="i > 0"></div>
-        <small><a class="text-dark fw-bold" [routerLink]="['/normative', n.id]">{{n.name}}</a></small>
+        <small><a class="text-blue fw-bold" [routerLink]="['/normative', n.id]">{{n.name}}</a></small>
         <small class="truncate text-small mt-1">{{n.summary}}</small>
+        <div class="divider"></div>
       </div>
     </ng-scrollbar>
   </div>

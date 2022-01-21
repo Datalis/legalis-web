@@ -37,7 +37,7 @@ export class GazettesComponent implements OnInit {
   normativesResume: NormativeResume[] = [];
 
   params = new Params({
-    page_size: 6,
+    page_size: 5,
     //year: 2021
   });
 

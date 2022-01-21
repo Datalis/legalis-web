@@ -16,14 +16,14 @@
         <small class="text-muted mt-2">Modificado por: {{ normative?.modifiedby }}</small>
         <small class="text-muted mt-2">Derogado a: {{ normative?.derogatedto }}</small>
         <small class="text-muted mt-2">Derogado por: {{ normative?.derogatedby }}</small>-->
-        <div class="divider-dark my-4"></div>
+        <div class="divider my-4"></div>
         <div class="col-sm-12">
-          <h6 class="text-accent">Resumen:</h6>
+          <h6 class="text-small fw-bold">Resumen:</h6>
           <p>{{ normative?.summary || '---' }}</p>
         </div>
 
         <div class="col-sm-12">
-          <h6 class="text-accent">Temáticas:</h6>
+          <h6 class="text-small fw-bold">Temáticas:</h6>
           <div class="d-flex flex-wrap">
             <span class="text-italic text-blue">
               {{ normative?.keywords?.join(', ') }}
@@ -35,9 +35,9 @@
     <div class="col-lg-4">
       <div class="bg-blue-light d-flex flex-column align-items-start justify-content-center px-3 py-2">
         <small class="text-uppercase fw-bold text-small text-blue">Gaceta que contiene la norma</small>
-        <span class="mt-1 mb-2">Gaceta {{ gazette?.type }} No. {{ gazette?.number }}</span>
+        <span class="mt-1 mb-2 fw-bold">Gaceta {{ gazette?.type }} No. {{ gazette?.number }}</span>
         <div class="d-flex w-100">
-          <small class="text-accent flex-grow-1">{{ gazette?.date | date: 'dd/MM/YYYY' }}</small>
+          <small class="flex-grow-1">{{ gazette?.date | date: 'dd/MM/YYYY' }}</small>
           <div class="d-flex align-items-end">
             <small class="text-small text-blue me-3 pointer" (click)="showGazettePdf(gazette?.file)"
               ><i class="fas fa-eye me-1"></i> VER</small

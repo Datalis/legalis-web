@@ -36,7 +36,7 @@
           />
           <label class="form-check-label" for="thematic_default"> Todas las temáticas </label>
         </div>
-        <div class="form-check text-small" *ngFor="let item of thematics; let i = index">
+        <div class="form-check text-small" *ngFor="let item of thematics.slice(0,20); let i = index">
           <input
             class="form-check-input"
             type="radio"

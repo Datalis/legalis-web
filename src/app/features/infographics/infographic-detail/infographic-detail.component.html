@@ -1,12 +1,13 @@
 <div class="infographic-container container-fluid container-lg px-0 px-md-4 py-4">
   <ng-container *ngIf="result$ | async as res; else loading">
-    <div class="d-flex flex-column align-items-start">
-      <h5 class="text-blue fw-bold mb-0">{{res.titulo}}</h5>
-      <span class="mt-2">{{res.autor}}</span>
-    </div>
-    <div class="content-wrapper row mt-4" >
+
+    <div class="content-wrapper row my-4" >
       <div class="col-md-6 pe-lg-4">
-        <div class="bg-surface p-4">
+        <div class="d-flex flex-column align-items-start">
+          <h5 class="text-blue fw-bold mb-0">{{res.titulo}}</h5>
+          <span class="mt-2">Por: {{res.autor}}</span>
+        </div>
+        <div class="bg-surface p-4 mt-4">
           <p class="mb-3 flex-grow-1">
             {{res.descripcion}}
           </p>

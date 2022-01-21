@@ -126,7 +126,6 @@ export class DataService {
 
   getNormativeThematics() {
     return this._apiService.get<NormativeThematic[]>('/normativas/tematicas').pipe(
-      map(res => res.splice(0,20)),
       share()
     );
   }

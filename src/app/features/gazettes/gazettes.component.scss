@@ -2,13 +2,16 @@
   cursor: pointer;
 }
 
-.overflow-y-auto {
-  overflow-y: auto;
-}
-
 .resume-container {
+  cursor: pointer;
   .resume-toggler {
     width: 24px;
+  }
+  .resume-content.collapsing {
+    opacity: 0;
+  }
+  .resume-content.show {
+    opacity: 1;
   }
 }
 

@@ -14,9 +14,8 @@
         <h5 class="fw-bold mb-0 text-blue">RESULTADOS DE LA BÚSQUEDA</h5>
         <div class="divider"></div>
         <div class="d-flex flex-column flex-lg-row align-items-start">
-          <span *ngIf="currentSearchQuery"
-          >Mostrando <span class="text-accent">{{ results?.count || 0 }}</span> resultados para <em class="text-accent">{{ currentSearchQuery }}</em></span
-        >
+          <span *ngIf="currentSearchQuery">Mostrando <span class="text-accent">{{ results?.count || 0 }}</span> resultados para <em class="text-accent">{{ currentSearchQuery }}</em></span>
+          <span *ngIf="!currentSearchQuery">Mostrando <span class="text-accent">{{ results?.count || 0 }}</span> resultados</span>
           <div class="d-flex ms-lg-auto">
             <span class="me-4">Ordenar por:</span>
             <div class="d-flex mt-1">
@@ -49,7 +48,7 @@
             </div>
           </div>
         </div>
-        <div class="result-list mt-2 flex-grow-1 d-flex flex-column" *ngIf="results; else loading" style="overflow-y: auto;">
+        <div class="result-list mt-2 flex-grow-1 d-flex flex-column" *ngIf="results; else loading">
           <app-empty-results *ngIf="results.count === 0"></app-empty-results>
           <ng-container
             *ngFor="

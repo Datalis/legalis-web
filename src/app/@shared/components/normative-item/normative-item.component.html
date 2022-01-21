@@ -1,17 +1,13 @@
-<div routerLink="/normative/{{ item.id }}"
-  class="result-item d-flex flex-column align-items-start text-start px-4 pb-4"
-  [class.result-item-active]="isActive"
->
+<div routerLink="/normative/{{ item.id }}" class="result-item d-flex flex-column text-start px-4 pb-4" [class.result-item-active]="isActive">
   <span *ngIf="showState" class="result-state px-2 py-1 text-uppercase align-self-start">{{ item.state }}</span>
-  <span
-    class="text-blue fw-bold mt-2"
-    [innerHtml]="item.name"
-  ></span>
+  <span class="text-blue fw-bold mt-2" [innerHtml]="item.name"></span>
   <p class="result-summary my-2" [innerHtml]="item.summary"></p>
   <p *ngIf="showText" class="result-text my-2" [innerHtml]="item.text | highlight: searchQuery"></p>
-  <span class="mt-2 text-small">Publicado en: {{ item.gazette }}</span>
-  <span class="mt-2 text-small">Emisor: {{ item.organism }}</span>
-  <span class="text-blue text-italic mt-2 text-small">
-    {{ item.keywords?.join(', ') }}
-  </span>
+  <div class="d-flex flex-column mt-auto">
+    <span class="text-small"><strong>Publicado en:</strong> {{ item.gazette }}</span>
+    <span class="text-small"><strong>Emisor:</strong> {{ item.organism }}</span>
+    <span class="text-small">
+      <strong>Palabras claves:</strong> <em class="text-blue fw-bold">{{ item.keywords?.join(", ") }}</em>
+    </span>
+  </div>
 </div>

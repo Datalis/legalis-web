@@ -12,7 +12,7 @@
         <div class="col-12 px-3 py-2" (click)="collapse.toggle()">
           <div class="row mx-0">
             <div class="d-flex px-0">
-              <h6 class="flex-grow-1 d-flex align-items-center text-blue mb-0"><span class="me-1">{{ resume.year }}</span> - <span
+              <h6 class="flex-grow-1 d-flex align-items-center text-blue mb-0 fw-bold"><span class="me-1">{{ resume.year }}</span> - <span
                 class="ms-1" *ngIf="resume.year_end">{{ resume.year_end }}</span></h6>
               <span class="resume-toggler text-blue text-center p-0 pointer">
                 <i class="fas" [class.fa-angle-up]="!resumeMenuCollapsed" [class.fa-angle-down]="resumeMenuCollapsed"></i>
@@ -22,8 +22,8 @@
             <small class="col-4 p-0 flex-grow-1"><span class="me-1">{{ resume.normatives.total }}</span> NORMAS EMITIDAS</small>
           </div>
         </div>
-        <div class="col-12 pb-3" #collapse="ngbCollapse" [(ngbCollapse)]="resumeMenuCollapsed">
-          <div class="row mx-0">
+        <div class="col-12 resume-content" #collapse="ngbCollapse" [(ngbCollapse)]="resumeMenuCollapsed">
+          <div class="row mx-0 mb-3">
             <div class="col-6">
               <ng-container *ngFor="let type of resume.gazettes.types">
                 <a class="row" (click)="searchByGazetteType(type.type)">
@@ -44,7 +44,7 @@
         </div>
       </div>
       <ng-container *ngIf="results$ | async as res; else loading">
-        <div class="flex-grow-1 overflow-y-auto d-flex flex-column text-center text-lg-start mt-2">
+        <div class="flex-grow-1 d-flex flex-column text-center text-lg-start mt-2">
           <div class="gazettes-container d-flex flex-column justify-content-start flex-grow-1">
             <app-gazette-item
               *ngFor="let gazette of res.results | paginate: { id: 'gazettes', itemsPerPage: params.page_size || 10, currentPage: params.page || 1, totalItems: res.count }"
