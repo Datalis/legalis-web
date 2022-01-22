@@ -1,7 +1,7 @@
 @import "/src/theme/theme-variables.scss";
 
 .result-item {
-  height: 235px;
+  min-height: 235px;
   cursor: pointer;
   background-color: $surface;
   //border: 1px solid rgba($blue-light, 0.2);
@@ -18,11 +18,6 @@
 
   .result-text {
     font-size: 14px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
     line-height: 1.1;
   }
 

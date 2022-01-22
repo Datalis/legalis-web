@@ -36,7 +36,7 @@ export class KeywordsComponent implements OnInit {
   currentOrder: null | 'year' = null;
 
   get currentKeywords() {
-    return this.keywords.filter((k) => k.startsWith(this.currentLetter));
+    return this.keywords.filter((k) => k.toLowerCase().startsWith(this.currentLetter.toLowerCase()));
   }
 
   currentLetter$ = new BehaviorSubject(this.currentLetter);
@@ -61,7 +61,7 @@ export class KeywordsComponent implements OnInit {
         untilDestroyed(this),
         catchError((e) => {
           this.isLoading = false;
-          return throwError(e);
+          throw e;
         }),
         finalize(() => (this.isLoading = false))
       )

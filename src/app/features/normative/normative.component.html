@@ -8,34 +8,43 @@
           [class.active]="isActive(normative)"
           >{{ normative?.state }}</span
         >
-        <small class="text-muted mt-2">Tipo: {{ normative?.normtype }}</small>
-        <small class="text-muted mt-2">Año: {{ normative?.year }}</small>
-        <small class="text-muted mt-2">Publicado en: Gaceta {{ gazette?.type }} No. {{ gazette?.number }}</small>
-        <small class="text-muted mt-2">Emisor: {{ normative?.organism }}</small>
-        <!--<small class="text-muted mt-2">Modificado a: {{ normative?.modifiedto }}</small>
-        <small class="text-muted mt-2">Modificado por: {{ normative?.modifiedby }}</small>
-        <small class="text-muted mt-2">Derogado a: {{ normative?.derogatedto }}</small>
-        <small class="text-muted mt-2">Derogado por: {{ normative?.derogatedby }}</small>-->
+        <div class="col-12 mt-3 ">
+          <span class="text-muted">Tipo:</span>
+          <span class="text-dark">{{ normative?.normtype }}</span>
+        </div>
+        <div class="col-12 mt-1">
+          <span class="text-muted">Año:</span>
+          <span class="text-dark">{{ normative?.year }}</span>
+        </div>
+        <div class="col-12 mt-1">
+          <span class="text-muted">Publicado en:</span>
+          <span class="text-dark">Gaceta {{ gazette?.type }} No. {{ gazette?.number }}</span>
+        </div>
+        <div class="col-12 mt-1">
+          <span class="text-muted">Emisor: </span>
+          <span class="text-dark">{{ normative?.organism }}</span>
+        </div>
+
         <div class="divider my-4"></div>
         <div class="col-sm-12">
-          <h6 class="text-small fw-bold">Resumen:</h6>
-          <p>{{ normative?.summary || '---' }}</p>
+          <span class="text-muted">Resumen:</span>
+          <p class="mt-1" style="line-height: 1;">{{ normative?.summary || '---' }}</p>
         </div>
 
         <div class="col-sm-12">
-          <h6 class="text-small fw-bold">Temáticas:</h6>
+          <span class="text-muted">Temáticas:</span>
           <div class="d-flex flex-wrap">
-            <span class="text-italic text-blue">
-              {{ normative?.keywords?.join(', ') }}
+            <span class="text-italic text-blue fw-bold">
+              {{ normative?.keywords?.join(', ') | decodeUri  }}
             </span>
           </div>
         </div>
       </div>
     </div>
     <div class="col-lg-4">
-      <div class="bg-blue-light d-flex flex-column align-items-start justify-content-center px-3 py-2">
-        <small class="text-uppercase fw-bold text-small text-blue">Gaceta que contiene la norma</small>
-        <span class="mt-1 mb-2 fw-bold">Gaceta {{ gazette?.type }} No. {{ gazette?.number }}</span>
+      <div class="bg-blue-light d-flex flex-column align-items-start justify-content-center px-3 py-2" *ngIf="gazette">
+        <small class="text-uppercase fw-bold text-small">Gaceta que contiene la norma</small>
+        <span class="mt-1 mb-2 text-blue fw-bold">Gaceta {{ gazette?.type }} No. {{ gazette?.number }}</span>
         <div class="d-flex w-100">
           <small class="flex-grow-1">{{ gazette?.date | date: 'dd/MM/YYYY' }}</small>
           <div class="d-flex align-items-end">

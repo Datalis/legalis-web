@@ -14,7 +14,7 @@
             <p class="mb-1 text-dark">
               {{ item.summary }}
             </p>
-            <small class="text-blue text-small text-italic fw-bold">{{ item.keywords?.join(", ") }}</small>
+            <small class="text-blue text-small text-italic fw-bold">{{ item.keywords?.join(", ") | decodeUri }}</small>
           </a>
         </div>
       </div>
@@ -34,7 +34,7 @@
             {{ item.summary }}
           </p>
           <small class="text-small text-blue text-italic fw-bold mt-auto">
-            {{ item.keywords.slice(0, 2).join(", ") }}
+            {{ item.keywords.slice(0, 2).join(", ") | decodeUri }}
           </small>
         </a>
       </carousel>

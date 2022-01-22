@@ -4,36 +4,48 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'highlight',
 })
 export class HighlightPipe implements PipeTransform {
-  transform(value: string, args: any): any {
+  transform(value: string, args: string): any {
     if (!value) return;
     if (!args) return;
 
-    const INTERVAL = 180;
-
     // clean string;
+    const isExactMatch = args.includes('"');
 
+    const text = this.normalizeText(value);
 
-    const re = new RegExp(args, 'gi');
-    const matches = value.match(re);
+    if (isExactMatch) {
+      const _arg = args.replace(/["]/g, '');
+      const matches = text.match(new RegExp(_arg, 'gi'));
+      const match = matches?.[0];
+      if (!match) return;
+      return this.extractFromSingleMatch(match, text, 180);
+    } else {
+      let regExp: RegExp;
+      if (args.includes(" ")) {
+        const _search = args.split(" ").join("|");
+        regExp = new RegExp(_search, 'gi');
+      } else {
+        regExp = new RegExp(args, 'gi');
+      }
+      const matches = text.match(regExp);
+      const match = matches?.[0];
+      if (!match) return;
+      return this.extractFromSingleMatch(match, text, 180);
+    }
+  }
 
-    if (!matches) return;
+  private normalizeText(text: string): string {
+    return new DOMParser().parseFromString(text, 'text/html').body.textContent || "";
+  }
 
-    value = new DOMParser().parseFromString(value, 'text/html').body.textContent || "";
-    const validReg = new RegExp(/[]/g);
-    //value = value.replace(validReg, '');
-
-    const m = matches[0];
-    const length = m.length;
-    const start = value.indexOf(m);
+  private extractFromSingleMatch(match: string, text: string, interval: number) {
+    const length = match.length;
+    const start = text.indexOf(match);
     const end = start + length;
-    const extStart = (start - INTERVAL) < 0 ? 0 : start - INTERVAL;
-    const extEnd = (end + INTERVAL) > value.length ? value.length : end + INTERVAL;
-    let text = value.substring(extStart, extEnd);
-
-    console.log({m, length, start, end, extStart, extEnd, text, value})
-
-    text = `${text}...`
-
-    return text.replace(re, '<mark>$&</mark>');
+    const extStart = (start - interval) < 0 ? 0 : start - interval;
+    const extEnd = (end + interval) > text.length ? text.length : end + interval;
+    const highlight = new RegExp(match, 'gi');
+    const res = text.substring(extStart, extEnd)?.replace(highlight, '<mark>$&</mark>') || "";
+    return `[...${res}...]`;
   }
 }

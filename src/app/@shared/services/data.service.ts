@@ -14,6 +14,7 @@ import { GlossaryTerm } from '../model/glossary-term';
 import { Params } from '../model/params';
 import { GazetteResume } from '../model/gazette-resume';
 import { Infographic } from '../model/infographic';
+import { BypassUrlEncoder } from '../http/http-url-encoder';
 
 @Injectable({
   providedIn: 'root',
@@ -146,10 +147,6 @@ export class DataService {
     return this._apiService.get<Directory[]>('/directorios').pipe(share());
   }
 
-  getLatestNews() {
-    return this._apiService.get<any[]>(environment.newsApiUrl).pipe(share());
-  }
-
   getInfographics() {
     return this._apiService.get<PagedResult<Infographic>>('/infografia')
   }
@@ -159,11 +156,26 @@ export class DataService {
   }
 
   getSearchResults(params: Params): Observable<PagedResult<Normative>> {
+    let _params = Object.assign({}, params);
+    if (_params.organism && _params.organism.includes(" ")) {
+      _params.organism = `"${_params.organism}"`;
+    }
+    if (_params.state && _params.state.includes(" ")) {
+      _params.state = `"${_params.state}"`;
+    }
+    if (_params.tematica && _params.tematica.includes(" ")) {
+      _params.tematica = `"${_params.tematica}"`;
+    }
     return this._apiService.get(
       '/search',
-      params,
-      true
+      _params,
+      true,
+      new BypassUrlEncoder()
     );
+  }
+
+  getLatestNews() {
+    return this._apiService.get<any[]>(environment.newsApiUrl).pipe(share());
   }
 
   getAboutUsInfo(): Observable<any> {

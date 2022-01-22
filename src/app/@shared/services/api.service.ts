@@ -18,13 +18,13 @@ export class APIService {
 
   constructor(private _httpClient: HttpClient) {}
 
-  public get<T>(path: string, params?: Params, disableCaching = false): Observable<T> {
+  public get<T>(path: string, params?: Params, disableCaching = false, encoder = new HttpUrlEncoder()): Observable<T> {
     const _params = params ? removeEmpty(params) : {};
     return this._httpClient.get<T>(path, {
       headers: this._headers,
       params: new HttpParams({
         fromObject: _params,
-        encoder: new HttpUrlEncoder()
+        encoder
       }),
     });
   }

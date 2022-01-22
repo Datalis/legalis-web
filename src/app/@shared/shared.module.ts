@@ -1,3 +1,4 @@
+import { DecodeUriPipe } from './pipe/decode-uri.pipe';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { FileSaverModule } from 'ngx-filesaver';
 import { PdfViewerComponent } from './components/pdf-viewer/pdf-viewer.component';
@@ -45,7 +46,8 @@ export function playerFactory() {
     EmptyResultsComponent,
     PdfViewerComponent,
     HighlightPipe,
+    DecodeUriPipe
   ],
-  exports: [LoaderComponent, FiltersComponent, NormativeItemComponent, GazetteItemComponent, EmptyResultsComponent, HighlightPipe],
+  exports: [LoaderComponent, FiltersComponent, NormativeItemComponent, GazetteItemComponent, EmptyResultsComponent, HighlightPipe,  DecodeUriPipe],
 })
 export class SharedModule {}

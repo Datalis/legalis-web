@@ -47,7 +47,7 @@ export class SearchResultsComponent implements OnInit {
         untilDestroyed(this),
         catchError((e) => {
           this.isLoading = false;
-          return throwError(e);
+          throw e;
         })
       )
       .subscribe(([states, thematics, organisms, params]) => {
@@ -55,8 +55,10 @@ export class SearchResultsComponent implements OnInit {
         this.thematics = thematics || [];
         this.organisms = organisms || [];
         this.params = params;
+
         this.params.page_size = 5;
         this.currentSearchQuery = decodeURIComponent(this.params.text || '');
+        this.sortByYear = new Boolean(this.params.sort_by_year).valueOf() || false;
         this.results = undefined;
         this._dataService
           .getSearchResults(this.params)

@@ -7,7 +7,7 @@
     <span class="text-small"><strong>Publicado en:</strong> {{ item.gazette }}</span>
     <span class="text-small"><strong>Emisor:</strong> {{ item.organism }}</span>
     <span class="text-small">
-      <strong>Palabras claves:</strong> <em class="text-blue fw-bold">{{ item.keywords?.join(", ") }}</em>
+      <strong>Palabras claves:</strong> <em class="text-blue fw-bold">{{ item.keywords?.join(", ") | decodeUri }}</em>
     </span>
   </div>
 </div>
