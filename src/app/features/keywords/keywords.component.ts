@@ -33,7 +33,7 @@ export class KeywordsComponent implements OnInit {
 
   currentKeyword: string | null = null;
   currentLetter = 'A';
-  currentOrder: null | 'year' = null;
+  currentOrder: null | '-year' = null;
 
   get currentKeywords() {
     return this.keywords.filter((k) => k.toLowerCase().startsWith(this.currentLetter.toLowerCase()));
@@ -73,6 +73,8 @@ export class KeywordsComponent implements OnInit {
         this.organisms = organisms || [];
 
         this.currentKeyword = params.keyword ? decodeURIComponent(params.keyword) : null;
+
+        this.currentOrder = params.ordering == '-year' ? '-year' : null;
 
         if (this.currentKeyword) {
           this.params = params;
