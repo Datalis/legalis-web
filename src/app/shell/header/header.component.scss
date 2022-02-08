@@ -43,6 +43,8 @@ $header-height: 280px;
     .header-slogan {
       color: $primary;
       letter-spacing: 1.2px;
+      white-space: nowrap;
+      text-align: center;
     }
 
     .header-nav {
