@@ -39,6 +39,12 @@ $header-height: 280px;
       height: 120px;
       width: auto;
     }
+
+    .header-slogan {
+      color: $primary;
+      letter-spacing: 1.2px;
+    }
+
     .header-nav {
       display: flex;
       flex-direction: column;
