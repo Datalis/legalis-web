@@ -87,6 +87,7 @@
     "htmlhint": "^1.1.4",
     "https-proxy-agent": "^5.0.0",
     "jest": "^27.0.6",
+    "mock-express-request": "^0.2.2",
     "stylelint": "~13.13.1",
     "stylelint-config-prettier": "^8.0.2",
     "stylelint-config-recommended-scss": "~4.3.0",
