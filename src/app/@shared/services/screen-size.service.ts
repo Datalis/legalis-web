@@ -24,20 +24,22 @@ export class ScreenSizeService implements OnDestroy {
   subcriptions$: Subscription[] = [];
 
   constructor(private zone: NgZone) {
-    this._bph = bph(ScreenSizeService.BREAKPOINTS);
-    const load$ = fromEvent(window, 'load');
-    const resize$ = fromEvent(window, 'resize');
-    const change$ = from([load$, resize$]).pipe(mergeAll());
-    this.subcriptions$.push(
-      change$
-        .pipe(
-          map(() => Object.values(ScreenSize)),
-          map((sizes) => sizes.find((s) => this.isMatching(s)))
-        )
-        .subscribe((size) => {
-          this.screenSize$.next(size);
-        })
-    );
+    if (typeof window !== 'undefined') {
+      this._bph = bph(ScreenSizeService.BREAKPOINTS);
+      const load$ = fromEvent(window, 'load');
+      const resize$ = fromEvent(window, 'resize');
+      const change$ = from([load$, resize$]).pipe(mergeAll());
+      this.subcriptions$.push(
+        change$
+          .pipe(
+            map(() => Object.values(ScreenSize)),
+            map((sizes) => sizes.find((s) => this.isMatching(s)))
+          )
+          .subscribe((size) => {
+            this.screenSize$.next(size);
+          })
+      );
+    }
   }
 
   ngOnDestroy(): void {

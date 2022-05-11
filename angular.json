@@ -175,6 +175,27 @@
             }
           },
           "defaultConfiguration": "production"
+        },
+        "app-shell": {
+          "builder": "@angular-devkit/build-angular:app-shell",
+          "options": {
+            "route": "shell"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "legalis:build:production",
+              "serverTarget": "legalis:server:production"
+            },
+            "development": {
+              "browserTarget": "legalis:build:development",
+              "serverTarget": "legalis:server:development"
+            },
+            "ci": {
+              "browserTarget": "legalis:build:ci",
+              "serverTarget": "legalis:server:ci"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }

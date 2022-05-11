@@ -2,15 +2,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Normative } from './../../@shared/model/normative';
 import { Infographic } from '@app/@shared/model/infographic';
 import { Gazette } from '@app/@shared/model/gazette';
-import { Params } from '@app/@shared/model/params';
-import { map, tap, take, switchMap } from 'rxjs/operators';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { ScreenSize } from '@app/@shared/model/screen-size.enum';
-import { ScreenSizeService } from '@app/@shared/services/screen-size.service';
-import { Observable, forkJoin } from 'rxjs';
-import { CarouselComponent } from 'angular-responsive-carousel';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ApiService } from '@app/@shared/services/api.service';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { UntilDestroy } from '@ngneat/until-destroy';
+import { isPlatformBrowser } from '@angular/common';
 
 @UntilDestroy()
 @Component({
@@ -24,11 +18,11 @@ export class HomeComponent implements OnInit {
   infographics: Infographic[] = [];
   relatedNews: any[] = [];
 
-  constructor(
-    private apiService: ApiService,
-    private screenSizeService: ScreenSizeService,
-    private route: ActivatedRoute
-  ) {}
+  isBrowser: boolean = false;
+
+  constructor(@Inject(PLATFORM_ID) private platformId: any, private route: ActivatedRoute) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   async ngOnInit() {
     const [popularRes, recentRes, newsRes, infogRes] = this.route.snapshot.data.data;

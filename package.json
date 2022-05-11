@@ -13,6 +13,7 @@
     "dev:ssr": "ng run legalis:serve-ssr",
     "serve:ssr": "node dist/legalis/server/main.js",
     "build:ssr": "ng build && ng run legalis:server",
+    "build:shell": "ng run legalis:app-shell:production",
     "prerender": "ng run legalis:prerender"
   },
   "dependencies": {
@@ -61,7 +62,7 @@
   },
   "devDependencies": {
     "@angular-builders/jest": "^12.1.0",
-    "@angular-devkit/build-angular": "~13.1.2",
+    "@angular-devkit/build-angular": "^13.3.5",
     "@angular-eslint/builder": "13.0.1",
     "@angular-eslint/eslint-plugin": "13.0.1",
     "@angular-eslint/eslint-plugin-template": "13.0.1",
@@ -82,7 +83,7 @@
     "eslint-plugin-import": "2.25.2",
     "eslint-plugin-jsdoc": "^37.6.1",
     "eslint-plugin-prefer-arrow": "latest",
-    "htmlhint": "^0.15.1",
+    "htmlhint": "^1.1.4",
     "https-proxy-agent": "^5.0.0",
     "jest": "^27.0.6",
     "stylelint": "~13.13.1",
