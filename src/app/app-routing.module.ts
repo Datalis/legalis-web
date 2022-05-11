@@ -6,14 +6,14 @@ const routes: Routes = [
   // Lazy load modules
   Shell.childRoutes([
     {
-      path: 'advanced-search',
+      path: 'busqueda-avanzada',
       loadChildren: () =>
         import('./features/advanced-search/advanced-search.module').then((m) => m.AdvancedSearchModule),
     },
   ]),
   Shell.childRoutes([
     {
-      path: 'thematic-directory',
+      path: 'directorio-tematico',
       loadChildren: () =>
         import('./features/thematic-directory/thematic-directory.module').then((m) => m.ThematicDirectoryModule),
       data: {
@@ -23,50 +23,56 @@ const routes: Routes = [
   ]),
   Shell.childRoutes([
     {
-      path: 'keywords',
+      path: 'palabras-claves',
       loadChildren: () => import('./features/keywords/keywords.module').then((m) => m.KeywordsModule),
     },
   ]),
   Shell.childRoutes([
     {
-      path: 'how-to-search',
+      path: 'como-buscar',
       loadChildren: () => import('./features/how-to-search/how-to-search.module').then((m) => m.HowToSearchModule),
     },
   ]),
   Shell.childRoutes([
     {
-      path: 'analysis',
+      path: 'analisis',
       loadChildren: () => import('./features/analysis/analysis.module').then((m) => m.AnalysisModule),
     },
   ]),
   Shell.childRoutes([
     {
-      path: 'glossary',
+      path: 'glosario',
       loadChildren: () => import('./features/glossary/glossary.module').then((m) => m.GlossaryModule),
     },
   ]),
   Shell.childRoutes([
     {
-      path: 'infographics',
+      path: 'infografias',
       loadChildren: () => import('./features/infographics/infographics.module').then((m) => m.InfographicsModule),
     },
   ]),
   Shell.childRoutes([
     {
-      path: 'normative',
+      path: 'normativa',
       loadChildren: () => import('./features/normative/normative.module').then((m) => m.NormativeModule),
     },
   ]),
   Shell.childRoutes([
     {
-      path: 'gazettes',
+      path: 'gacetas',
       loadChildren: () => import('./features/gazettes/gazettes.module').then((m) => m.GazettesModule),
     },
   ]),
   Shell.childRoutes([
     {
-      path: 'search',
+      path: 'busqueda',
       loadChildren: () => import('./features/search-results/search-results.module').then((m) => m.SearchResultsModule),
+    },
+  ]),
+  Shell.childRoutes([
+    {
+      path: 'acerca-de',
+      loadChildren: () => import('./features/about/about.module').then((m) => m.AboutModule),
     },
   ]),
   // Fallback when no prior route is matched
@@ -78,7 +84,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes, {
       scrollPositionRestoration: 'disabled',
       preloadingStrategy: PreloadAllModules,
-
+      initialNavigation: 'enabledBlocking',
     }),
   ],
   exports: [RouterModule],

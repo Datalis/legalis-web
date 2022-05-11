@@ -1,10 +1,12 @@
+import { LETTERS } from './../../@shared/utils/data';
+import { ApiService } from '@app/@shared/services/api.service';
 import { LayoutService } from './../../@shared/services/layout.service';
 import { Normative } from './../../@shared/model/normative';
 import { Params } from '../../@shared/model/params';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, catchError, switchMap, finalize, tap } from 'rxjs/operators';
 import { Observable, throwError, BehaviorSubject, forkJoin, combineLatest } from 'rxjs';
-import { DataService } from '@app/@shared/services/data.service';
+//import { DataService } from '@app/@shared/services/data.service';
 import { Component, OnInit } from '@angular/core';
 import { PagedResult } from '@app/@shared/model/paged-result';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -42,51 +44,37 @@ export class KeywordsComponent implements OnInit {
   currentLetter$ = new BehaviorSubject(this.currentLetter);
 
   constructor(
-    private _dataService: DataService,
+    //private _dataService: DataService,
+    private _apiService: ApiService,
     private _route: ActivatedRoute,
     private _router: Router,
     private _layoutService: LayoutService
   ) {}
 
   ngOnInit() {
-    combineLatest([
-      this._dataService.getNormativeStates(),
-      this._dataService.getNormativeThematics(),
-      this._dataService.getNormativeKeywords(),
-      this._dataService.getNormativeOrganisms(),
-      this._dataService.letters$,
-      this._route.queryParams.pipe(map((params) => Params.fromObject(params))),
-    ])
+    const [states, thematics, keywords, organisms] = this._route.snapshot.data.data;
+
+    this.states = states;
+    this.thematics = thematics;
+    this.keywords = keywords;
+    this.organisms = organisms;
+
+    this.letters = LETTERS;
+
+    this._route.queryParams
       .pipe(
         untilDestroyed(this),
-        catchError((e) => {
-          this.isLoading = false;
-          throw e;
-        }),
-        finalize(() => (this.isLoading = false))
+        map((params) => Params.fromObject(params))
       )
-      .subscribe(([states, thematics, keywords, organisms, letters, params]) => {
-        this.states = states || [];
-        this.thematics = thematics || [];
-        this.keywords = keywords || [];
-        this.letters = letters || [];
-        this.organisms = organisms || [];
-
+      .subscribe(async (params) => {
         this.currentKeyword = params.keyword ? decodeURIComponent(params.keyword) : null;
-
         this.currentOrder = params.ordering == '-year' ? '-year' : null;
 
         if (this.currentKeyword) {
           this.params = params;
           this.params.page_size = 5;
-
           this.results = undefined;
-          this._dataService
-            .getNormativeList(params)
-            .pipe(untilDestroyed(this))
-            .subscribe((res) => {
-              this.results = res;
-            });
+          this.results = await this._apiService.findNormatives(params);
         } else {
           this.params.keyword = this.currentKeywords[0];
           this._router.navigate([], {
@@ -96,8 +84,6 @@ export class KeywordsComponent implements OnInit {
             relativeTo: this._route,
           });
         }
-
-        this.isLoading = false;
       });
   }
 

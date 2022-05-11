@@ -1,5 +1,5 @@
 <div class="normative container-fluid container-lg px-md-4 py-4">
-  <div class="row" *ngIf="!isLoading; else loading">
+  <div class="row" *ngIf="normative; else loading">
     <div class="col-lg-8 mb-4">
       <div class="d-flex flex-column justify-content-start ps-lg-4">
         <h5 class="text-blue mb-1 fw-bold mb-0">{{ normative?.name }}</h5>
@@ -8,7 +8,7 @@
           [class.active]="isActive(normative)"
           >{{ normative?.state }}</span
         >
-        <div class="col-12 mt-3 ">
+        <div class="col-12 mt-3">
           <span class="text-muted">Tipo:</span>
           <span class="text-dark">{{ normative?.normtype }}</span>
         </div>
@@ -28,14 +28,14 @@
         <div class="divider my-4"></div>
         <div class="col-sm-12">
           <span class="text-muted">Resumen:</span>
-          <p class="mt-1" style="line-height: 1;">{{ normative?.summary || '---' }}</p>
+          <p class="mt-1" style="line-height: 1">{{ normative?.summary || "---" }}</p>
         </div>
 
         <div class="col-sm-12">
           <span class="text-muted">Temáticas:</span>
           <div class="d-flex flex-wrap">
             <span class="text-italic text-blue fw-bold">
-              {{ normative?.keywords?.join(', ') | decodeUri  }}
+              {{ normative?.keywords?.join(", ") | decodeUri }}
             </span>
           </div>
         </div>
@@ -46,7 +46,7 @@
         <small class="text-uppercase fw-bold text-small">Gaceta que contiene la norma</small>
         <span class="mt-1 mb-2 text-blue fw-bold">Gaceta {{ gazette?.type }} No. {{ gazette?.number }}</span>
         <div class="d-flex w-100">
-          <small class="flex-grow-1">{{ gazette?.date | date: 'dd/MM/YYYY' }}</small>
+          <small class="flex-grow-1">{{ gazette?.date | date: "dd/MM/YYYY" }}</small>
           <div class="d-flex align-items-end">
             <small class="text-small text-blue me-3 pointer" (click)="showGazettePdf(gazette?.file)"
               ><i class="fas fa-eye me-1"></i> VER</small

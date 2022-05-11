@@ -3,17 +3,15 @@
     <h5 class="text-blue fw-bold">QUIÉNES SOMOS</h5>
   </div>
   <div class="row mt-4 justify-content-center">
-    <ng-container *ngIf="results$ | async as res; else loading">
-      <div class="col-lg-4 mb-4" *ngFor="let item of res.results">
-        <div class="d-flex flex-column align-items-center">
-          <img class="img-circle" [src]="item.imagen || '/assets/generic-image.webp'" />
-          <span class="text-uppercase text-blue fw-bold mt-2">{{ item.nombre }}</span>
-          <span class="text-uppercase text-small text-center">
-            {{ item.descripcion }}
-          </span>
-        </div>
+    <div class="col-lg-4 mb-4" *ngFor="let item of team">
+      <div class="d-flex flex-column align-items-center">
+        <img class="img-circle" [src]="item.imagen || '/assets/generic-image.webp'" />
+        <span class="text-uppercase text-blue fw-bold mt-2">{{ item.nombre }}</span>
+        <span class="text-uppercase text-small text-center">
+          {{ item.descripcion }}
+        </span>
       </div>
-    </ng-container>
+    </div>
   </div>
 </div>
 <ng-template #loading>

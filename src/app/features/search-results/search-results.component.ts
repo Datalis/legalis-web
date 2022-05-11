@@ -1,13 +1,14 @@
+import { ApiService } from '@app/@shared/services/api.service';
 import { Normative } from '@app/@shared/model/normative';
 import { LayoutService } from './../../@shared/services/layout.service';
 import { PagedResult } from './../../@shared/model/paged-result';
-import { catchError, map } from 'rxjs/operators';
-import { DataService } from '@app/@shared/services/data.service';
-import { throwError, combineLatest, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+//import { DataService } from '@app/@shared/services/data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Params } from '@app/@shared/model/params';
+import { Title } from '@angular/platform-browser';
 
 @UntilDestroy()
 @Component({
@@ -30,45 +31,38 @@ export class SearchResultsComponent implements OnInit {
   sortByYear = false;
 
   constructor(
-    private _dataService: DataService,
+    //private _dataService: DataService,
+    private _apiService: ApiService,
     private _route: ActivatedRoute,
     private _router: Router,
-    private _layoutService: LayoutService
+    private _layoutService: LayoutService,
+    private _title: Title
   ) {}
 
+  setPageTitle(query: string) {
+    this._title.setTitle(`Legalis - Resultados de búsqueda para "${query}"`);
+  }
+
   ngOnInit() {
-    combineLatest([
-      this._dataService.getNormativeStates(),
-      this._dataService.getNormativeThematics(),
-      this._dataService.getNormativeOrganisms(),
-      this._route.queryParams.pipe(map((params) => Params.fromObject(params))),
-    ])
+    const [states, thematics, organisms] = this._route.snapshot.data.data;
+    this.states = states;
+    this.thematics = thematics;
+    this.organisms = organisms;
+
+    this._route.queryParams
       .pipe(
         untilDestroyed(this),
-        catchError((e) => {
-          this.isLoading = false;
-          throw e;
-        })
+        map((params) => Params.fromObject(params))
       )
-      .subscribe(([states, thematics, organisms, params]) => {
-        this.states = states || [];
-        this.thematics = thematics || [];
-        this.organisms = organisms || [];
+      .subscribe(async (params) => {
+        this.setPageTitle(params.text!);
         this.params = params;
-
         this.params.page_size = 5;
         this.currentSearchQuery = decodeURIComponent(this.params.text || '');
         this.sortByYear = new Boolean(this.params.sort_by_year).valueOf() || false;
         this.results = undefined;
-        this._dataService
-          .getSearchResults(this.params)
-          .pipe(untilDestroyed(this))
-          .subscribe((res) => {
-            this.results = res;
-          });
-        this.isLoading = false;
+        this.results = await this._apiService.search(this.params);
       });
-    this._layoutService.scrollToTop();
   }
 
   getResults(): void {

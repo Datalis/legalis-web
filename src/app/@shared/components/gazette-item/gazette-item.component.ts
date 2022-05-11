@@ -1,32 +1,28 @@
+import { ApiService } from '@app/@shared/services/api.service';
 import { HttpResponse } from '@angular/common/http';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PdfViewerComponent } from './../pdf-viewer/pdf-viewer.component';
-import { DataService } from '@app/@shared/services/data.service';
+//import { DataService } from '@app/@shared/services/data.service';
 import { Gazette } from '@app/@shared/model/gazette';
 import { Component, Input, OnInit } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 
 @UntilDestroy()
 @Component({
   selector: 'app-gazette-item',
   templateUrl: './gazette-item.component.html',
-  styleUrls: ['./gazette-item.component.scss']
+  styleUrls: ['./gazette-item.component.scss'],
 })
 export class GazetteItemComponent implements OnInit {
-
   @Input() item!: Gazette;
 
   contentCollapsed = false;
 
-  constructor(
-    private _dataService: DataService,
-    private _modal: NgbModal
-  ) { }
+  constructor(private _apiService: ApiService, private _modal: NgbModal) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   showGazettePdf(file: any) {
     const modalRef = this._modal.open(PdfViewerComponent, {
@@ -38,17 +34,12 @@ export class GazetteItemComponent implements OnInit {
     modalRef.shown.toPromise().then(() => {
       const viewer: PdfViewerComponent = modalRef.componentInstance;
       viewer.openPdf(file);
-    })
+    });
   }
 
   downloadGazettePdf(id: any, file: any): Observable<HttpResponse<Blob>> {
-    return this._dataService.getGazetteById(id).pipe(
-      switchMap(() => {
-        const url = `https://api-gaceta.datalis.dev/files/${file}`;
-        return this._dataService.downloadFile(url);
-      })
-    );
+    return this._apiService
+      .downloadFile(`https://api-gaceta.datalis.dev/files/${file}`)
+      .pipe(tap(async () => this._apiService.getGazette(id)));
   }
-
-
 }

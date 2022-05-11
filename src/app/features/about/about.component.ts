@@ -1,9 +1,7 @@
-import { Observable } from 'rxjs';
-import { PagedResult } from '@app/@shared/model/paged-result';
-import { DataService } from '@app/@shared/services/data.service';
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-
 import { environment } from '@env/environment';
+import { AboutItem } from '@app/@shared/model/about-item';
 
 @Component({
   selector: 'app-about',
@@ -13,11 +11,12 @@ import { environment } from '@env/environment';
 export class AboutComponent implements OnInit {
   version: string | null = environment.version;
 
-  results$?: Observable<PagedResult<any>>;
+  team: AboutItem[] = [];
 
-  constructor(private _dataService: DataService) {
-    this.results$ = this._dataService.getAboutUsInfo();
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    const data = this.route.snapshot.data.aboutDetails;
+    this.team = data.results || [];
   }
-
-  ngOnInit() {}
 }

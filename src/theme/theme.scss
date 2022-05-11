@@ -102,18 +102,20 @@ body {
     &-prev {
       left: -50px !important;
       &::after {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
-        content: "\f053";
+        width: 24px;
+        height: 24px;
+        content: " ";
+        background-image: url('/assets/chevron-left.svg')
       }
     }
 
     &-next {
       right: -50px !important;
       &::after {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
-        content: "\f054";
+        content: " ";
+        width: 24px;
+        height: 24px;
+        background-image: url('/assets/chevron-right.svg');
       }
     }
   }
@@ -121,11 +123,12 @@ body {
   .carousel-container {
     p {
       display: -webkit-box;
-      -webkit-line-clamp: 4;
+      -webkit-line-clamp: 8;
       -webkit-box-orient: vertical;
       overflow: hidden;
       text-overflow: ellipsis;
       font-size: 14px;
+      line-height: 1.2;
     }
   }
 }
@@ -146,7 +149,7 @@ body {
   .ngx-slider-pointer {
     background-color: $accent !important;
     border-radius: 3px !important;
-    transform: scale(0.5);
+    scale: 0.5 !important;
     top: -30px !important;
     &::after {
       display: none;

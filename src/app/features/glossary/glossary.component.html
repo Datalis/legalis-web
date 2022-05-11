@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="mt-4 mx-4">
-      <ng-container *ngIf="!isLoading && results; else loading">
+      <ng-container *ngIf="results; else loading">
         <div class="results-container row m-0" *ngIf="results.count !== 0; else noRes">
           <div
             class="col-md-6"

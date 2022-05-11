@@ -1,4 +1,8 @@
-<div routerLink="/normative/{{ item.id }}" class="result-item d-flex flex-column text-start px-4 pb-4" [class.result-item-active]="isActive">
+<div
+  routerLink="/normativa/{{ item.id }}"
+  class="result-item d-flex flex-column text-start px-4 pb-4"
+  [class.result-item-active]="isActive"
+>
   <span *ngIf="showState" class="result-state px-2 py-1 text-uppercase align-self-start">{{ item.state }}</span>
   <span class="text-blue fw-bold mt-2" [innerHtml]="item.name"></span>
   <p class="result-summary my-2" [innerHtml]="item.summary"></p>

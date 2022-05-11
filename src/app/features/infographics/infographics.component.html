@@ -3,25 +3,30 @@
     <h5 class="text-blue fw-bold mb-0">INFOGRAFÍAS</h5>
     <!--<span class="fw-bold">Herramientas...</span>-->
   </div>
-  <div class="row mt-4" *ngIf="results$ | async as res; else loading">
+  <div class="row mt-4" *ngIf="results as res; else loading">
     <div class="col-md-6 pe-lg-4 border-right-accent">
       <div class="d-flex flex-column info-container">
         <div class="article bg-surface mb-2 d-flex flex-column" *ngFor="let item of res.results">
           <h6 class="fw-bold text-light bg-accent text-center px-4 py-4 mb-0">
-            {{item.titulo}}
+            {{ item.titulo }}
           </h6>
           <div class="p-4 d-flex flex-column flex-grow-1">
             <p class="mb-3 flex-grow-1">
-              {{item.descripcion}}
+              {{ item.descripcion }}
             </p>
-            <a class="text-accent text-italic fw-bold ms-auto" routerLink="/infographics/{{item.id}}">Leer más</a>
+            <a class="text-accent text-italic fw-bold ms-auto" routerLink="/infografias/{{ item.id }}">Leer más</a>
           </div>
         </div>
       </div>
     </div>
     <div class="col-md-6 ps-lg-4 d-flex align-items-start justify-content-center">
-      <img class="img-fluid h-100" style="object-fit: cover; object-position: center;" [src]="((images$ | async) || [{url: ''}] )[0].url" alt="" (click)="openGallery(gallery)" />
-
+      <img
+        class="img-fluid h-100"
+        style="object-fit: cover; object-position: top left"
+        [src]="(images || [{ url: '' }])[0].url"
+        alt=""
+        (click)="openGallery(gallery)"
+      />
     </div>
   </div>
 </div>
@@ -29,10 +34,5 @@
   <app-loader></app-loader>
 </ng-template>
 <ng-template #gallery let-c="close" let-d="dismiss">
-  <ngx-image-gallery
-        #gallery
-        [conf]="config"
-        [images]="(images$ | async) || []"
-        (onClose)="c('')"
-      ></ngx-image-gallery>
+  <ngx-image-gallery #gallery [conf]="config" [images]="images || []" (onClose)="c('')"></ngx-image-gallery>
 </ng-template>

@@ -3,7 +3,7 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 import { FileSaverModule } from 'ngx-filesaver';
 import { PdfViewerComponent } from './components/pdf-viewer/pdf-viewer.component';
 import { EmptyResultsComponent } from './components/empty-results/empty-results.component';
-import { NgbCollapse, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
 import { NormativeItemComponent } from './components/normative-item/normative-item.component';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -46,8 +46,16 @@ export function playerFactory() {
     EmptyResultsComponent,
     PdfViewerComponent,
     HighlightPipe,
-    DecodeUriPipe
+    DecodeUriPipe,
   ],
-  exports: [LoaderComponent, FiltersComponent, NormativeItemComponent, GazetteItemComponent, EmptyResultsComponent, HighlightPipe,  DecodeUriPipe],
+  exports: [
+    LoaderComponent,
+    FiltersComponent,
+    NormativeItemComponent,
+    GazetteItemComponent,
+    EmptyResultsComponent,
+    HighlightPipe,
+    DecodeUriPipe,
+  ],
 })
 export class SharedModule {}

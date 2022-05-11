@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { HomeComponent } from './home.component';
 import { Shell } from '@app/shell/shell.service';
+import { AboutComponent } from './about.component';
+import { AboutResolver } from './about.resolver';
 
 const routes: Routes = [
-  Shell.childRoutes([
-    { path: '', redirectTo: '/home', pathMatch: 'full' },
-    { path: 'home', component: HomeComponent, data: { title: 'Inicio' } },
-  ]),
+  {
+    path: '',
+    component: AboutComponent,
+    resolve: { aboutDetails: AboutResolver },
+    data: { title: 'Acerca de' },
+  },
 ];
 
 @NgModule({
@@ -16,4 +19,4 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [],
 })
-export class HomeRoutingModule {}
+export class AboutRoutingModule {}

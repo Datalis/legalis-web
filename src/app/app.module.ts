@@ -11,7 +11,6 @@ import { RouteReusableStrategy, ApiPrefixInterceptor, ErrorHandlerInterceptor, S
 
 import { HomeModule } from './features/home/home.module';
 import { ShellModule } from './shell/shell.module';
-import { AboutModule } from './features/about/about.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -24,7 +23,7 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 
 @NgModule({
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
     FormsModule,
     HttpClientModule,
@@ -33,10 +32,9 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
     SharedModule,
     ShellModule,
     HomeModule,
-    AboutModule,
     NgScrollbarModule,
     LoadingBarModule,
-   // LoadingBarRouterModule,
+    LoadingBarRouterModule,
     LoadingBarHttpClientModule,
     //AuthModule,
     AppRoutingModule, // must be imported as the last module as it contains the fallback route

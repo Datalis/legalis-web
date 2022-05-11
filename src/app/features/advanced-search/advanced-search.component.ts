@@ -1,10 +1,8 @@
+import { ApiService } from '@app/@shared/services/api.service';
 import { Params } from '../../@shared/model/params';
-import { catchError } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { DataService } from '@app/@shared/services/data.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { throwError, Observable, forkJoin } from 'rxjs';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { UntilDestroy } from '@ngneat/until-destroy';
 
 @UntilDestroy()
 @Component({
@@ -22,8 +20,7 @@ export class AdvancedSearchComponent implements OnInit {
     ceil: this.slideMaxYear,
   };
 
-  isLoading = true;
-  searchText = "";
+  searchText = '';
 
   get years(): number[] {
     const _res: number[] = [];
@@ -39,18 +36,25 @@ export class AdvancedSearchComponent implements OnInit {
 
   params: Params = new Params();
 
-  constructor(private _dataService: DataService, private _router: Router) { }
+  constructor(private router: Router, private apiService: ApiService, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.params.search_field = 'text';
-    forkJoin([this._dataService.getNormativeStates(), this._dataService.getNormativeThematics(), this._dataService.getNormativeOrganisms()])
+
+    const [states, thematics, organisms] = this.route.snapshot.data.data;
+
+    this.states = states;
+    this.thematics = thematics;
+    this.organisms = organisms;
+
+    /*forkJoin([this._dataService.getNormativeStates(), this._dataService.getNormativeThematics(), this._dataService.getNormativeOrganisms()])
       .pipe(untilDestroyed(this))
       .subscribe(([states, thematics, organisms]) => {
         this.states = states;
         this.thematics = thematics;
         this.organisms = organisms;
         this.isLoading = false;
-      });
+      });*/
   }
 
   reset(): void {
@@ -59,7 +63,7 @@ export class AdvancedSearchComponent implements OnInit {
   }
 
   search(): void {
-    this._router.navigate(['/search'], {
+    this.router.navigate(['/search'], {
       queryParams: this.params.toObject(),
       queryParamsHandling: 'merge',
     });

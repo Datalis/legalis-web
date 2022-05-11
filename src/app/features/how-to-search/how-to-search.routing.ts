@@ -5,6 +5,7 @@ const routes: Routes = [
   {
     path: '',
     component: HowToSearchComponent,
+    data: { title: 'Cómo buscar' },
   },
 ];
 

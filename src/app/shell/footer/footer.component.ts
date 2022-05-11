@@ -1,6 +1,6 @@
 import { LayoutService } from './../../@shared/services/layout.service';
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '@app/@shared/services/data.service';
+//import { DataService } from '@app/@shared/services/data.service';
 import { Observable } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Router } from '@angular/router';
@@ -18,11 +18,11 @@ export class FooterComponent implements OnInit {
 
   constructor(
     private _router: Router,
-    private _dataService: DataService,
+    //private _dataService: DataService,
     private _layoutService: LayoutService) {}
 
   ngOnInit() {
-    this.$news = this._dataService.getLatestNews();
+    //this.$news = this._dataService.getLatestNews();
     this._layoutService.isSmallScreen$.pipe(untilDestroyed(this)).subscribe((small) => (this.isSmallScreen = small));
   }
 

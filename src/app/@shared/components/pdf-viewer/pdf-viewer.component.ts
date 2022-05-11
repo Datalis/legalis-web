@@ -1,5 +1,5 @@
 import { BehaviorSubject, Subject } from 'rxjs';
-import { DataService } from '@app/@shared/services/data.service';
+//import { DataService } from '@app/@shared/services/data.service';
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, AfterViewInit, NgZone } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { PdfJsViewerComponent } from 'ng2-pdfjs-viewer';
@@ -26,7 +26,8 @@ export class PdfViewerComponent implements OnInit {
   }
 
   constructor(
-    private _modal: NgbActiveModal, private _dataService: DataService,
+    private _modal: NgbActiveModal,
+    //sprivate _dataService: DataService,
     private ngZone: NgZone) { }
 
   ngOnInit() {

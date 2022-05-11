@@ -1,15 +1,12 @@
 import { LayoutService } from './@shared/services/layout.service';
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute, Event, Scroll } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { TranslateService } from '@ngx-translate/core';
-import { merge, combineLatest } from 'rxjs';
-import { filter, map, switchMap, delay, take } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 
 import { environment } from '@env/environment';
 import { Logger, UntilDestroy, untilDestroyed } from '@shared';
-import { I18nService } from '@app/i18n';
-import { registerLocaleData, ViewportScroller } from '@angular/common';
+import { registerLocaleData } from '@angular/common';
 import localeCU from '@angular/common/locales/es-CU';
 import { NgScrollbar } from 'ngx-scrollbar';
 
@@ -22,15 +19,14 @@ const log = new Logger('App');
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-
-  @ViewChild("scrollerRef") scroller?: NgScrollbar;
+  @ViewChild('scrollerRef') scroller?: NgScrollbar;
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private titleService: Title,
     private layoutService: LayoutService
-  ) { }
+  ) {}
 
   ngOnInit() {
     if (environment.production) {
@@ -62,23 +58,23 @@ export class AppComponent implements OnInit {
         }
       });
 
-    this.router.events.pipe(
-      filter((e: Event): e is Scroll => e instanceof Scroll),
-      untilDestroyed(this)
-    ).subscribe(e => {
-      if (e.position) {
-        const [x] = e.position;
-        this.scroller?.scrollTo({ top: x });
-      } else if (e.anchor) {
-        this.scroller?.scrollToElement(`#${e.anchor}`);
-      } else {
-        this.scroller?.scrollTo({ top: 0 });
-      }
-    });
+    this.router.events
+      .pipe(
+        filter((e: Event): e is Scroll => e instanceof Scroll),
+        untilDestroyed(this)
+      )
+      .subscribe((e) => {
+        if (e.position) {
+          const [x] = e.position;
+          this.scroller?.scrollTo({ top: x });
+        } else if (e.anchor) {
+          this.scroller?.scrollToElement(`#${e.anchor}`);
+        } else {
+          this.scroller?.scrollTo({ top: 0 });
+        }
+      });
 
-    this.layoutService.scrollToTop$
-      .pipe(untilDestroyed(this))
-      .subscribe(() => this.scroller?.scrollTo({ top: 0 }));
+    this.layoutService.scrollToTop$.pipe(untilDestroyed(this)).subscribe(() => this.scroller?.scrollTo({ top: 0 }));
     this.layoutService.scrollToElement$
       .pipe(untilDestroyed(this))
       .subscribe((anchor) => this.scroller?.scrollToElement(anchor));

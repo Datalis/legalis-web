@@ -28,6 +28,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   onSearchClicked(): void {
-    this.router.navigate(['search'], { queryParams: { text: this.query.trim() } });
+    this.router.navigate(['busqueda'], { queryParams: { text: this.query.trim() } });
   }
 }

@@ -1,15 +1,17 @@
-import { mergeMap, switchMap, map } from 'rxjs/operators';
+import { ApiService } from '@app/@shared/services/api.service';
+import { tap } from 'rxjs/operators';
 import { LayoutService } from './../../@shared/services/layout.service';
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Normative } from '@app/@shared/model/normative';
-import { DataService } from '@app/@shared/services/data.service';
-import { Observable, EMPTY, of } from 'rxjs';
+//import { DataService } from '@app/@shared/services/data.service';
+import { Observable } from 'rxjs';
 import { Gazette } from '@app/@shared/model/gazette';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PdfViewerComponent } from '@app/@shared/components/pdf-viewer/pdf-viewer.component';
 import { HttpResponse } from '@angular/common/http';
+import { Title } from '@angular/platform-browser';
 
 @UntilDestroy()
 @Component({
@@ -17,49 +19,32 @@ import { HttpResponse } from '@angular/common/http';
   templateUrl: './normative.component.html',
   styleUrls: ['./normative.component.scss'],
 })
-export class NormativeComponent implements OnInit, AfterViewInit {
+export class NormativeComponent implements OnInit {
   normative?: Normative;
   gazette?: Gazette;
 
   isLoading = false;
 
   constructor(
-    private _dataService: DataService,
+    private _apiService: ApiService,
     private _route: ActivatedRoute,
-    private _layoutService: LayoutService,
-    private _modal: NgbModal
+    private _modal: NgbModal,
+    private _title: Title
   ) {}
 
-  ngOnInit() {
-    const id = this._route.snapshot.params?.id;
-    this.isLoading = true;
-    this._dataService
-      .getNormativeById(id)
-      .pipe(
-        switchMap((normative) =>
-          {
-            if (!normative.gazette){
-              return of({ normative })
-            }
-            return this._dataService.getGazetteById(normative.gazette!!).pipe(
-              map((gazzete) => {
-                return { normative, gazzete };
-              })
-            )
-          }
-        )
-      )
-      .subscribe((res: any) => {
-        this.normative = res.normative;
-        this.gazette = res.gazzete;
-        this.isLoading = false;
-      });
+  async ngOnInit() {
+    const [normative, gazette] = this._route.snapshot.data.data;
+
+    this.normative = normative;
+    if (gazette) {
+      this.gazette = gazette;
+    }
+
+    this.setPageTitle(this.normative?.name || '');
   }
 
-  ngAfterViewInit(): void {
-    /*setTimeout(() => {
-      this._layoutService.scrollToTop();
-    }, 1);*/
+  setPageTitle(name: string) {
+    this._title.setTitle(`Legalis - ${name}`);
   }
 
   isActive(item: any): boolean {
@@ -76,15 +61,12 @@ export class NormativeComponent implements OnInit, AfterViewInit {
     modalRef.shown.toPromise().then(() => {
       const viewer: PdfViewerComponent = modalRef.componentInstance;
       viewer.openPdf(file);
-    })
+    });
   }
 
   downloadGazettePdf(id: any, file: any): Observable<HttpResponse<Blob>> {
-    return this._dataService.getGazetteById(id).pipe(
-      switchMap(() => {
-        const url = `https://api-gaceta.datalis.dev/files/${file}`;
-        return this._dataService.downloadFile(url);
-      })
-    );
+    return this._apiService
+      .downloadFile(`https://api-gaceta.datalis.dev/files/${file}`)
+      .pipe(tap(async () => this._apiService.getGazette(id)));
   }
 }

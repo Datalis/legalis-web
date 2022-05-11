@@ -1,5 +1,5 @@
 <div class="gazettes-container container-fluid container-lg px-0 px-lg-4 pb-4 pt-lg-4">
-  <div class="row" *ngIf="!isLoading; else loading">
+  <div class="row">
     <div class="col-md-4">
       <app-filters
         [states]="states"
@@ -11,11 +11,16 @@
     </div>
     <div class="col-md-8 p-0" id="content">
       <div class="d-flex flex-column ps-lg-2 text-center text-lg-start h-100">
-        <h5 class="fw-bold mb-0 text-blue" style="margin-top: 0.75rem;">RESULTADOS DE LA BÚSQUEDA</h5>
+        <h5 class="fw-bold mb-0 text-blue" style="margin-top: 0.75rem">RESULTADOS DE LA BÚSQUEDA</h5>
         <div class="divider"></div>
         <div class="d-flex flex-column flex-wrap flex-lg-row align-items-start" *ngIf="results?.count">
-          <span *ngIf="currentSearchQuery" class="fw-bold me-auto">Mostrando <span class="text-accent">{{ results?.count || 0 }}</span> resultados para: <em class="text-accent">{{ currentSearchQuery }}</em></span>
-          <span *ngIf="!currentSearchQuery" class="fw-bold me-auto">Mostrando <span class="text-accent">{{ results?.count || 0 }}</span> resultados</span>
+          <span *ngIf="currentSearchQuery" class="fw-bold me-auto"
+            >Mostrando <span class="text-accent">{{ results?.count || 0 }}</span> resultados para:
+            <em class="text-accent">{{ currentSearchQuery }}</em></span
+          >
+          <span *ngIf="!currentSearchQuery" class="fw-bold me-auto"
+            >Mostrando <span class="text-accent">{{ results?.count || 0 }}</span> resultados</span
+          >
           <div class="d-flex">
             <span class="me-4 fw-bold">Ordenar por:</span>
             <div class="d-flex mt-1">
@@ -28,9 +33,7 @@
                   (ngModelChange)="onOrderChange()"
                   id="default_order"
                 />
-                <label class="form-check-label text-italic" for="default_order">
-                  Mas relevantes
-                </label>
+                <label class="form-check-label text-italic" for="default_order"> Mas relevantes </label>
               </div>
               <div class="form-check text-small ms-4">
                 <input
@@ -41,9 +44,7 @@
                   (ngModelChange)="onOrderChange()"
                   id="recent_order"
                 />
-                <label class="form-check-label text-italic" for="recent_order">
-                  Mas recientes
-                </label>
+                <label class="form-check-label text-italic" for="recent_order"> Mas recientes </label>
               </div>
             </div>
           </div>
@@ -68,21 +69,19 @@
             <div class="mb-2"></div>
           </ng-container>
         </div>
-
       </div>
     </div>
     <div class="col-sm-12 mt-2">
       <pagination-controls
-          *ngIf="results"
-          id="results"
-          [responsive]="true"
-          previousLabel="Atrás"
-          nextLabel="Siguiente"
-          (pageChange)="getPage($event)"
-        ></pagination-controls>
-        <div class="divider m-0"></div>
+        *ngIf="results"
+        id="results"
+        [responsive]="true"
+        previousLabel="Atrás"
+        nextLabel="Siguiente"
+        (pageChange)="getPage($event)"
+      ></pagination-controls>
+      <div class="divider m-0"></div>
     </div>
-
   </div>
   <ng-template #loading>
     <app-loader></app-loader>

@@ -1,14 +1,15 @@
+import { ApiService } from '@app/@shared/services/api.service';
 import { LayoutService } from './../../@shared/services/layout.service';
 import { Params } from '@app/@shared/model/params';
-import { catchError, finalize, map, shareReplay, switchMap, distinctUntilChanged } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AfterViewInit, Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Directory } from '@app/@shared/model/directory';
 import { Normative } from '@app/@shared/model/normative';
 import { PagedResult } from '@app/@shared/model/paged-result';
-import { DataService } from '@app/@shared/services/data.service';
-import { Observable, combineLatest, throwError, EMPTY } from 'rxjs';
+//import { DataService } from '@app/@shared/services/data.service';
+import { combineLatest } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@app/@shared';
 
 @UntilDestroy()
@@ -34,16 +35,16 @@ export class ThematicDirectoryComponent implements OnInit, AfterViewInit {
   isLoading = true;
   isMenuCollapsed = false;
 
-  rootPath = 'thematic-directory';
+  rootPath = 'directorio-tematico';
 
   itemsPerPage = 3;
 
-  results$?: Observable<PagedResult<Normative> | null>;
+  results?: PagedResult<Normative>;
 
   params = new Params();
 
   constructor(
-    private _dataService: DataService,
+    private _apiService: ApiService,
     private _route: ActivatedRoute,
     private _router: Router,
     private _sanitizer: DomSanitizer,
@@ -51,37 +52,43 @@ export class ThematicDirectoryComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
+    const res = this._route.snapshot.data.directories;
+    this.directories = this.toArray(res);
+
     combineLatest([
       this._route.url.pipe(map((res) => res.map((e) => e.path))),
       this._route.queryParams.pipe(map((params) => Params.fromObject(params))),
-      this._dataService.getDirectories(),
     ])
       .pipe(untilDestroyed(this))
-      .subscribe(([paths, params, res]) => {
+      .subscribe(async ([paths, params]) => {
         this.params.year = null;
         this.params.page_size = this.itemsPerPage;
         this.params.page = params.page || 1;
-        this.directories = this.toArray(res);
+
         this.breadcrumbs = this.createBreadcrumbs(paths);
         this.rootDirectories = this.getRootDirectories(this.directories);
+
         const parentId = this.getParentId(paths, this.directories);
         this.currentDirectory = this.directories.find((e) => e.id == parentId);
-        if (!this.currentDirectory) {
-          const firstDirectory = this.directories[0];
-          this._router.navigate([this.rootPath, firstDirectory.path], {
-            replaceUrl: true,
-          });
-        } else {
+
+        if (this.currentDirectory) {
           this.childDirectories = this.getChildDirectories(this.directories, this.currentDirectory);
           this.params.directory = this.currentDirectory.id;
-          this.results$ = this._dataService.getNormativeList(this.params).pipe(
+          const res = await this._apiService.findNormatives(this.params);
+          res.results = res.results.filter((e) => e.state == 'Activa' || e.state == 'Vigente');
+          this.results = res;
+          /*this.results$ = this._dataService.getNormativeList(this.params).pipe(
             map((res) => ({
               ...res,
               results: res.results.filter(e => e.state == 'Activa' || e.state == 'Vigente')
             }))
-          );
+          );*/
+        } else {
+          const firstDirectory = this.directories[0];
+          this._router.navigate([this.rootPath, firstDirectory.path], {
+            replaceUrl: true,
+          });
         }
-        this.isLoading = false;
       });
 
     this._layoutService.isSmallScreen$.pipe(untilDestroyed(this)).subscribe((small) => (this.isMenuCollapsed = small));
@@ -114,8 +121,8 @@ export class ThematicDirectoryComponent implements OnInit, AfterViewInit {
 
   goToDirectory(path: any[]): void {
     this._router.navigate(path).then(() => {
-      this._layoutService.scrollToElement("#content");
-    })
+      this._layoutService.scrollToElement('#content');
+    });
   }
 
   goToSubDirectory(path: any[]): void {
