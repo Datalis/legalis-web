@@ -63,7 +63,7 @@ export class AdvancedSearchComponent implements OnInit {
   }
 
   search(): void {
-    this.router.navigate(['/search'], {
+    this.router.navigate(['/busqueda'], {
       queryParams: this.params.toObject(),
       queryParamsHandling: 'merge',
     });
