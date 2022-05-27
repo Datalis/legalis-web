@@ -14,7 +14,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 export class PdfViewerComponent implements OnInit {
   @ViewChild('pdfViewer') pdfViewer?: PdfJsViewerComponent;
 
-  pdfSrc: string = "";
+  pdfSrc: string = '';
   isReady = false;
 
   get filename() {
@@ -22,28 +22,31 @@ export class PdfViewerComponent implements OnInit {
   }
 
   get fileUrl() {
-    return `https://api-gaceta.datalis.dev/files/${this.pdfSrc}`
+    return `https://api-gaceta.datalis.dev/files/${this.pdfSrc}`;
   }
 
   constructor(
     private _modal: NgbActiveModal,
     //sprivate _dataService: DataService,
-    private ngZone: NgZone) { }
+    private ngZone: NgZone
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onDocumentLoad() {
     console.log('loaded');
   }
 
-  openPdf(pdf: string): void {
+  openPdf(pdf: string, startpage?: number): void {
     this.pdfSrc = pdf;
     if (this.pdfViewer) {
       this.ngZone.runOutsideAngular(() => {
         this.pdfViewer!!.pdfSrc = this.fileUrl;
+        if (startpage) {
+          this.pdfViewer!!.page = startpage;
+        }
         this.pdfViewer!!.refresh();
-      })
+      });
     } else {
       console.error('PdfViewer not yet initialized');
     }

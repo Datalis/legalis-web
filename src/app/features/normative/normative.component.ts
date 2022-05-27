@@ -1,10 +1,8 @@
 import { ApiService } from '@app/@shared/services/api.service';
-import { tap } from 'rxjs/operators';
-import { LayoutService } from './../../@shared/services/layout.service';
+import { switchMap, tap } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Normative } from '@app/@shared/model/normative';
-//import { DataService } from '@app/@shared/services/data.service';
 import { Observable } from 'rxjs';
 import { Gazette } from '@app/@shared/model/gazette';
 import { UntilDestroy } from '@ngneat/until-destroy';
@@ -12,6 +10,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PdfViewerComponent } from '@app/@shared/components/pdf-viewer/pdf-viewer.component';
 import { HttpResponse } from '@angular/common/http';
 import { Title } from '@angular/platform-browser';
+import { PDFDocument } from 'pdf-lib';
+import { range } from '@app/@shared';
 
 @UntilDestroy()
 @Component({
@@ -51,7 +51,7 @@ export class NormativeComponent implements OnInit {
     return item.state == 'Activa' || item.state == 'Vigente';
   }
 
-  showGazettePdf(file: any) {
+  showGazettePdf(file: any, startpage?: number) {
     const modalRef = this._modal.open(PdfViewerComponent, {
       centered: true,
       size: 'xl',
@@ -60,7 +60,7 @@ export class NormativeComponent implements OnInit {
     });
     modalRef.shown.toPromise().then(() => {
       const viewer: PdfViewerComponent = modalRef.componentInstance;
-      viewer.openPdf(file);
+      viewer.openPdf(file, startpage);
     });
   }
 
@@ -68,5 +68,27 @@ export class NormativeComponent implements OnInit {
     return this._apiService
       .downloadFile(`https://api-gaceta.datalis.dev/files/${file}`)
       .pipe(tap(async () => this._apiService.getGazette(id)));
+  }
+
+  downloadGazettePdfPages(id: any, file: any, startpage: number, endpage: number): Observable<HttpResponse<Blob>> {
+    return this._apiService.downloadFile(`https://api-gaceta.datalis.dev/files/${file}`).pipe(
+      switchMap(async (res) => {
+        const arrayBuffer = await new Response(res.body).arrayBuffer();
+        const readPdf = await PDFDocument.load(arrayBuffer);
+        const writePdf = await PDFDocument.create();
+        const pageRange = range(startpage, endpage);
+        const writePages = await writePdf.copyPages(readPdf, pageRange);
+        writePages.forEach((p) => writePdf.addPage(p));
+        const bytes = await writePdf.save();
+        const blob = new Blob([bytes]);
+        return new HttpResponse({
+          body: blob,
+          headers: res.headers,
+          status: res.status,
+          statusText: res.statusText,
+          url: res.url!,
+        });
+      })
+    );
   }
 }

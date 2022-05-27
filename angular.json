@@ -34,7 +34,11 @@
             "styles": [
               "src/main.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "pdf-lib",
+              "pako"
+            ]
           },
           "configurations": {
             "production": {

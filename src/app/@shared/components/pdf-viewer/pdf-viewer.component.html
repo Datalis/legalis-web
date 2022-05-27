@@ -3,7 +3,7 @@
   <ng2-pdfjs-viewer
     #pdfViewer
     [viewerId]="'pdfViewer'"
-    (onDocumentLoad)="isReady=true"
+    (onDocumentLoad)="isReady = true"
     [viewBookmark]="false"
     [fullScreen]="false"
     [openFile]="false"
@@ -12,7 +12,9 @@
 </div>
 <div class="modal-footer">
   <div class="ms-auto">
-    <button class="btn btn-sm bg-surface text-blue fw-bold  me-2" fileSaver [fileName]="filename" [url]="fileUrl"><i class="fas fa-download me-3"></i>Descargar</button>
+    <button class="btn btn-sm bg-surface text-blue fw-bold me-2" fileSaver [fileName]="filename" [url]="fileUrl">
+      <i class="fas fa-download me-3"></i>Descargar
+    </button>
     <button class="btn btn-sm bg-blue text-light" (click)="close()">Aceptar</button>
   </div>
 </div>
