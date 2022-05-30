@@ -34,6 +34,7 @@ export class AppComponent implements OnInit {
     }
 
     log.debug('init');
+    (window as any).removeSplash();
 
     registerLocaleData(localeCU, 'es-CU');
 
