@@ -51,7 +51,7 @@ export class ApiService {
     return firstValueFrom(
       this.client.get<PagedResult<Normative>>('/search', {
         headers: this._headers,
-        params: this.encodeParams(params, true),
+        params: this.encodeParams(_params, true),
       })
     );
   }
