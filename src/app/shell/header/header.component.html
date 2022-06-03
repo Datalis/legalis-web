@@ -62,16 +62,16 @@
   </nav>
   <nav class="header-tabs d-flex flex-column d-lg-none" role="navigation">
     <div class="header-tabs-toggler" (click)="collapse.toggle()">
-      <span class="text-uppercase text-accent fw-bold mb-2">Otras opciones de búsqueda</span>
+      <small class="text-uppercase text-accent fw-bold mb-1">Otras opciones de búsqueda</small>
       <i
-        class="fas fa-lg text-accent"
+        class="fas text-accent"
         [class.fa-chevron-down]="collapseFilterNav"
         [class.fa-chevron-up]="!collapseFilterNav"
       ></i>
     </div>
     <div #collapse="ngbCollapse" class="w-100" [(ngbCollapse)]="collapseFilterNav">
       <div class="tab">
-        <a routerLink="/" routerLinkActive="active">INICIO</a>
+        <a routerLink="/inicio" routerLinkActive="active">INICIO</a>
       </div>
       <div class="tab">
         <a routerLink="/busqueda-avanzada" routerLinkActive="active">BÚSQUEDA AVANZADA</a>
@@ -92,11 +92,11 @@
       <i class="fas fa-ellipsis-v text-primary fa-lg"></i>
     </button>
     <div class="dropdown-menu" ngbDropdownMenu>
-      <a routerLink="/gazettes" routerLinkActive="active" ngbDropdownItem>ÍNDICE DE GACETA</a>
-      <a routerLink="/analysis" routerLinkActive="active" ngbDropdownItem>ANÁLISIS</a>
-      <a routerLink="/infographics" routerLinkActive="active" ngbDropdownItem>INFOGRAFÍA</a>
-      <a routerLink="/glossary" routerLinkActive="active" ngbDropdownItem>GLOSARIO</a>
-      <a routerLink="/about" routerLinkActive="active" ngbDropdownItem>QUIÉNES SOMOS</a>
+      <a routerLink="/gacetas" routerLinkActive="active" ngbDropdownItem>ÍNDICE DE GACETA</a>
+      <a routerLink="/analisis" routerLinkActive="active" ngbDropdownItem>ANÁLISIS</a>
+      <a routerLink="/infografias" routerLinkActive="active" ngbDropdownItem>INFOGRAFÍA</a>
+      <a routerLink="/glosario" routerLinkActive="active" ngbDropdownItem>GLOSARIO</a>
+      <a routerLink="/acerca-de" routerLinkActive="active" ngbDropdownItem>QUIÉNES SOMOS</a>
     </div>
   </div>
 </header>

@@ -1,15 +1,17 @@
 <div class="home-container container-fluid container-lg px-0 px-md-4">
   <div>
-    <div class="bg-blue-light my-md-5" *ngIf="recentGazette">
+    <div class="recent bg-blue-light my-md-5" *ngIf="recentGazette">
       <h6 class="py-4 text-center text-dark fw-bolder mb-0">NORMATIVA RECIENTE</h6>
-      <div class="d-flex flex-column px-4 py-3 border-bottom border-top">
+      <div class="divider"></div>
+      <div class="d-flex flex-column px-4 py-3">
         <h6 class="mb-1 text-dark fw-bold">{{ recentGazette.name }}</h6>
         <small class="text-small text-muted">{{ recentGazette.date }}</small>
       </div>
+      <div class="divider"></div>
       <div class="recent-container row mx-0 py-3">
         <div class="col-md-6 col-sm-12 px-4 py-2" *ngFor="let item of recentGazette.normatives">
           <a class="recent-item pb-2" [routerLink]="['/normativa', item.id]">
-            <h6 class="text-accent mb-0 fw-bold">{{ item.name }}</h6>
+            <small class="d-block text-accent mb-0 fw-bold">{{ item.name }}</small>
             <small class="text-small text-dark text-uppercase fw-bold">{{ item.normtype }}</small>
             <p class="mb-1 text-dark">
               {{ item.summary }}
@@ -24,7 +26,7 @@
       <ng-container *ngIf="isBrowser">
         <carousel [cellWidth]="280" [height]="280" #carousel>
           <a
-            class="carousel-cell px-4 py-3 bg-blue-light d-flex flex-column"
+            class="popular-cell carousel-cell px-4 py-3 bg-blue-light d-flex flex-column"
             *ngFor="let item of popularNormatives"
             [routerLink]="['/normativa', item.id]"
           >
@@ -45,8 +47,8 @@
     <div class="row mx-0 mb-lg-4">
       <div class="col-lg-6 px-0 px-lg-2 ps-lg-0 d-flex flex-column align-items-stretch justify-content-between">
         <section class="analysis p-4 d-flex flex-column flex-grow-1 mb-2">
-          <h6 class="text-light fw-bold text-uppercase text-center">Análisis</h6>
-          <span class="text-light mt-4 fw-bold mb-2">Preguntas frecuentes</span>
+          <h6 class="text-blue fw-bold text-uppercase text-center">Análisis</h6>
+          <span class="mt-4 fw-bold mb-2">Preguntas frecuentes</span>
           <p class="text-small text-black">
             Browser default checkboxes and radios are replaced with the help of .form-check, a series of classes for
             both input types that improves the layout and behavior of their HTML elements, that provide greater
@@ -56,13 +58,13 @@
             their HTML elements, that provide greater customization and cross browser consistency. Checkboxes are for
             selecting one or several options in a list, while radios are for selecting one option from many.
           </p>
-          <a class="mt-2 text-end fw-bold text-light text-small mt-auto" href="#">
+          <a class="mt-2 text-end fw-bold text-blue text-small mt-auto" href="#">
             <em class="me-2">Leer más</em> <strong>+</strong>
           </a>
         </section>
         <section class="analysis p-4 d-flex flex-column mt-1 flex-grow-1">
-          <h6 class="text-light fw-bold text-uppercase text-center">Análisis</h6>
-          <span class="text-light mt-4 fw-bold mb-2">Preguntas frecuentes</span>
+          <h6 class="text-blue fw-bold text-uppercase text-center">Análisis</h6>
+          <span class="mt-4 fw-bold mb-2">Preguntas frecuentes</span>
           <p class="text-small text-black">
             Browser default checkboxes and radios are replaced with the help of .form-check, a series of classes for
             both input types that improves the layout and behavior of their HTML elements, that provide greater
@@ -74,7 +76,7 @@
             a list, while radios are for selecting one option from many. Browser default checkboxes and radios are
             replaced with the help of
           </p>
-          <a class="mt-2 text-end text-light text-small mt-auto" href="#"
+          <a class="mt-2 text-end fw-bold text-blue text-small mt-auto" href="#"
             ><em class="me-2">Leer más</em> <strong>+</strong></a
           >
         </section>
@@ -110,7 +112,7 @@
           </carousel>
         </ng-container>
       </section>
-      <section class="bg-accent mt-lg-4 px-5 py-4">
+      <section class="info bg-accent mt-lg-4 px-5 py-4">
         <h6 class="text-light text-center fw-bold text-uppercase mb-4">infografías</h6>
         <div class="row">
           <div class="col-sm-4" *ngFor="let item of infographics">

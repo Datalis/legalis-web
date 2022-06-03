@@ -1,7 +1,10 @@
 <div class="infographic-container container-fluid container-lg px-0 px-md-4 py-4">
   <ng-container *ngIf="info as res; else loading">
     <div class="content-wrapper row my-4">
-      <div class="col-md-6 pe-lg-4">
+      <div class="col-md-12 d-flex align-items-start justify-content-center">
+        <img class="img-fluid h-100" style="object-fit: cover; object-position: center" [src]="res.imagen" alt="" />
+      </div>
+      <div class="col-md-12 mt-4">
         <div class="d-flex flex-column align-items-start">
           <h5 class="text-blue fw-bold mb-0">{{ res.titulo }}</h5>
           <span class="mt-2">Por: {{ res.autor }}</span>
@@ -11,9 +14,6 @@
             {{ res.descripcion }}
           </p>
         </div>
-      </div>
-      <div class="col-md-6 ps-lg-4 d-flex align-items-start justify-content-center">
-        <img class="img-fluid h-100" style="object-fit: cover; object-position: center" [src]="res.imagen" alt="" />
       </div>
     </div>
   </ng-container>

@@ -13,7 +13,7 @@ import { Gazette } from './../model/gazette';
 import { Normative } from './../model/normative';
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, firstValueFrom } from 'rxjs';
+import { Observable, firstValueFrom, filter, map } from 'rxjs';
 import { PagedResult } from '../model/paged-result';
 import { AboutItem } from '../model/about-item';
 import { HttpUrlEncoder } from '../http/http-url-encoder';
@@ -181,9 +181,11 @@ export class ApiService {
 
   async getDirectories(): Promise<Directory[]> {
     return firstValueFrom(
-      this.client.get<Directory[]>('/directorios', {
-        headers: this._headers,
-      })
+      this.client
+        .get<Directory[]>('/directorios', {
+          headers: this._headers,
+        })
+        .pipe(map((dirs) => dirs.filter((e) => !!e.icon)))
     );
   }
 

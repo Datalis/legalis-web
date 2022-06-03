@@ -1,41 +1,61 @@
 <div class="footer-container">
   <div class="footer-info">
-    <div class="container-fluid">
+    <div class="container-xl py-3">
       <div class="row">
-        <section class="col-lg-7">
-          <div
-            class="footer-nav d-flex flex-wrap text-center text-lg-start align-items-center justify-content-center py-4"
-          >
-            <div class="d-flex flex-column m-4">
-              <a (click)="goTo('/')" class="mb-2">Inicio</a>
-              <a (click)="goTo('/busqueda-avanzada')" class="mb-2">Búsqueda Avanzada</a>
-              <a (click)="goTo('/directorio-tematico')" class="mb-2">Directorio Temático</a>
-              <a (click)="goTo('/palabras-claves')" class="mb-2">Palabra Clave</a>
-              <a (click)="goTo('/como-buscar')" class="mb-2">Como buscar</a>
+        <section class="col-lg-7 py-4">
+          <div class="wrapper">
+            <div class="footer-nav row text-center text-lg-start align-items-center justify-content-center pb-4">
+              <div class="col-4 d-flex flex-column">
+                <a (click)="goTo('/')" class="mb-2">Inicio</a>
+                <a (click)="goTo('/busqueda-avanzada')" class="mb-2 whitespace-nowrap">Búsqueda Avanzada</a>
+                <a (click)="goTo('/directorio-tematico')" class="mb-2 whitespace-nowrap">Directorio Temático</a>
+                <a (click)="goTo('/palabras-claves')" class="mb-2 whitespace-nowrap">Palabra Clave</a>
+                <a (click)="goTo('/como-buscar')" class="mb-2 whitespace-nowrap">Como buscar</a>
+              </div>
+              <div class="col-4 d-flex flex-column">
+                <a (click)="goTo('/gacetas')" class="mb-2 whitespace-nowrap">Indice de gaceta</a>
+                <a (click)="goTo('/analisis')" class="mb-2 whitespace-nowrap">Análisis</a>
+                <a (click)="goTo('/infografias')" class="mb-2 whitespace-nowrap">Infografía</a>
+                <a (click)="goTo('/glosario')" class="mb-2 whitespace-nowrap">Glosario</a>
+                <a (click)="goTo('/acerca-de')" class="mb-2 whitespace-nowrap">Quienes Somos</a>
+              </div>
+              <div class="col-4 d-flex flex-column">
+                <a (click)="goTo('/gacetas')" class="mb-2 whitespace-nowrap">Indice de gaceta</a>
+                <a (click)="goTo('/analisis')" class="mb-2 whitespace-nowrap">Análisis</a>
+                <a (click)="goTo('/infografias')" class="mb-2 whitespace-nowrap">Infografía</a>
+                <a (click)="goTo('/glosario')" class="mb-2 whitespace-nowrap">Glosario</a>
+                <a (click)="goTo('/acerca-de')" class="mb-2 whitespace-nowrap">Quienes Somos</a>
+              </div>
             </div>
-            <div class="d-flex flex-column m-4">
-              <a (click)="goTo('/gacetas')" class="mb-2">Indice de gaceta</a>
-              <a (click)="goTo('/analisis')" class="mb-2">Análisis</a>
-              <a (click)="goTo('/infografias')" class="mb-2">Infografía</a>
-              <a (click)="goTo('/glosario')" class="mb-2">Glosario</a>
-              <a (click)="goTo('/acerca-de')" class="mb-2">Quienes Somos</a>
-            </div>
-            <div class="d-flex flex-column m-4">
-              <a (click)="goTo('/gacetas')" class="mb-2">Indice de gaceta</a>
-              <a (click)="goTo('/analisis')" class="mb-2">Análisis</a>
-              <a (click)="goTo('/infografias')" class="mb-2">Infografía</a>
-              <a (click)="goTo('/glosario')" class="mb-2">Glosario</a>
-              <a (click)="goTo('/acerca-de')" class="mb-2">Quienes Somos</a>
+            <div class="footer-subscribe mt-2">
+              <h6 class="text-light fw-bold text-uppercase mb-2">manténte actualizado</h6>
+              <small class="mb-2 text-muted">Suscribete a nuestro boletín</small>
+              <div class="d-flex mt-3">
+                <input class="form-control-email form-control form-control me-2" placeholder="Correo Electrónico" />
+                <button class="btn btn-outline-light mx-auto">Subscribete</button>
+              </div>
             </div>
           </div>
         </section>
-        <section class="footer-subscribe col-lg-5 py-md-5 py-4">
-          <h6 class="text-light fw-bold text-uppercase mb-2">manténte actualizado</h6>
-          <span class="mb-2 text-light">Suscribete a nuestro boletín</span>
-          <input class="form-control-email form-control form-control mt-3" placeholder="Correo Electrónico" />
-          <div class="d-flex">
-            <button class="btn btn-outline-light mt-4 mx-auto">Suscríbete</button>
+        <section class="col-lg-5 py-4">
+          <div class="wrapper">
+            <div class="footer-contact text-center text-lg-start">
+              <h6 class="text-light fw-bold text-uppercase mb-2">Consultanos tu duda</h6>
+              <small class="mb-2 text-muted">Envíanos tu consulta y un correo electrónico de contacto</small>
+
+              <textarea
+                rows="4"
+                class="form-control-contact form-control mt-3"
+                placeholder="Escribe tu consulta aquí..."
+              ></textarea>
+              <div class="d-flex mt-3">
+                <input class="form-control-email form-control form-control me-2" placeholder="Correo Electrónico" />
+                <button class="btn btn-outline-light whitespace-nowrap">Enviar consulta</button>
+              </div>
+            </div>
           </div>
+        </section>
+        <section class="col-12 pb-4">
           <div class="footer-social d-none d-md-flex align-items-center justify-content-center mt-4">
             <button class="btn btn-sm btn-outline-light border-2 me-2">
               <i class="fab fa-facebook"></i>

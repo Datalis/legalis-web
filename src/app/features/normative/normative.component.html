@@ -1,10 +1,11 @@
-<div class="normative container-fluid container-lg px-md-4 py-4">
+<div class="normative container-fluid container-xl px-md-4 py-4">
   <div class="row" *ngIf="normative; else loading">
-    <div class="col-lg-8 mb-4">
+    <div class="col-lg-9 mb-4">
       <div class="d-flex flex-column justify-content-start ps-lg-4">
         <h5 class="text-blue mb-1 fw-bold mb-0">{{ normative?.name }}</h5>
         <span
           class="normative-state text-light text-uppercase px-2 me-auto mt-2"
+          style="border-radius: 5px"
           [class.active]="isActive(normative)"
           >{{ normative?.state }}</span
         >
@@ -35,20 +36,51 @@
           <span class="text-muted">Temáticas:</span>
           <div class="d-flex flex-wrap">
             <span class="text-italic text-blue fw-bold">
-              {{ normative?.keywords?.join(", ") | decodeUri }}
+              <a
+                *ngFor="let k of normative.keywords"
+                class="text-blue me-2 text-decoration-underline"
+                routerLink="/palabras-claves?keyword={{ k }}"
+              >
+                {{ k | decodeUri }}
+              </a>
+              <!-- {{ normative?.keywords?.join(", ") | decodeUri }} -->
             </span>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-lg-4">
-      <div class="bg-blue-light d-flex flex-column align-items-start justify-content-center px-3 py-2" *ngIf="gazette">
+    <div class="col-lg-3">
+      <div
+        class="gazette-details bg-blue-light d-flex flex-column align-items-start justify-content-center p-3"
+        *ngIf="gazette"
+      >
         <small class="text-uppercase fw-bold text-small">Gaceta que contiene la norma</small>
         <span class="mt-1 mb-1 text-blue fw-bold">Gaceta {{ gazette?.type }} No. {{ gazette?.number }}</span>
         <div class="d-flex flex-column w-100">
-          <small class="flex-grow-1 text-small">{{ gazette?.date | date: "dd/MM/YYYY" }}</small>
-          <div class="d-flex mt-2 align-items-end">
-            <small
+          <small class="flex-grow-1 text-small text-muted">{{ gazette?.date | date: "dd/MM/YYYY" }}</small>
+          <div class="d-flex flex-column mt-3 align-items-end">
+            <button class="btn btn-light btn-sm w-100" (click)="showGazettePdf(gazette?.file, normative.startpage)">
+              <i class="fas fa-arrow-up-right-from-square me-2"></i> ABRIR GACETA
+            </button>
+            <button
+              class="btn btn-light btn-sm w-100 mt-2"
+              fileSaver
+              [fileName]="gazette?.file"
+              [http]="downloadGazettePdf(gazette?.id, gazette?.file)"
+            >
+              <i class="fas fa-download me-2"></i> DESCARGAR PDF
+            </button>
+            <button
+              class="btn btn-light btn-sm w-100 mt-2"
+              *ngIf="normative.startpage && normative.endpage"
+              fileSaver
+              [fileName]="gazette?.file"
+              [http]="downloadGazettePdfPages(gazette?.id, gazette?.file, normative.startpage, normative.endpage)"
+            >
+              <i class="fas fa-download me-2"></i> DESCARGAR PDF (Pag. {{ normative.startpage }} -
+              {{ normative.endpage }})
+            </button>
+            <!-- <small
               class="text-small text-blue me-3 pointer"
               (click)="showGazettePdf(gazette?.file, normative.startpage)"
               style="font-size: 10px !important"
@@ -71,8 +103,7 @@
               [http]="downloadGazettePdfPages(gazette?.id, gazette?.file, normative.startpage, normative.endpage)"
               ><i class="fas fa-file-download me-1"></i> DESCARGAR (Paginas {{ normative.startpage }}-{{
                 normative.endpage
-              }})</small
-            >
+              }})</small> -->
           </div>
         </div>
       </div>

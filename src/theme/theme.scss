@@ -105,7 +105,7 @@ body {
         width: 24px;
         height: 24px;
         content: " ";
-        background-image: url('/assets/chevron-left.svg')
+        background-image: url("/assets/chevron-left.svg");
       }
     }
 
@@ -115,7 +115,7 @@ body {
         content: " ";
         width: 24px;
         height: 24px;
-        background-image: url('/assets/chevron-right.svg');
+        background-image: url("/assets/chevron-right.svg");
       }
     }
   }
@@ -217,9 +217,11 @@ body {
       display: inline !important;
       color: $secondary;
       &::before {
-        font-family: "Font Awesome 5 Free";
+        font-family: "Font Awesome 6 Free";
         font-weight: 900;
-        content: "\f107";
+        content: "\f078";
+        font-size: 12px;
+        //color: #b7b7b7;
       }
     }
   }
@@ -235,7 +237,7 @@ body {
     .ng-value-container .ng-placeholder {
       font-weight: 400 !important;
       font-size: 14px !important;
-      color: rgba($dark, .5);
+      color: rgba($dark, 0.5);
     }
   }
   .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
@@ -336,4 +338,17 @@ a {
       margin: auto !important;
     }
   }
+}
+
+.modal-dialog {
+  @include media-breakpoint-down(xl) {
+    max-width: 90vw;
+  }
+  @include media-breakpoint-down(sm) {
+    max-width: 100%;
+  }
+}
+
+.modal-footer {
+  padding: 0.25rem !important;
 }

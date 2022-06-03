@@ -2,6 +2,8 @@
 
 .gazette-item {
   height: 221px;
+  border-radius: 5px;
+  overflow: hidden;
   .gazette-header {
     background-color: $blue-light;
   }

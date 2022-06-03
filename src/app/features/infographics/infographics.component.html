@@ -4,30 +4,41 @@
     <!--<span class="fw-bold">Herramientas...</span>-->
   </div>
   <div class="row mt-4" *ngIf="results as res; else loading">
-    <div class="col-md-6 pe-lg-4 border-right-accent">
-      <div class="d-flex flex-column info-container">
-        <div class="article bg-surface mb-2 d-flex flex-column" *ngFor="let item of res.results">
-          <h6 class="fw-bold text-light bg-accent text-center px-4 py-4 mb-0">
+    <div class="row mb-3" *ngFor="let item of res.results; let isOdd = odd">
+      <div class="col-sm-5" *ngIf="isOdd">
+        <img class="img-fluid h-100" [src]="item.imagen" />
+      </div>
+      <div class="col-sm-7">
+        <div class="article bg-surface d-flex flex-column">
+          <small class="fw-bold text-light bg-accent text-center px-2 py-3 mb-0">
             {{ item.titulo }}
-          </h6>
+          </small>
           <div class="p-4 d-flex flex-column flex-grow-1">
-            <p class="mb-3 flex-grow-1">
-              {{ item.descripcion }}
-            </p>
-            <a class="text-accent text-italic fw-bold ms-auto" routerLink="/infografias/{{ item.id }}">Leer más</a>
+            <div class="flex-grow-1">
+              <p>
+                {{ item.descripcion }}
+              </p>
+            </div>
+            <a class="text-accent text-small text-italic fw-bold ms-auto" routerLink="/infografias/{{ item.id }}"
+              >Leer más</a
+            >
           </div>
         </div>
       </div>
+      <div class="col-sm-5" *ngIf="!isOdd">
+        <img class="img-fluid h-100" [src]="item.imagen" />
+      </div>
     </div>
-    <div class="col-md-6 ps-lg-4 d-flex align-items-start justify-content-center">
-      <img
-        class="img-fluid h-100"
-        style="object-fit: cover; object-position: top left"
-        [src]="(images || [{ url: '' }])[0].url"
-        alt=""
-        (click)="openGallery(gallery)"
-      />
-    </div>
+
+    <!-- <div class="col-md-6 ps-lg-4">
+      <div class="info-img d-flex align-items-start justify-content-center position-relative">
+        <div class="overlay" [ngStyle]="{ 'background-image': 'url(' + (images || [{ url: '' }])[0].url + ')' }"></div>
+        <img class="img-fluid h-100" [src]="(images || [{ url: '' }])[0].url" alt="" />
+        <div class="overlay-action" (click)="openGallery(gallery)">
+          <i class="fas fa-arrow-up-right-from-square fa-lg text-light"></i>
+        </div>
+      </div>
+    </div> -->
   </div>
 </div>
 <ng-template #loading>

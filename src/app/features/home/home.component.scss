@@ -4,10 +4,25 @@
   width: 100px;
 }
 
+.recent, .info, .popular-cell, .analysis, .related-news {
+  border-radius: 5px;
+}
+
+.recent .divider {
+  height: 1px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.1);
+  width: 95%;
+  margin: auto;
+}
+
 .recent-item {
   border-bottom: 1px solid rgba(#000, 0.1);
   height: 100%;
   display: block;
+  small {
+    line-height: 1.2;
+  }
   p {
     display: -webkit-box;
     -webkit-line-clamp: 4;
@@ -20,7 +35,7 @@
 }
 
 .analysis {
-  background-color: #5B7FA9;
+  background-color: $blue-light;
   p {
     display: -webkit-box;
     -webkit-line-clamp: 8;

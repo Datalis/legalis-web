@@ -2405,3 +2405,43 @@ html[dir='rtl'] #documentPropertiesOverlay .row > * {
     display: none;
   }
 }
+
+
+/** Viewer rewrites  */
+#toolbarViewer {
+  background-color: #141e30b3;
+}
+
+#toolbarSidebar {
+  background: none !important;
+  box-shadow: none !important;
+  background-color: #141e30b3 !important;
+}
+
+#secondaryToolbar {
+  background-image: none !important;
+  background-color: #232a36 !important;
+}
+
+#sidebarContent {
+  background-color: #141e30b3;
+}
+
+#toolbarContainer {
+  box-shadow: none !important;
+}
+
+#viewer {
+  background-color: #fafafa;
+}
+
+#viewer .page {
+  border-image: none;
+  border: none;
+  margin: 9px auto;
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.10);
+}
+
+#viewerContainer {
+  background-color: #fafafa;
+}

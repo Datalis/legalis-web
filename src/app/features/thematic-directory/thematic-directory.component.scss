@@ -15,8 +15,12 @@
 
 .directory-menu {
   list-style: none;
-  padding: 0;
   margin: 0;
+  border-radius: 5px;
+  padding: 1rem;
+  @include media-breakpoint-down(sm) {
+    padding: 0;
+  }
   .directory-menu-row {
     margin: 0;
   }
@@ -45,7 +49,7 @@
     .directory-icon {
       margin-bottom: 0.5rem;
       svg {
-        height: 34px;
+        height: 30px;
         path {
           fill: rgba($color: $light, $alpha: 0.85);
         }
@@ -94,7 +98,7 @@
   align-items: center;
   flex-wrap: wrap;
   li {
-    background-color: $surface;
+    background-color: $blue-light;
     border-radius: 35px;
     display: flex;
     align-items: center;
