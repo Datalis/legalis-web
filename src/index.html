@@ -1,65 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <!-- needs to be right at the top to prevent Chrome from reloading favicon on every route change -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <title>Legalis</title>
-    <base href="/" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- add to homescreen for ios -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="manifest" href="/site.webmanifest" />
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#141e30" />
-    <meta name="apple-mobile-web-app-title" content="Legalis" />
-    <meta name="application-name" content="Legalis" />
-    <meta name="msapplication-TileColor" content="#141e30" />
-    <meta name="theme-color" content="#141e30" />
+<head>
+  <meta charset="utf-8" />
+  <!-- needs to be right at the top to prevent Chrome from reloading favicon on every route change -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <title>Legalis</title>
+  <base href="/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Lato fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap" rel="stylesheet" />
+  <!-- add to homescreen for ios -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#141e30" />
+  <meta name="apple-mobile-web-app-title" content="Legalis" />
+  <meta name="application-name" content="Legalis" />
+  <meta name="msapplication-TileColor" content="#141e30" />
+  <meta name="theme-color" content="#141e30" />
 
-    <script src="./splash/splash.js"></script>
-    <link rel="stylesheet" href="./splash/style.css" />
-  </head>
-  <body>
-    <picture id="splash">
-      <source
-        srcset="
+  <!-- Lato fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap" rel="stylesheet" />
+
+  <script src="./splash/splash.js"></script>
+  <link rel="stylesheet" href="./splash/style.css" />
+</head>
+
+<body>
+  <picture id="splash">
+    <source srcset="
           splash/img/light-1x.png 1x,
           splash/img/light-2x.png 2x,
           splash/img/light-3x.png 3x,
           splash/img/light-4x.png 4x
-        "
-        media="(prefers-color-scheme: light) or (prefers-color-scheme: no-preference)"
-      />
-      <source
-        srcset="
+        " media="(prefers-color-scheme: light) or (prefers-color-scheme: no-preference)" />
+    <source srcset="
           splash/img/dark-1x.png 1x,
           splash/img/dark-2x.png 2x,
           splash/img/dark-3x.png 3x,
           splash/img/dark-4x.png 4x
-        "
-        media="(prefers-color-scheme: dark)"
-      />
-      <img class="center" aria-hidden="true" src="splash/img/light-1x.png" />
-    </picture>
-    <!--[if lt IE 10]>
+        " media="(prefers-color-scheme: dark)" />
+    <img class="center" aria-hidden="true" src="splash/img/light-1x.png" />
+  </picture>
+
+  <!--Start of Tawk.to Script-->
+
+  <script type="text/javascript">
+
+    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+
+
+    (function() {
+
+      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+
+      s1.async = true;
+
+      s1.src = 'https://embed.tawk.to/634dbc4cdaff0e1306d27d82/1gfjqf33u';
+
+      s1.charset = 'UTF-8';
+
+      s1.setAttribute('crossorigin', '*');
+
+      s0.parentNode.insertBefore(s1, s0);
+
+    })();
+
+  </script>
+
+  <!--End of Tawk.to Script-->
+
+  <!--[if lt IE 10]>
       <p>
         You are using an <strong>outdated</strong> browser. Please
         <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.
       </p>
     <![endif]-->
-    <noscript>
-      <p>This page requires JavaScript to work properly. Please enable JavaScript in your browser.</p>
-    </noscript>
-    <app-root></app-root>
-  </body>
+  <noscript>
+    <p>This page requires JavaScript to work properly. Please enable JavaScript in your browser.</p>
+  </noscript>
+  <app-root></app-root>
+</body>
+
 </html>
