@@ -3,7 +3,7 @@ import { switchMap, tap } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Normative } from '@app/@shared/model/normative';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable, throwError } from 'rxjs';
 import { Gazette } from '@app/@shared/model/gazette';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -70,24 +70,29 @@ export class NormativeComponent implements OnInit {
       .pipe(tap(async () => this._apiService.getGazette(id)));
   }
 
-  downloadGazettePdfPages(id: any, file: any, startpage: number, endpage: number): Observable<HttpResponse<Blob>> {
+  downloadGazettePdfPages(id: any, file: any, startpage: number, endpage: number): Observable<HttpResponse<Blob> | any> {
     return this._apiService.downloadFile(`https://api-gaceta.datalis.dev/files/${file}`).pipe(
       switchMap(async (res) => {
-        const arrayBuffer = await new Response(res.body).arrayBuffer();
-        const readPdf = await PDFDocument.load(arrayBuffer);
-        const writePdf = await PDFDocument.create();
-        const pageRange = range(startpage, endpage);
-        const writePages = await writePdf.copyPages(readPdf, pageRange);
-        writePages.forEach((p) => writePdf.addPage(p));
-        const bytes = await writePdf.save();
-        const blob = new Blob([bytes]);
-        return new HttpResponse({
-          body: blob,
-          headers: res.headers,
-          status: res.status,
-          statusText: res.statusText,
-          url: res.url!,
-        });
+        try {
+          const arrayBuffer = await new Response(res.body).arrayBuffer();
+          const readPdf = await PDFDocument.load(arrayBuffer);
+          const writePdf = await PDFDocument.create();
+          const pageRange = range(startpage-1, endpage-1);
+          const writePages = await writePdf.copyPages(readPdf, pageRange);
+          writePages.forEach((p) => writePdf.addPage(p));
+          const bytes = await writePdf.save();
+          const blob = new Blob([bytes]);
+          return new HttpResponse({
+            body: blob,
+            headers: res.headers,
+            status: res.status,
+            statusText: res.statusText,
+            url: res.url!,
+          });
+        } catch (e) {
+          console.error(e);
+          return EMPTY;
+        }
       })
     );
   }

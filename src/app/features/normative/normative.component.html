@@ -32,7 +32,7 @@
           <p class="mt-1" style="line-height: 1">{{ normative?.summary || "---" }}</p>
         </div>
 
-        <div class="col-sm-12">
+        <!-- <div class="col-sm-12">
           <span class="text-muted">Temáticas:</span>
           <div class="d-flex flex-wrap">
             <span class="text-italic text-blue fw-bold">
@@ -43,10 +43,9 @@
               >
                 {{ k | decodeUri }}
               </a>
-              <!-- {{ normative?.keywords?.join(", ") | decodeUri }} -->
             </span>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="col-lg-3">
@@ -60,7 +59,7 @@
           <small class="flex-grow-1 text-small text-muted">{{ gazette?.date | date: "dd/MM/YYYY" }}</small>
           <div class="d-flex flex-column mt-3 align-items-end">
             <button class="btn btn-light btn-sm w-100" (click)="showGazettePdf(gazette?.file, normative.startpage)">
-              <i class="fas fa-arrow-up-right-from-square me-2"></i> ABRIR GACETA
+              <i class="fas fa-arrow-up-right-from-square me-2"></i> LEER NORMA
             </button>
             <button
               class="btn btn-light btn-sm w-100 mt-2"
@@ -68,7 +67,7 @@
               [fileName]="gazette?.file"
               [http]="downloadGazettePdf(gazette?.id, gazette?.file)"
             >
-              <i class="fas fa-download me-2"></i> DESCARGAR PDF
+              <i class="fas fa-download me-2"></i> DESCARGAR GACETA COMPLETA
             </button>
             <button
               class="btn btn-light btn-sm w-100 mt-2"
@@ -77,8 +76,7 @@
               [fileName]="gazette?.file"
               [http]="downloadGazettePdfPages(gazette?.id, gazette?.file, normative.startpage, normative.endpage)"
             >
-              <i class="fas fa-download me-2"></i> DESCARGAR PDF (Pag. {{ normative.startpage }} -
-              {{ normative.endpage }})
+              <i class="fas fa-download me-2"></i> DESCARGAR NORMA ESPECÍFICA
             </button>
             <!-- <small
               class="text-small text-blue me-3 pointer"
