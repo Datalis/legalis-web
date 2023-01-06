@@ -7,7 +7,7 @@
 
 export const environment = {
   production: true,
-  version: "0.0.1",
+  version: "1.0.0",
   serverUrl: 'https://api-gaceta.datalis.dev/api',
   newsApiUrl: 'https://api.eltoque.com/posts?categories=600c46c1929b80000d284502&_sort=publish_date:DESC&_limit=10',
   defaultLanguage: 'en-CU',

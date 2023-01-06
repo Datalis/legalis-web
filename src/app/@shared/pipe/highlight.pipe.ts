@@ -45,7 +45,8 @@ export class HighlightPipe implements PipeTransform {
     const extStart = (start - interval) < 0 ? 0 : start - interval;
     const extEnd = (end + interval) > text.length ? text.length : end + interval;
     const highlight = new RegExp(match, 'gi');
-    const res = text.substring(extStart, extEnd)?.replace(highlight, '<mark>$&</mark>') || "";
+    const res = text.substring(extStart, extEnd) || "";
+    // const res = text.substring(extStart, extEnd)?.replace(highlight, '<mark>$&</mark>') || "";
     return `[...${res}...]`;
   }
 }
