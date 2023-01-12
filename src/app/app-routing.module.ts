@@ -33,9 +33,15 @@ const routes: Routes = [
       loadChildren: () => import('./features/how-to-search/how-to-search.module').then((m) => m.HowToSearchModule),
     },
   ]),
+  // Shell.childRoutes([
+  //   {
+  //     path: 'analisis',
+  //     loadChildren: () => import('./features/analysis/analysis.module').then((m) => m.AnalysisModule),
+  //   },
+  // ]),
   Shell.childRoutes([
     {
-      path: 'analisis',
+      path: 'consultas',
       loadChildren: () => import('./features/analysis/analysis.module').then((m) => m.AnalysisModule),
     },
   ]),
