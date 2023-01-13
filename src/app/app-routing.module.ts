@@ -21,12 +21,12 @@ const routes: Routes = [
   //     },
   //   },
   // ]),
-  Shell.childRoutes([
-    {
-      path: 'palabras-claves',
-      loadChildren: () => import('./features/keywords/keywords.module').then((m) => m.KeywordsModule),
-    },
-  ]),
+  // Shell.childRoutes([
+  //   {
+  //     path: 'palabras-claves',
+  //     loadChildren: () => import('./features/keywords/keywords.module').then((m) => m.KeywordsModule),
+  //   },
+  // ]),
   Shell.childRoutes([
     {
       path: 'como-buscar',
