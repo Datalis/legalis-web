@@ -23,7 +23,7 @@
 
       <div class="divider"></div>
 
-      <label class="fw-bold form-group-label text-small">TEMÁTICAS</label>
+      <label class="fw-bold form-group-label text-small">ETIQUETAS</label>
       <div class="form-check text-small">
         <input
           class="form-check-input"
@@ -33,7 +33,7 @@
           name="tematica"
           [(ngModel)]="params.tematica"
         />
-        <label class="form-check-label" for="thematic_default"> Todas las temáticas </label>
+        <label class="form-check-label" for="thematic_default"> Todas las etiquetas </label>
       </div>
       <div class="form-check text-small" *ngFor="let item of thematics.slice(0,20); let i = index">
         <input
