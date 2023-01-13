@@ -36,6 +36,10 @@ export class AdvancedSearchComponent implements OnInit {
 
   params: Params = new Params();
 
+  get topThematics() {
+    return this.thematics.sort((a,b) => b.count - a.count).slice(0,15);
+  }
+
   constructor(private router: Router, private apiService: ApiService, private route: ActivatedRoute) {}
 
   ngOnInit() {

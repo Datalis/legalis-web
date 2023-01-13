@@ -39,7 +39,6 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
   @Input() allowUnsetYear = true;
 
-
   sliderOpts: Options = {
     floor: this.slideMinYear,
     ceil: this.slideMaxYear,
@@ -54,6 +53,10 @@ export class FiltersComponent implements OnInit, OnDestroy {
       _res.push(i);
     }
     return _res;
+  }
+
+  get topThematics() {
+    return this.thematics.sort((a,b) => b.count - a.count).slice(0,15);
   }
 
   constructor(private _layoutService: LayoutService) {
