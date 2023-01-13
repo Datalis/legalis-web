@@ -4,28 +4,30 @@
       <div class="row">
         <section class="col-lg-7 py-4">
           <div class="wrapper">
-            <div class="footer-nav row text-center text-lg-start align-items-center justify-content-center pb-4">
+            <div class="footer-nav row text-center text-lg-start align-items-top justify-content-center pb-4">
               <div class="col-4 d-flex flex-column">
                 <a (click)="goTo('/')" class="mb-2">Inicio</a>
                 <a (click)="goTo('/busqueda-avanzada')" class="mb-2 whitespace-nowrap">Búsqueda Avanzada</a>
-                <a (click)="goTo('/directorio-tematico')" class="mb-2 whitespace-nowrap">Directorio Temático</a>
-                <a (click)="goTo('/palabras-claves')" class="mb-2 whitespace-nowrap">Palabra Clave</a>
-                <a (click)="goTo('/como-buscar')" class="mb-2 whitespace-nowrap">Cómo buscar</a>
+                <!-- <a (click)="goTo('/directorio-tematico')" class="mb-2 whitespace-nowrap">Directorio Temático</a>
+                <a (click)="goTo('/palabras-claves')" class="mb-2 whitespace-nowrap">Palabra Clave</a> -->
+                <a (click)="goTo('/como-buscar')" class="mb-2 whitespace-nowrap">¿Cómo buscar?</a>
+
               </div>
               <div class="col-4 d-flex flex-column">
+                <a (click)="goTo('/gacetas')" class="mb-2 whitespace-nowrap">Índice de Gacetas</a>
+                <a (click)="goTo('/analisis')" class="mb-2 whitespace-nowrap">Consultas frecuentes</a>
+                <!-- <a (click)="goTo('/infografias')" class="mb-2 whitespace-nowrap">Infografía</a> -->
+                <a (click)="goTo('/glosario')" class="mb-2 whitespace-nowrap">Glosario</a>
+                <a (click)="goTo('/acerca-de')" class="mb-2 whitespace-nowrap">¿Quiénes somos?</a>
+              </div>
+              <div class="col-4"></div>
+              <!-- <div class="col-4 d-flex flex-column">
                 <a (click)="goTo('/gacetas')" class="mb-2 whitespace-nowrap">Índice de Gacetas</a>
                 <a (click)="goTo('/analisis')" class="mb-2 whitespace-nowrap">Consultas Frecuentes</a>
                 <a (click)="goTo('/infografias')" class="mb-2 whitespace-nowrap">Infografía</a>
                 <a (click)="goTo('/glosario')" class="mb-2 whitespace-nowrap">Glosario</a>
                 <a (click)="goTo('/acerca-de')" class="mb-2 whitespace-nowrap">Quiénes Somos</a>
-              </div>
-              <div class="col-4 d-flex flex-column">
-                <a (click)="goTo('/gacetas')" class="mb-2 whitespace-nowrap">Índice de Gacetas</a>
-                <a (click)="goTo('/analisis')" class="mb-2 whitespace-nowrap">Consultas Frecuentes</a>
-                <a (click)="goTo('/infografias')" class="mb-2 whitespace-nowrap">Infografía</a>
-                <a (click)="goTo('/glosario')" class="mb-2 whitespace-nowrap">Glosario</a>
-                <a (click)="goTo('/acerca-de')" class="mb-2 whitespace-nowrap">Quiénes Somos</a>
-              </div>
+              </div> -->
             </div>
             <div class="footer-subscribe mt-2">
               <h6 class="text-light fw-bold text-uppercase mb-2">manténte actualizado</h6>

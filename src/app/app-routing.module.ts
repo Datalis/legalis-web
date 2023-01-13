@@ -51,12 +51,12 @@ const routes: Routes = [
       loadChildren: () => import('./features/glossary/glossary.module').then((m) => m.GlossaryModule),
     },
   ]),
-  Shell.childRoutes([
-    {
-      path: 'infografias',
-      loadChildren: () => import('./features/infographics/infographics.module').then((m) => m.InfographicsModule),
-    },
-  ]),
+  // Shell.childRoutes([
+  //   {
+  //     path: 'infografias',
+  //     loadChildren: () => import('./features/infographics/infographics.module').then((m) => m.InfographicsModule),
+  //   },
+  // ]),
   Shell.childRoutes([
     {
       path: 'normativa',
