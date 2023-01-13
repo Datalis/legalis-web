@@ -11,16 +11,16 @@ const routes: Routes = [
         import('./features/advanced-search/advanced-search.module').then((m) => m.AdvancedSearchModule),
     },
   ]),
-  Shell.childRoutes([
-    {
-      path: 'directorio-tematico',
-      loadChildren: () =>
-        import('./features/thematic-directory/thematic-directory.module').then((m) => m.ThematicDirectoryModule),
-      data: {
-        title: 'Directorio Temático',
-      },
-    },
-  ]),
+  // Shell.childRoutes([
+  //   {
+  //     path: 'directorio-tematico',
+  //     loadChildren: () =>
+  //       import('./features/thematic-directory/thematic-directory.module').then((m) => m.ThematicDirectoryModule),
+  //     data: {
+  //       title: 'Directorio Temático',
+  //     },
+  //   },
+  // ]),
   Shell.childRoutes([
     {
       path: 'palabras-claves',
