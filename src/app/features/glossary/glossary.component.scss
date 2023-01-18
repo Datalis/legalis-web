@@ -6,6 +6,29 @@
   border-radius: 5px;
 }
 
+.search-input {
+  max-width: 250px;
+}
+
+.search-input .form-control {
+  font-style: italic;
+  border-radius: 0.25rem !important;
+}
+
+.search-input .btn {
+  right: 35px;
+  z-index: 10;
+}
+
+.search-input .btn.hide {
+  visibility: hidden;
+}
+
+.search-input .btn i {
+  scale: 0.8;
+  color: #6c757d;
+}
+
 .letter {
   font-size: 20px;
   font-weight: 500;
@@ -25,5 +48,24 @@
 }
 
 .results-container {
-  min-height: 400px;
+  width: 100%;
+  clear: both;
+  // min-height: 300px;
+}
+
+.results-container .term {
+  break-inside: avoid;
+  padding: .25rem .5rem;
+}
+
+.results-container .term .title {
+  cursor: pointer;
+  &:hover {
+    color: lighten($color: #141e30, $amount: 20)  !important;
+  }
+}
+
+.results-container .term .description {
+  border-radius: 5px;
+  min-height: 100px;
 }

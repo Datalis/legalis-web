@@ -19,24 +19,42 @@ import { LETTERS } from '@app/@shared/utils/data';
 export class GlossaryComponent implements OnInit {
   letters: string[] = [];
   defaultLetter = 'A';
-  itemsPerPage = 6;
+  // itemsPerPage = 6;
 
   results?: PagedResult<GlossaryTerm>;
+
   params: Params = new Params();
 
-  constructor(private _apiService: ApiService, private _route: ActivatedRoute, private _router: Router) {}
+  termCollapsed: number | null | undefined = -1;
+
+  
+  constructor(private _apiService: ApiService, private _route: ActivatedRoute, private _router: Router) {
+    this.letters = LETTERS;
+    this._route.queryParams
+      .pipe(
+        untilDestroyed(this),
+        switchMap((params) => {
+          return this._apiService.getGlossaryTerms({ ...params, page_size: 10000 });
+        })
+      ).subscribe((res) => {
+        this.results = res;
+        console.log(res);
+      })
+  }
 
   async ngOnInit() {
-    this.letters = LETTERS;
 
-    this._route.queryParams.pipe(untilDestroyed(this)).subscribe(async (params) => {
-      this.params.page = params.page;
-      this.params.page_size = this.itemsPerPage;
-      this.params.startswith = params.startswith || this.defaultLetter;
 
-      const results = await this._apiService.getGlossaryTerms(this.params);
-      this.results = results;
-    });
+    // this._route.queryParams.pipe(untilDestroyed(this)).subscribe(async (params) => {
+    //   // this.params.page = params.page;
+    //   // this.params.page_size = this.itemsPerPage;
+    //   this.params.startswith = params.startswith || this.defaultLetter;
+
+    //   const results = await this._apiService.getGlossaryTerms(this.params);
+    //   this.results = results;
+    // });
+
+
 
     //this.letters = this._dataService.letters;
     /*this._route.queryParams
@@ -56,16 +74,44 @@ export class GlossaryComponent implements OnInit {
       });*/
   }
 
-  onLetterChange(letter: string) {
-    this.params.startswith = letter;
-    this.params.page = 1;
+  splitResults(data: any[]) {
+    let half = Math.ceil(data.length / 2);
+    let left = data.slice(0, half);
+    let right = data.slice(half);
+    return [left, right];
+  }
+
+  trackItems(_index: number, e: any) {
+    return e.id;
+  }
+
+  resetSearch(inputRef: HTMLInputElement) {
+    inputRef.value = ""
+    this.params.search = null;
+    this.params.startswith = this.defaultLetter;
+    this.termCollapsed = -1;
     this.getResults();
   }
 
-  onPageChange(page: number) {
-    this.params.page = page;
+  onSearchTerm(e: any) {
+    let term = e.target.value;
+    this.params.search = term;
+    this.params.startswith = null;
+    this.termCollapsed = -1;
     this.getResults();
   }
+
+  onLetterChange(letter: string) {
+    this.params.startswith = letter;
+    this.params.search = null;
+    this.termCollapsed = -1;
+    this.getResults();
+  }
+
+  // onPageChange(page: number) {
+  //   this.params.page = page;
+  //   this.getResults();
+  // }
 
   getResults(): void {
     this._router.navigate([], {
