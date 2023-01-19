@@ -8,6 +8,9 @@
 
 .search-input {
   max-width: 250px;
+  @include media-breakpoint-down(md) {
+    max-width: 100%;
+  }
 }
 
 .search-input .form-control {
@@ -16,7 +19,9 @@
 }
 
 .search-input .btn {
-  right: 35px;
+  right: 0;
+  bottom: 0;
+  position: absolute;
   z-index: 10;
 }
 
@@ -60,9 +65,26 @@
 
 .results-container .term .title {
   cursor: pointer;
-  &:hover {
-    color: lighten($color: #141e30, $amount: 20)  !important;
+  line-height: 1;
+  @include media-breakpoint-down(md) {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    > i {
+      margin-left: auto !important;
+    }
   }
+  // &:hover {
+  //   color: lighten($color: #141e30, $amount: 20)  !important;
+  // }
+}
+
+.results-container .term .title > i {
+  transition: transform 0.2s ease;
+  will-change: transform;
+}
+.results-container .term .title > i.open {
+  transform: rotate(45deg);
 }
 
 .results-container .term .description {
