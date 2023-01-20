@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Router } from '@angular/router';
+import { NgControl } from '@angular/forms';
 
 @UntilDestroy()
 @Component({
@@ -15,6 +16,8 @@ export class FooterComponent implements OnInit {
   $news?: Observable<any[]>;
 
   isSmallScreen = false;
+  invalidForm = false;
+  subscribeEmail = '';
 
   constructor(
     private _router: Router,
@@ -24,6 +27,13 @@ export class FooterComponent implements OnInit {
   ngOnInit() {
     //this.$news = this._dataService.getLatestNews();
     this._layoutService.isSmallScreen$.pipe(untilDestroyed(this)).subscribe((small) => (this.isSmallScreen = small));
+  }
+
+  subscribe() {
+    let URL = "https://sumavoces.us16.list-manage.com/subscribe?u=2c3cee32035916c525e68d623&id=341cef9774"
+    URL = URL + '&MERGE0=' + this.subscribeEmail;
+    window.open(URL, '_blank');
+    console.log('this')
   }
 
   goTo(path: string) {
