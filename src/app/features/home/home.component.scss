@@ -48,6 +48,9 @@
 }
 
 .related-news {
+  @include media-breakpoint-down(lg) {
+    border-radius: 0;
+  }
   ::ng-deep .carousel-arrows {
     .carousel-arrow-prev {
       left: -45px !important;
