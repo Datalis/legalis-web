@@ -1,30 +1,47 @@
 <div class="analysis-container container-fluid container-lg px-md-4 py-4">
   <div class="d-flex flex-column align-items-center">
     <h5 class="text-blue fw-bold mb-0">CONSULTAS FRECUENTES</h5>
-    <span class="fw-bold">Herramienta para analizar el sistema legislativo cubano</span>
   </div>
-  <div class="row mt-4">
+  <div class="row mt-4" *ngIf="consultas && consultas.length; else loading">
     <div class="col-sm-12 mb-4">
       <div class="article-item row m-0 bg-blue-light p-4">
         <img
           loading="lazy"
           class="img-fluid col-md-5 mb-md-0 mb-4 p-0 pe-md-4"
-          src="/assets/generic-image.webp"
+          src="https://api.eltoque.com{{ consultas[0].feature_image?.url }}"
+          po
           alt=""
         />
         <div class="article-content d-flex flex-column col-md-7 p-0">
-          <h6 class="text-blue fw-bold">Preguntas frecuentes</h6>
+          <h5 class="text-blue fw-bold">{{ consultas[0].title }}</h5>
           <p>
-            A switch has the markup of a custom checkbox but uses the .form-switch class to render a toggle switch.
-            Consider using role="switch" to more accurately convey the nature of the control to assistive technologies
-            that support this role. In older assistive technologies, it will simply be announced as a regular checkbox
-            as a fallback. Switches also support the disabled attribute.
+            {{ consultas[0]?.excerpt }}
           </p>
-          <a class="text-blue fw-bold mt-auto text-center text-md-end">Leer mas</a>
+          <a class="text-blue fw-bold mt-auto text-center text-md-end" [routerLink]="consultas[0]._id">Leer más</a>
         </div>
       </div>
     </div>
-    <div class="col-lg-4 col-md-6 mb-4">
+    <div class="col-lg-4 col-md-6 mb-4" *ngFor="let c of consultas.slice(1)">
+      <div class="article-item d-flex flex-column align-items-stretch bg-blue-light p-4 h-100">
+        <img
+          loading="lazy"
+          class="img-fluid h-50 mb-4"
+          src="https://api.eltoque.com{{ c.feature_image?.url }}"
+          alt=""
+        />
+        <div class="article-content d-flex flex-column h-50">
+          <h6 class="text-blue fw-bold">{{c.title}}</h6>
+          <p>
+            {{c.excerpt}}
+          </p>
+          <a class="text-blue fw-bold mt-auto align-self-center" [routerLink]="c._id">Leer más</a>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex align-items-center justify-content-center py-4" *ngIf="showMore">
+      <button class="load-more-btn btn btn-link text-blue" (click)="loadMore()">Ver más</button>
+    </div>
+    <!-- <div class="col-lg-4 col-md-6 mb-4">
       <div class="article-item d-flex flex-column align-items-stretch bg-blue-light p-4">
         <img loading="lazy" class="img-fluid h-50 mb-4" src="/assets/generic-image.webp" alt="" />
         <div class="article-content d-flex flex-column h-50">
@@ -53,21 +70,9 @@
           <a class="text-blue fw-bold mt-auto align-self-center">Leer mas</a>
         </div>
       </div>
-    </div>
-    <div class="col-lg-4 col-md-6 mb-4">
-      <div class="article-item d-flex flex-column align-items-stretch bg-blue-light p-4">
-        <img loading="lazy" class="img-fluid h-50 mb-4" src="/assets/generic-image.webp" alt="" />
-        <div class="article-content d-flex flex-column h-50">
-          <h6 class="text-blue fw-bold">Preguntas frecuentes</h6>
-          <p>
-            A switch has the markup of a custom checkbox but uses the .form-switch class to render a toggle switch.
-            Consider using role="switch" to more accurately convey the nature of the control to assistive technologies
-            that support this role. In older assistive technologies, it will simply be announced as a regular checkbox
-            as a fallback. Switches also support the disabled attribute.
-          </p>
-          <a class="text-blue fw-bold mt-auto align-self-center">Leer mas</a>
-        </div>
-      </div>
-    </div>
+    </div> -->
   </div>
 </div>
+<ng-template #loading>
+  <app-loader></app-loader>
+</ng-template>

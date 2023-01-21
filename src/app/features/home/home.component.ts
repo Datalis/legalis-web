@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit {
   popularNormatives: Normative[] = [];
   infographics: Infographic[] = [];
   relatedNews: any[] = [];
+  consultas: any[] = [];
 
   isBrowser: boolean = false;
 
@@ -25,11 +26,12 @@ export class HomeComponent implements OnInit {
   }
 
   async ngOnInit() {
-    const [popularRes, recentRes, newsRes, infogRes] = this.route.snapshot.data.data;
+    const [popularRes, recentRes, newsRes, infogRes, consultasRes] = this.route.snapshot.data.data;
 
     this.relatedNews = newsRes || [];
     this.popularNormatives = popularRes.results || [];
     this.recentGazette = recentRes.results ? recentRes.results[0] : null;
     this.infographics = infogRes.results ? infogRes.results.slice(0, 3) : [];
+    this.consultas = consultasRes || [];
   }
 }

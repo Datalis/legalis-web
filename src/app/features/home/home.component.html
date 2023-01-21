@@ -46,23 +46,17 @@
     </div>
     <div class="row mx-0 mb-lg-4">
       <div class="col-lg-6 px-0 px-lg-2 ps-lg-0 d-flex flex-column align-items-stretch justify-content-between">
-        <section class="analysis p-4 d-flex flex-column flex-grow-1 mb-2">
+        <section class="analysis p-4 d-flex flex-column flex-grow-1" *ngFor="let c of consultas; let i = index" [class.mt-2]="i!==0">
           <h6 class="text-blue fw-bold text-uppercase text-center">Análisis</h6>
-          <span class="mt-4 fw-bold mb-2">Preguntas frecuentes</span>
-          <p class="text-small text-black">
-            Browser default checkboxes and radios are replaced with the help of .form-check, a series of classes for
-            both input types that improves the layout and behavior of their HTML elements, that provide greater
-            customization and cross browser consistency. Checkboxes are for selecting one or several options in a list,
-            while radios are for selecting one option from many. Browser default checkboxes and radios are replaced with
-            the help of .form-check, a series of classes for both input types that improves the layout and behavior of
-            their HTML elements, that provide greater customization and cross browser consistency. Checkboxes are for
-            selecting one or several options in a list, while radios are for selecting one option from many.
+          <h6 class="mt-4 fw-bold mb-3">{{c.title}}</h6>
+          <p class="text-black">
+            {{c.excerpt}}
           </p>
           <a class="mt-2 text-end fw-bold text-blue text-small mt-auto" href="#">
             <em class="me-2">Leer más</em> <strong>+</strong>
           </a>
         </section>
-        <section class="analysis p-4 d-flex flex-column mt-1 flex-grow-1">
+        <!-- <section class="analysis p-4 d-flex flex-column mt-1 flex-grow-1">
           <h6 class="text-blue fw-bold text-uppercase text-center">Análisis</h6>
           <span class="mt-4 fw-bold mb-2">Preguntas frecuentes</span>
           <p class="text-small text-black">
@@ -79,7 +73,7 @@
           <a class="mt-2 text-end fw-bold text-blue text-small mt-auto" href="#"
             ><em class="me-2">Leer más</em> <strong>+</strong></a
           >
-        </section>
+        </section> -->
       </div>
       <section class="related-news my-2 my-lg-0 col-lg-6 bg-blue d-flex flex-column align-items-center py-4 px-5">
         <!--<h6 class="text-light fw-bold text-uppercase">Infografía</h6>
