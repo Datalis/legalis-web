@@ -9,13 +9,12 @@
       <h5 class="text-accent mb-1 fw-bold mb-0 text-blue text-center text-lg-start">ÍNDICE DE GACETA</h5>
       <div class="d-lg-none mt-2"></div>
       <div class="resume-container row d-flex flex-column bg-surface mt-2 mx-0 text-start" *ngIf="resume">
-        <div class="col-12 px-3 py-2" (click)="collapse.toggle()">
+        <div class="col-12 px-3 py-2">
           <div class="row mx-0">
             <div class="d-flex px-0">
               <h6 class="flex-grow-1 d-flex align-items-center text-blue mb-0 fw-bold"><span class="me-1">{{ resume.year }}</span> - <span
                 class="ms-1" *ngIf="resume.year_end">{{ resume.year_end }}</span></h6>
               <span class="resume-toggler text-blue text-center p-0 pointer">
-                <i class="fas" [class.fa-angle-up]="!resumeMenuCollapsed" [class.fa-angle-down]="resumeMenuCollapsed"></i>
               </span>
             </div>
             <small class="col-4 p-0 flex-grow-1"><span class="me-1">{{ resume.gazettes.total }}</span> GACETAS ORDINARIAS</small>

@@ -26,8 +26,8 @@ export class FiltersComponent implements OnInit, OnDestroy {
   @Input() gazetteTypes: GazetteType[] = [];
   @Input() organisms: string[] = [];
 
-  @Input() slideYearSelected = 1990;
-  @Input() slideMinYear = 1990;
+  @Input() slideYearSelected = 2009;
+  @Input() slideMinYear = 2009;
   @Input() slideMaxYear = new Date().getFullYear();
   @Input() years = this._years;
 

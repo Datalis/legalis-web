@@ -52,7 +52,7 @@
           />
           <label class="form-check-label" for="type_default"> Todas la ediciones </label>
         </div>
-        <div class="form-check text-small" *ngFor="let item of gazetteTypes; let i = index">
+        <div class="form-check text-small" *ngFor="let item of gazetteTypes.slice(0, -1); let i = index">
           <input
             class="form-check-input"
             id="type_{{ i }}"
