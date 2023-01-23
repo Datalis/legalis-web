@@ -83,6 +83,13 @@ export class ApiService {
     );
   }
 
+  getGlossaryRefs(params: any): Observable<PagedResult<any>> {
+    return this.client.get<PagedResult<any>>('/referencia/', {
+      headers: this._headers,
+      params: this.encodeParams(params),
+    })
+  }
+
   async getInfographics(): Promise<PagedResult<Infographic>> {
     return firstValueFrom(
       this.client.get<PagedResult<Infographic>>('/infografia/', {

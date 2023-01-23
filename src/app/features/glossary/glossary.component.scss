@@ -91,3 +91,15 @@
   border-radius: 5px;
   min-height: 100px;
 }
+
+.load-more-btn {
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.ref-item span {
+  @include media-breakpoint-down(md) {
+    font-size: 14px;
+  }
+}

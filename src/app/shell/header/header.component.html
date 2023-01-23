@@ -54,7 +54,7 @@
       <a routerLink="/directorio-tematico" routerLinkActive="active">DIRECTORIO TEMÁTICO</a>
     </div> -->
     <div class="tab">
-      <a routerLink="/glosario" routerLinkActive="active">GLOSARIO</a>
+      <a routerLink="/glosario" [queryParams]="{ 'startswith': 'A' }" routerLinkActive="active">GLOSARIO</a>
     </div>
     <div class="tab">
       <a routerLink="/como-buscar" routerLinkActive="active">¿CÓMO BUSCAR?</a>
@@ -83,7 +83,7 @@
         <a routerLink="/palabras-claves" routerLinkActive="active">PALABRA CLAVE</a>
       </div> -->
       <div class="tab">
-        <a routerLink="/glosario" routerLinkActive="active">GLOSARIO</a>
+        <a routerLink="/glosario" [queryParams]="{ 'startswith': 'A' }" routerLinkActive="active">GLOSARIO</a>
       </div>
       <div class="tab">
         <a routerLink="/como-buscar" routerLinkActive="active">¿CÓMO BUSCAR?</a>

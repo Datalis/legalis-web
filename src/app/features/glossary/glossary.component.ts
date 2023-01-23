@@ -2,7 +2,7 @@ import { ApiService } from '@app/@shared/services/api.service';
 import { Params } from '@app/@shared/model/params';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest, Observable, Subject } from 'rxjs';
+import { combineLatest, from, Observable, of, Subject } from 'rxjs';
 import { PagedResult } from './../../@shared/model/paged-result';
 //import { DataService } from '@app/@shared/services/data.service';
 import { Component, OnInit } from '@angular/core';
@@ -27,13 +27,28 @@ export class GlossaryComponent implements OnInit {
 
   termCollapsed: number | null | undefined = -1;
 
+  showRefs = false;
+
+  references$: Observable<any>;
+
+  termsCount = 40;
+
+  get results$(): GlossaryTerm[] {
+    return this.results?.results?.slice(0, this.termsCount) || [];
+  }
+
+  loadMore() {
+    this.termsCount+=30;
+  }
   
   constructor(private _apiService: ApiService, private _route: ActivatedRoute, private _router: Router) {
+    this.references$ = this._apiService.getGlossaryRefs({});
     this.letters = LETTERS;
     this._route.queryParams
       .pipe(
         untilDestroyed(this),
         switchMap((params) => {
+          this.params.startswith = params.startswith;
           return this._apiService.getGlossaryTerms({ ...params, page_size: 10000 });
         })
       ).subscribe((res) => {
@@ -73,6 +88,11 @@ export class GlossaryComponent implements OnInit {
         this.isLoading = false;
       });*/
   }
+  
+  openRefs() {
+    this.showRefs = true;
+    this.params.startswith = null;
+  }
 
   splitResults(data: any[]) {
     let half = Math.ceil(data.length / 2);
@@ -98,6 +118,8 @@ export class GlossaryComponent implements OnInit {
     this.params.search = term;
     this.params.startswith = null;
     this.termCollapsed = -1;
+    this.showRefs = false;
+    this.termsCount = 40;
     this.getResults();
   }
 
@@ -105,6 +127,8 @@ export class GlossaryComponent implements OnInit {
     this.params.startswith = letter;
     this.params.search = null;
     this.termCollapsed = -1;
+    this.showRefs = false;
+    this.termsCount = 40;
     this.getResults();
   }
 

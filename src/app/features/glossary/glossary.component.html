@@ -33,51 +33,77 @@
         </div>
       </div>
       <div class="col-md-3 col-12 align-self-center d-flex">
-        <small class="mx-auto mx-md-0 ms-md-auto"> <a class="text-uppercase float-end text-accent">Referencias</a></small>
+        <small class="mx-auto mx-md-0 ms-md-auto">
+          <a class="text-uppercase float-end text-accent" [class.active]="showRefs" (click)="openRefs()">Referencias</a></small
+        >
       </div>
     </div>
     <div class="mt-4 mx-4 w-100">
-      <ng-container *ngIf="results; else loading">
-        <div class="results-container row mx-0" *ngIf="results.count !== 0; else noRes">
-          <div class="col-md-6 col-12">
-            <div
-              class="term d-flex flex-column"
-              *ngFor="let item of splitResults(results.results)[0]; trackBy: trackItems; let i = index"
-            >
-              <span
-                class="title text-uppercase text-blue fw-bold mb-2"
-                (click)="termCollapsed === item.id ? (termCollapsed = -1) : (termCollapsed = item.id)"
-                >{{ item.termino }} <i class="ms-1 fas fa-plus fa-sm text-accent" [class.open]="termCollapsed === item.id"></i></span
+      <ng-container *ngIf="!showRefs; else refTemplate">
+        <ng-container *ngIf="results; else loading">
+          <div class="results-container row mx-0" *ngIf="results.count !== 0; else noRes">
+            <div class="col-md-6 col-12">
+              <div
+                class="term d-flex flex-column"
+                *ngFor="let item of splitResults(results$)[0]; trackBy: trackItems; let i = index"
               >
-              <div #collapse="ngbCollapse" [ngbCollapse]="termCollapsed !== item.id">
-                <p class="description px-3 py-2 mb-0 bg-white">
-                  {{ item.description }}
-                </p>
+                <span
+                  class="title text-uppercase text-blue fw-bold mb-2"
+                  (click)="termCollapsed === item.id ? (termCollapsed = -1) : (termCollapsed = item.id)"
+                  >{{ item.termino }}
+                  <i class="ms-1 fas fa-plus fa-sm text-accent" [class.open]="termCollapsed === item.id"></i
+                ></span>
+                <div #collapse="ngbCollapse" [ngbCollapse]="termCollapsed !== item.id">
+                  <p class="description px-3 py-2 mb-0 bg-white">
+                    {{ item.description }}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col-md-6 col-12">
-            <div
-              class="term d-flex flex-column"
-              *ngFor="let item of splitResults(results.results)[1]; trackBy: trackItems; let i = index"
-            >
-              <span
-                class="title text-uppercase text-blue fw-bold mb-2"
-                (click)="termCollapsed === item.id ? (termCollapsed = -1) : (termCollapsed = item.id)"
-                >{{ item.termino }} <i class="ms-1 fas fa-plus fa-sm text-accent" [class.open]="termCollapsed === item.id"></i></span
+            <div class="col-md-6 col-12">
+              <div
+                class="term d-flex flex-column"
+                *ngFor="let item of splitResults(results$)[1]; trackBy: trackItems; let i = index"
               >
-              <div #collapse="ngbCollapse" [ngbCollapse]="termCollapsed !== item.id">
-                <p class="description px-3 py-2 mb-0 bg-white">
-                  {{ item.description }}
-                </p>
+                <span
+                  class="title text-uppercase text-blue fw-bold mb-2"
+                  (click)="termCollapsed === item.id ? (termCollapsed = -1) : (termCollapsed = item.id)"
+                  >{{ item.termino }}
+                  <i class="ms-1 fas fa-plus fa-sm text-accent" [class.open]="termCollapsed === item.id"></i
+                ></span>
+                <div #collapse="ngbCollapse" [ngbCollapse]="termCollapsed !== item.id">
+                  <p class="description px-3 py-2 mb-0 bg-white">
+                    {{ item.description }}
+                  </p>
+                </div>
               </div>
             </div>
+            <div class="d-flex mb-4 mt-5" *ngIf="termsCount<=results.count">
+              <button class="mx-auto load-more-btn btn btn-link text-blue" (click)="loadMore()">Ver más</button>
+            </div>
           </div>
-        </div>
-        <ng-template #noRes>
-          <app-empty-results></app-empty-results>
-        </ng-template>
+          <ng-template #noRes>
+            <app-empty-results></app-empty-results>
+          </ng-template>
+        </ng-container>
       </ng-container>
+
+      <ng-template #refTemplate> 
+        <div class="row mx-2">
+          <ng-container *ngIf="references$ | async as refs; else loading">
+            <div
+              class="ref-item col-md-6 my-3"
+              *ngFor="
+                let item of refs.results"
+            >
+              <div class="d-flex flex-column h-100">
+                <span class="text-uppercase text-blue fw-bold">{{ item.referencia }}</span>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+        
+      </ng-template>
       <!-- <ng-container *ngIf="results; else loading">
         <div class="results-container row m-0" *ngIf="results.count !== 0; else noRes">
           <div
