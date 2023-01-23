@@ -3,3 +3,11 @@
     font-weight: 600;
     text-decoration: underline;
 }
+
+.article-item p {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
