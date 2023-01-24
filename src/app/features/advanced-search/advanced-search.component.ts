@@ -11,8 +11,8 @@ import { UntilDestroy } from '@ngneat/until-destroy';
   styleUrls: ['./advanced-search.component.scss'],
 })
 export class AdvancedSearchComponent implements OnInit {
-  slideYearSelected = 1990;
-  slideMinYear = 1990;
+  slideYearSelected = 2009;
+  slideMinYear = 2009;
   slideMaxYear = new Date().getFullYear();
 
   sliderOpts = {
