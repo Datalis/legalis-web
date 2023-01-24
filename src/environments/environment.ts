@@ -14,8 +14,6 @@ export const environment = {
   production: false,
   version: '1.0.1-dev',
   serverUrl: 'https://api-gaceta.datalis.dev/api',
-  newsApiUrl: 'https://api.eltoque.com/posts?categories=600c46c1929b80000d284502&categories_nin=63c6fa3ced8925001c36c57a&_sort=publish_date:DESC&_limit=10',
-  consultasApiUrl: 'https://api.eltoque.com/posts?categories=63c6fa3ced8925001c36c57a&_sort=publish_date:DESC',
   elToqueApi: 'https://api.eltoque.com',
   defaultLanguage: 'es-CU',
   supportedLanguages: ['en-US', 'es-CU'],
