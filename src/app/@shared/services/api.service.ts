@@ -197,7 +197,7 @@ export class ApiService {
   }
 
   async relatedNews(): Promise<any[]> {
-    return firstValueFrom<any[]>(this.client.get<any[]>(environment.elToqueApi + '/posts?categories=600c46c1929b80000d284502&_sort=publish_date:DESC&_limit=10'));
+    return firstValueFrom<any[]>(this.client.get<any[]>(environment.elToqueApi + '/posts?categories=600c46c1929b80000d284502&categories_nin=63c6fa3ced8925001c36c57a&_sort=publish_date:DESC&_limit=10'));
   }
 
   async consultasJuridicas(limit: number = 10, start: number = 0): Promise<any[]> {

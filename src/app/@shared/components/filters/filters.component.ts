@@ -26,8 +26,8 @@ export class FiltersComponent implements OnInit, OnDestroy {
   @Input() gazetteTypes: GazetteType[] = [];
   @Input() organisms: string[] = [];
 
-  @Input() slideYearSelected = 2009;
-  @Input() slideMinYear = 2009;
+  @Input() slideYearSelected = 1990;
+  @Input() slideMinYear = 1990;
   @Input() slideMaxYear = new Date().getFullYear();
   @Input() years = this._years;
 
@@ -39,11 +39,19 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
   @Input() allowUnsetYear = true;
 
-  sliderOpts: Options = {
-    floor: this.slideMinYear,
-    ceil: this.slideMaxYear,
-    step: 1,
-  };
+  // sliderOpts: Options = {
+  //   floor: this.slideMinYear,
+  //   ceil: this.slideMaxYear,
+  //   step: 1,
+  // };
+
+  get sliderOpts$() {
+    return {
+      floor: this.slideMinYear,
+      ceil: this.slideMaxYear,
+      step: 1,
+    }
+  }
 
   paramsChange$ = new Subject<void>();
 
