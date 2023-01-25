@@ -39,15 +39,15 @@ export class ApiService {
 
   async search(params: any): Promise<PagedResult<Normative>> {
     let _params = Object.assign({}, params);
-    if (_params.organism && _params.organism.includes(' ')) {
-      _params.organism = `"${_params.organism}"`;
-    }
-    if (_params.state && _params.state.includes(' ')) {
-      _params.state = `"${_params.state}"`;
-    }
-    if (_params.tematica && _params.tematica.includes(' ')) {
-      _params.tematica = `"${_params.tematica}"`;
-    }
+    // if (_params.organism && _params.organism.includes(' ')) {
+    //   _params.organism = `"${_params.organism}"`;
+    // }
+    // if (_params.state && _params.state.includes(' ')) {
+    //   _params.state = `"${_params.state}"`;
+    // }
+    // if (_params.tematica && _params.tematica.includes(' ')) {
+    //   _params.tematica = `"${_params.tematica}"`;
+    // }
     return firstValueFrom(
       this.client.get<PagedResult<Normative>>('/search', {
         headers: this._headers,
