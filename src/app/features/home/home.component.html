@@ -9,7 +9,7 @@
       </div>
       <div class="divider"></div>
       <div class="recent-container row mx-0 py-3">
-        <div class="col-md-6 col-sm-12 px-4 py-2" *ngFor="let item of recentGazette.normatives">
+        <div class="col-sm-12 px-4 py-2" *ngFor="let item of recentGazette.normatives" [class.col-md-6]="recentGazette.normatives.length > 1">
           <a class="recent-item pb-2" [routerLink]="['/normativa', item.id]">
             <small class="d-block text-accent mb-0 fw-bold">{{ item.name }}</small>
             <small class="text-small text-dark text-uppercase fw-bold">{{ item.normtype }}</small>
@@ -56,29 +56,9 @@
             <em class="me-2">Leer más</em> <strong>+</strong>
           </a>
         </section>
-        <!-- <section class="analysis p-4 d-flex flex-column mt-1 flex-grow-1">
-          <h6 class="text-blue fw-bold text-uppercase text-center">Análisis</h6>
-          <span class="mt-4 fw-bold mb-2">Preguntas frecuentes</span>
-          <p class="text-small text-black">
-            Browser default checkboxes and radios are replaced with the help of .form-check, a series of classes for
-            both input types that improves the layout and behavior of their HTML elements, that provide greater
-            customization and cross browser consistency. Checkboxes are for selecting one or several options in a list,
-            while radios are for selecting one option from many. Browser default checkboxes and radios are replaced with
-            the help of. Browser default checkboxes and radios are replaced with the help of .form-check, a series of
-            classes for both input types that improves the layout and behavior of their HTML elements, that provide
-            greater customization and cross browser consistency. Checkboxes are for selecting one or several options in
-            a list, while radios are for selecting one option from many. Browser default checkboxes and radios are
-            replaced with the help of
-          </p>
-          <a class="mt-2 text-end fw-bold text-blue text-small mt-auto" href="#"
-            ><em class="me-2">Leer más</em> <strong>+</strong></a
-          >
-        </section> -->
+        
       </div>
       <section class="related-news my-2 my-lg-0 col-lg-6 bg-blue d-flex flex-column align-items-center py-4 px-5">
-        <!--<h6 class="text-light fw-bold text-uppercase">Infografía</h6>
-        <img class="mt-4" width="90%" height="100%" style="object-fit: cover;" [src]="infog?.imagen" alt="" />
-        <a routerLink="/infographics" class="fw-bold text-italic text-light mt-4">Ver más...</a>-->
         <h6 class="text-light text-center fw-bold text-uppercase mb-4">Publicado en el toque jurídico</h6>
         <ng-container *ngIf="isBrowser">
           <carousel cellWidth="100%" [lightDOM]="true" [height]="450">
