@@ -1,7 +1,7 @@
 <div class="gazettes-container container-fluid container-lg px-md-4 py-4">
   <div class="row">
     <div class="col-lg-4 d-none d-lg-block">
-      <app-filters [showState]="false" [showGazetteType]="true" [gazetteTypes]="gazetteTypes" [thematics]="normativeThematics"
+      <app-filters [slideMinYear]="1990" [slideYearSelected]="1990" [showState]="false" [showGazetteType]="true" [gazetteTypes]="gazetteTypes" [thematics]="normativeThematics"
         [organisms]="normativeOrganisms" (paramsChange)="onFiltersChange($event)" [params]="params">
       </app-filters>
     </div>

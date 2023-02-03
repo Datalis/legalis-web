@@ -29,7 +29,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
   @Input() slideYearSelected = 2009;
   @Input() slideMinYear = 2009;
   @Input() slideMaxYear = new Date().getFullYear();
-  @Input() years = this._years;
+  // @Input() years = this._years;
 
   @Input() showState = true;
   @Input() showOrganism = true;
@@ -55,7 +55,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
   paramsChange$ = new Subject<void>();
 
-  private get _years(): number[] {
+  get _years(): number[] {
     const _res: number[] = [];
     for (let i = this.slideMinYear; i <= this.slideMaxYear; i++) {
       _res.push(i);
