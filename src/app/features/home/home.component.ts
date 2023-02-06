@@ -25,6 +25,13 @@ export class HomeComponent implements OnInit {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
+  openTawk() {
+    let w = window as any;
+    if (w.Tawk_API) {
+      w.Tawk_API.maximize();
+    }
+  }
+
   async ngOnInit() {
     const [popularRes, recentRes, newsRes, infogRes, consultasRes] = this.route.snapshot.data.data;
 
