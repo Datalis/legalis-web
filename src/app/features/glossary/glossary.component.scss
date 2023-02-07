@@ -16,13 +16,19 @@
 .search-input .form-control {
   font-style: italic;
   border-radius: 0.25rem !important;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 .search-input .btn {
+  top: 0;
   right: 0;
   bottom: 0;
   position: absolute;
   z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .search-input .btn.hide {
@@ -74,9 +80,6 @@
       margin-left: auto !important;
     }
   }
-  // &:hover {
-  //   color: lighten($color: #141e30, $amount: 20)  !important;
-  // }
 }
 
 .results-container .term .title > i {

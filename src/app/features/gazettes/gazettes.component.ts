@@ -41,7 +41,7 @@ export class GazettesComponent implements OnInit {
 
   results?: PagedResult<Gazette>;
 
-  minYear = 2009;
+  minYear = 1990;
   maxYear = new Date().getFullYear();
 
   @ViewChild('filterMobile', { read: FiltersComponent }) filterMobile?: FiltersComponent;
