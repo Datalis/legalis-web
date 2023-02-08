@@ -115,7 +115,7 @@ export class GlossaryComponent implements OnInit {
 
   onSearchTerm(e: any) {
     let term = e.target.value;
-    this.params.search = term;
+    this.params.search = term?.replace(/['"]+/g, '');
     this.params.startswith = null;
     this.termCollapsed = -1;
     this.showRefs = false;
