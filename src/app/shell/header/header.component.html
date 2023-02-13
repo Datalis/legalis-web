@@ -40,15 +40,13 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-3 d-none d-lg-flex justify-content-end align-self-start">
+      <!-- <div class="col-lg-3 d-none d-lg-flex justify-content-end align-self-start">
         <nav class="header-nav ps-5 pt-5" role="navigation">
           <a routerLink="/gacetas" routerLinkActive="active">ÍNDICE DE GACETAS</a>
           <a routerLink="/consultas" routerLinkActive="active">PREGUNTAS FRECUENTES</a>
-          <!-- <a routerLink="/infografias" routerLinkActive="active">INFOGRAFÍA</a> -->
-          <!-- <a routerLink="/glosario" routerLinkActive="active">GLOSARIO</a> -->
           <a routerLink="/acerca-de" routerLinkActive="active">¿QUIÉNES SOMOS?</a>
         </nav>
-      </div>
+      </div> -->
     </div>
   </div>
   <nav class="header-tabs d-none d-lg-flex" role="navigation">
@@ -58,15 +56,18 @@
     <div class="tab">
       <a routerLink="/busqueda-avanzada" routerLinkActive="active">BÚSQUEDA AVANZADA</a>
     </div>
-    <!--  <div class="tab">
-      <a routerLink="/directorio-tematico" routerLinkActive="active">DIRECTORIO TEMÁTICO</a>
-    </div> -->
+
     <div class="tab">
       <a routerLink="/glosario" [queryParams]="{ startswith: 'A' }" routerLinkActive="active">GLOSARIO</a>
     </div>
-    <!--    <div class="tab">-->
-    <!--      <a routerLink="/como-buscar" routerLinkActive="active">¿CÓMO BUSCAR?</a>-->
-    <!--    </div>-->
+
+    <div class="tab">
+      <a routerLink="/gacetas" routerLinkActive="active">ÍNDICE DE GACETAS</a>
+    </div>
+
+    <div class="tab">
+      <a routerLink="/consultas" routerLinkActive="active">PREGUNTAS FRECUENTES</a>
+    </div>
   </nav>
   <nav class="header-tabs d-flex flex-column d-lg-none" role="navigation">
     <div class="header-tabs-toggler" (click)="collapse.toggle()">
