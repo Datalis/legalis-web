@@ -59,21 +59,21 @@ export class AppComponent implements OnInit {
         }
       });
 
-    this.router.events
-      .pipe(
-        filter((e: Event): e is Scroll => e instanceof Scroll),
-        untilDestroyed(this)
-      )
-      .subscribe((e) => {
-        if (e.position) {
-          const [x] = e.position;
-          this.scroller?.scrollTo({ top: x });
-        } else if (e.anchor) {
-          this.scroller?.scrollToElement(`#${e.anchor}`);
-        } else {
-          this.scroller?.scrollTo({ top: 0 });
-        }
-      });
+    // this.router.events
+    //   .pipe(
+    //     filter((e: Event): e is Scroll => e instanceof Scroll),
+    //     untilDestroyed(this)
+    //   )
+    //   .subscribe((e) => {
+    //     if (e.position) {
+    //       const [x] = e.position;
+    //       this.scroller?.scrollTo({ top: x });
+    //     } else if (e.anchor) {
+    //       this.scroller?.scrollToElement(`#${e.anchor}`);
+    //     } else {
+    //       this.scroller?.scrollTo({ top: 0 });
+    //     }
+    //   });
 
     this.layoutService.scrollToTop$.pipe(untilDestroyed(this)).subscribe(() => this.scroller?.scrollTo({ top: 0 }));
     this.layoutService.scrollToElement$
