@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '@app/@shared/services/api.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { switchMap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -23,17 +23,22 @@ export class AnalysisComponent implements OnInit {
   ngOnInit() {
     const consultas = this._route.snapshot.data.data;
     this.consultas = consultas;
-    this._route.queryParamMap.pipe(untilDestroyed(this), switchMap(params => this._apiService.consultasJuridicas(+(params.get('limit') || 4))))
+    this._route.queryParamMap.pipe(
+      untilDestroyed(this), 
+      tap((params) => {
+        if (!params.get('limit')) {
+          this.limit = 4;
+        }
+      }),
+      switchMap(params => this._apiService.consultasJuridicas(+(params.get('limit') || 4))))
       .subscribe(res => {
         this.consultas = res;
+        this.showMore = this.consultas.length >= this.limit;
       })
   }
 
   loadMore() {
     this.limit += 6;
-    if (this.consultas && this.consultas?.length <= this.limit) {
-      this.showMore = false;
-    }
     this._router.navigate([], {
       queryParams: { limit: this.limit },
       queryParamsHandling: 'merge',
