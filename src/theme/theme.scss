@@ -311,9 +311,19 @@ a {
   cursor: pointer;
 }
 
+blockquote {
+  font-weight: bold;
+}
+
+// TEMP FIX
+.promotion-ql {
+  display: none;
+}
+
 .gallery-backdrop {
   opacity: 0.8 !important;
 }
+
 .gallery-modal {
   max-width: 90vw !important;
   .modal-content {

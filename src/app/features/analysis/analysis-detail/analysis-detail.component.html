@@ -3,8 +3,8 @@
     <div class="col-md-7 pe-md-5 mt-4 mt-md-0 order-2 order-md-1">
       <h3 class="fw-bold">{{ article?.title }}</h3>
       <div class="divider my-4"></div>
-      <p class="mt-5" [innerHTML]="article?.body">
-      </p>
+      <div class="mt-5 html-content" [innerHTML]="article?.body">
+      </div>
     </div>
     <div class="col-md-5 order-1 order-md-2">
       <img class="img-fluid" src="https://api.eltoque.com{{ article?.feature_image?.url }}"> 
