@@ -1,7 +1,7 @@
 <div class="gazette-item d-flex flex-column">
   <div class="gazette-header py-2 px-3 d-flex">
     <div class="d-flex flex-column text-start flex-grow-1">
-      <span class="text-blue fw-bold">Gaceta Oficial No. {{ item.number }}</span>
+      <h5 class="text-blue fw-bold mb-0">Gaceta Oficial No. {{ item.number }}</h5>
       <div class="d-flex align-items-center">
         <small class="text-small text-uppercase me-2">{{ item.date | date: "dd/MM/YYYY" }}</small>
         <small class="text-small text-uppercase">{{ item.type }}</small>
@@ -24,7 +24,7 @@
     <ng-scrollbar track="vertical">
       <div *ngFor="let n of item.normatives; let i = index" class="d-flex flex-column">
         <small
-          ><a class="text-blue fw-bold" [routerLink]="['/normativa', n.id]">{{ n.name }}</a></small
+           class="text-small"><a class="text-blue fw-bold" [routerLink]="['/normativa', n.id]">{{ n.name }}</a></small
         >
         <small class="truncate text-small mt-1">{{ n.summary }}</small>
         <div class="divider"></div>

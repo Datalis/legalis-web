@@ -1,17 +1,17 @@
 <div class="home-container container-fluid container-lg px-0 px-md-4">
   <div>
     <div class="recent bg-blue-light my-md-5" *ngIf="recentGazette">
-      <h6 class="py-4 text-center text-dark fw-bolder mb-0">NORMATIVA RECIENTE</h6>
+      <h5 class="py-4 text-center text-dark fw-bolder mb-0">NORMATIVA RECIENTE</h5>
       <div class="divider"></div>
       <div class="d-flex flex-column px-4 py-3">
-        <h6 class="mb-1 text-dark fw-bold">{{ recentGazette.name }}</h6>
+        <h5 class="mb-1 text-dark fw-bold">{{ recentGazette.name }}</h5>
         <small class="text-small text-muted">{{ recentGazette.date }}</small>
       </div>
       <div class="divider"></div>
       <div class="recent-container row mx-0 py-3">
         <div class="col-sm-12 px-4 py-2" *ngFor="let item of recentGazette.normatives" [class.col-md-6]="recentGazette.normatives.length > 1">
           <a class="recent-item pb-2" [routerLink]="['/normativa', item.id]">
-            <small class="d-block text-accent mb-0 fw-bold">{{ item.name }}</small>
+            <span class="d-block text-accent mb-0 fw-bold">{{ item.name }}</span>
             <small class="text-small text-dark text-uppercase fw-bold">{{ item.normtype }}</small>
             <p class="mb-1 text-dark">
               {{ item.summary }}
@@ -25,7 +25,7 @@
       <img src="/assets/banner2.jpg" style="cursor: pointer;" class="img-fluid" (click)="openTawk()">
     </div>
     <div class="d-flex flex-column align-items-center my-5 px-lg-0 px-5 mx-md-0">
-      <h6 class="mb-5 text-dark fw-bold">NORMAS MÁS CONSULTADAS</h6>
+      <h5 class="mb-5 text-dark fw-bold">NORMAS MÁS CONSULTADAS</h5>
       <ng-container *ngIf="isBrowser">
         <carousel [cellWidth]="280" [height]="280" #carousel>
           <a
@@ -34,10 +34,10 @@
             [routerLink]="['/normativa', item.id]"
           >
             <span class="border-bottom mb-3"></span>
-            <small class="text-accent mb-0 fw-bold" style="line-height: 1">{{ item.name }}</small>
+            <span class="text-accent mb-0 fw-bold" style="line-height: 1">{{ item.name }}</span>
             <!--<small class="text-blue fw-bold text-uppercase mt-1">Tematica</small>-->
-            <small class="my-1 text-muted text-small">{{ item.year }}</small>
-            <p class="w-100 text-dark text-small mb-0">
+            <small class="my-2 text-muted text-small">{{ item.year }}</small>
+            <p class="w-100 text-dark mb-0">
               {{ item.summary }}
             </p>
            <!--  <small class="text-small text-blue text-italic fw-bold mt-auto lh-1">
@@ -50,19 +50,19 @@
     <div class="row mx-0 mb-lg-4">
       <div class="col-lg-6 px-0 px-lg-2 ps-lg-0 d-flex flex-column align-items-stretch justify-content-between">
         <section class="analysis p-4 d-flex flex-column flex-grow-1" *ngFor="let c of consultas; let i = index" [class.mt-2]="i!==0">
-          <h6 class="text-blue fw-bold text-uppercase text-center">Preguntas jurídicas frecuentes</h6>
+          <h5 class="text-blue fw-bold text-uppercase text-center">Preguntas jurídicas frecuentes</h5>
           <h6 class="mt-4 fw-bold mb-3">{{c.title}}</h6>
           <p class="text-black">
             {{c.excerpt}}
           </p>
-          <a class="mt-2 text-end fw-bold text-blue text-small mt-auto" routerLink="/consultas/{{c._id}}">
+          <a class="mt-2 text-end fw-bold text-blue mt-auto" routerLink="/consultas/{{c._id}}">
             <em class="me-2">Leer más</em> <strong>+</strong>
           </a>
         </section>
 
       </div>
       <section class="related-news my-2 my-lg-0 col-lg-6 bg-blue d-flex flex-column align-items-center py-4 px-5">
-        <h6 class="text-light text-center fw-bold text-uppercase mb-4">Publicado en el toque jurídico</h6>
+        <h5 class="text-light text-center fw-bold text-uppercase mb-4">Publicado en el toque jurídico</h5>
         <ng-container *ngIf="isBrowser">
           <carousel cellWidth="100%" [lightDOM]="true" [height]="450">
             <div class="carousel-cell" *ngFor="let item of relatedNews">

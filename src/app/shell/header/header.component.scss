@@ -45,6 +45,7 @@ $header-height: 280px;
 
     .header-slogan {
       //color: $primary;
+      font-size: 1rem;
       color: #fafafa;
       letter-spacing: 1.2px;
       white-space: nowrap;
@@ -118,7 +119,7 @@ $header-height: 280px;
     }
 
     .tab {
-      padding: 1rem 1.5rem;
+      padding: 1rem 1.2rem;
       min-width: 100px;
       display: flex;
       align-items: center;
@@ -138,7 +139,7 @@ $header-height: 280px;
       a {
         color: rgba($light, 0.85);
         font-weight: 700;
-        font-size: 12px;
+        font-size: 0.85rem;
         transition: color 0.2s ease;
         letter-spacing: 0.5px;
         &:hover {
