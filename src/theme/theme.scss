@@ -9,6 +9,7 @@ html,
 body {
   text-justify: distribute;
   font-weight: normal;
+  letter-spacing: 0;
   &.modal-open {
     overflow: hidden;
   }

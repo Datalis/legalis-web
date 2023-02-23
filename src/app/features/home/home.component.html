@@ -52,7 +52,7 @@
         <section class="analysis p-4 d-flex flex-column flex-grow-1" *ngFor="let c of consultas; let i = index" [class.mt-2]="i!==0">
           <h5 class="text-blue fw-bold text-uppercase text-center">Preguntas jurídicas frecuentes</h5>
           <h6 class="mt-4 fw-bold mb-3">{{c.title}}</h6>
-          <p class="text-black">
+          <p class="text-dark">
             {{c.excerpt}}
           </p>
           <a class="mt-2 text-end fw-bold text-blue mt-auto" routerLink="/consultas/{{c._id}}">
