@@ -1,0 +1,12 @@
+<div class="share-btn-wrapper" [class.is-open]="isOpen">
+
+  <a *ngFor="let item of networks; let i = index" class="share-link share-link--{{i}}"
+    [style.bottom.px]="isOpen ? (i+1)*60 - (i*10) : 0"
+    (click)="onShare(item)">
+    <i class="fab {{item.icon}} text-accent"></i>
+  </a>
+
+  <button class="share-btn" (click)="isOpen=!isOpen">
+    <i class="fa fa-share-alt fa-2x text-light"></i>
+  </button>
+</div>

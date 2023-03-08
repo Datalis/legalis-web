@@ -1,0 +1,47 @@
+@import "/src/theme/theme-variables.scss";
+
+.share-btn-wrapper {
+    z-index: 9999;
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &.is-open {
+        .share-link {
+            opacity: 1;
+        }
+    }
+
+    .share-link {
+        width: 36px;
+        height: 36px;
+        border: $accent 1px solid;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        opacity: 0;
+        transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+        backdrop-filter: blur(5px);
+
+    }
+
+    .share-btn {
+        appearance: none;
+        border: none;
+        outline: none;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background-color: $accent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1;
+    }
+}

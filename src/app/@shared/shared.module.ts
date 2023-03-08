@@ -18,6 +18,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
 import { GazetteItemComponent } from './components/gazette-item/gazette-item.component';
+import { ShareBtnComponent } from './components/share-btn/share-btn.component';
 
 export function playerFactory() {
   return import(/* webpackChunkName: 'lottie-web' */ 'lottie-web/build/player/lottie_light');
@@ -47,6 +48,7 @@ export function playerFactory() {
     PdfViewerComponent,
     HighlightPipe,
     DecodeUriPipe,
+    ShareBtnComponent,
   ],
   exports: [
     LoaderComponent,
@@ -54,6 +56,7 @@ export function playerFactory() {
     NormativeItemComponent,
     GazetteItemComponent,
     EmptyResultsComponent,
+    ShareBtnComponent,
     HighlightPipe,
     DecodeUriPipe,
   ],
