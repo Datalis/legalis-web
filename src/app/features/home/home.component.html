@@ -9,7 +9,8 @@
       </div>
       <div class="divider"></div>
       <div class="recent-container row mx-0 py-3">
-        <div class="col-sm-12 px-4 py-2" *ngFor="let item of recentGazette.normatives" [class.col-md-6]="recentGazette.normatives.length > 1">
+        <div class="col-sm-12 px-4 py-2" *ngFor="let item of recentGazette.normatives"
+          [class.col-md-6]="recentGazette.normatives.length > 1">
           <a class="recent-item pb-2" [routerLink]="['/normativa', item.id]">
             <span class="d-block text-accent mb-0 fw-bold">{{ item.name }}</span>
             <small class="text-small text-dark text-uppercase fw-bold">{{ item.normtype }}</small>
@@ -22,17 +23,19 @@
       </div>
     </div>
     <div class="w-100">
-      <img src="/assets/banner2.jpg" style="cursor: pointer;" class="img-fluid" (click)="openTawk()">
+      <picture>
+        <source media="(max-width: 768px)" srcset="/assets/banner2sm.jpg">
+        <source media="(min-width: 769px)" srcset="/assets/banner2.jpg">
+        <img src="/assets/banner2.jpg" style="cursor: pointer;" class="img-fluid" (click)="openTawk()"
+          alt="Solicitar dictamen">
+      </picture>
     </div>
     <div class="d-flex flex-column align-items-center my-5 px-lg-0 px-5 mx-md-0">
       <h5 class="mb-5 text-dark fw-bold">NORMAS MÁS CONSULTADAS</h5>
       <ng-container *ngIf="isBrowser">
         <carousel [cellWidth]="280" [height]="280" #carousel>
-          <a
-            class="popular-cell carousel-cell px-4 py-3 bg-blue-light d-flex flex-column"
-            *ngFor="let item of popularNormatives"
-            [routerLink]="['/normativa', item.id]"
-          >
+          <a class="popular-cell carousel-cell px-4 py-3 bg-blue-light d-flex flex-column"
+            *ngFor="let item of popularNormatives" [routerLink]="['/normativa', item.id]">
             <span class="border-bottom mb-3"></span>
             <span class="text-accent mb-0 fw-bold" style="line-height: 1">{{ item.name }}</span>
             <!--<small class="text-blue fw-bold text-uppercase mt-1">Tematica</small>-->
@@ -40,7 +43,7 @@
             <p class="w-100 text-dark mb-0">
               {{ item.summary }}
             </p>
-           <!--  <small class="text-small text-blue text-italic fw-bold mt-auto lh-1">
+            <!--  <small class="text-small text-blue text-italic fw-bold mt-auto lh-1">
               {{ item.keywords?.slice(0, 2)?.join(", ") | decodeUri }}
             </small> -->
           </a>
@@ -49,7 +52,8 @@
     </div>
     <div class="row mx-0 mb-lg-4">
       <div class="col-lg-6 px-0 px-lg-2 ps-lg-0 d-flex flex-column align-items-stretch justify-content-between">
-        <section class="analysis p-4 d-flex flex-column flex-grow-1" *ngFor="let c of consultas; let i = index" [class.mt-2]="i!==0">
+        <section class="analysis p-4 d-flex flex-column flex-grow-1" *ngFor="let c of consultas; let i = index"
+          [class.mt-2]="i!==0">
           <h5 class="text-blue fw-bold text-uppercase text-center">Preguntas jurídicas frecuentes</h5>
           <h6 class="mt-4 fw-bold mb-3">{{c.title}}</h6>
           <p class="text-dark">
@@ -68,18 +72,13 @@
             <div class="carousel-cell" *ngFor="let item of relatedNews">
               <a href="https://eltoque.com/{{ item.slug }}" target="_blank" class="carousel-item">
                 <div class="carousel-image">
-                  <img
-                    class="img-fluid"
-                    *ngIf="item.feature_image"
-                    src="https://api.eltoque.com{{ item.feature_image?.url }}"
-                    [alt]="item.feature_image_alt"
-                  />
+                  <img class="img-fluid" *ngIf="item.feature_image"
+                    src="https://api.eltoque.com{{ item.feature_image?.url }}" [alt]="item.feature_image_alt" />
                 </div>
                 <div class="carousel-content">
                   <span class="text-light fw-bold mb-2">{{ item.title }}</span>
-                  <small class="text-accent text-small" *ngIf="item.authors?.length"
-                    >{{ item.authors[0]?.fullName }}, {{ item.publish_date | date: "longDate":"":"es-CU" }}</small
-                  >
+                  <small class="text-accent text-small" *ngIf="item.authors?.length">{{ item.authors[0]?.fullName }}, {{
+                    item.publish_date | date: "longDate":"":"es-CU" }}</small>
                   <p class="mt-3 mb-0">
                     {{ item.excerpt }}
                   </p>
@@ -90,11 +89,19 @@
         </ng-container>
       </section>
       <div class="row mx-0 mt-5 px-0">
-        <iframe width="560" height="450" style="padding: 0px" src="https://www.youtube.com/embed/videoseries?list=PLI19GhFs5U5CzxK5KMdXQ-RicmObKFWpq" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <iframe width="560" height="450" style="padding: 0px"
+          src="https://www.youtube.com/embed/videoseries?list=PLI19GhFs5U5CzxK5KMdXQ-RicmObKFWpq"
+          title="YouTube video player" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
       </div>
       <section class="info px-0 mt-3 mt-lg-5 mb-4">
         <a href="https://eltoque.com/desinformaciones-juridicas" target="_blank">
-          <img class="img-fluid" src="/assets/banner1.png">
+          <picture>
+            <source media="(max-width: 768px)" srcset="/assets/banner1sm.png">
+            <source media="(min-width: 769px)" srcset="/assets/banner1.png">
+            <img class="img-fluid" src="/assets/banner1.png" alt="Desinformaciones jurídicas">
+          </picture>
         </a>
       </section>
     </div>
