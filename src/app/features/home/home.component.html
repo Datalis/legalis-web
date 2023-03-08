@@ -50,7 +50,14 @@
         </carousel>
       </ng-container>
     </div>
-    <div class="row mx-0 mb-lg-4">
+    <a routerLink="/glosario">
+      <picture>
+        <source media="(max-width: 768px)" srcset="/assets/banner-glosario-movil.jpg">
+        <source media="(min-width: 769px)" srcset="/assets/banner-glosario-web.jpg">
+        <img class="img-fluid" src="/assets/banner-glosario-web.jpg" alt="Desinformaciones jurídicas">
+      </picture>
+    </a>
+    <div class="row mx-0 mb-lg-4 mt-5">
       <div class="col-lg-6 px-0 px-lg-2 ps-lg-0 d-flex flex-column align-items-stretch justify-content-between">
         <section class="analysis p-4 d-flex flex-column flex-grow-1" *ngFor="let c of consultas; let i = index"
           [class.mt-2]="i!==0">
