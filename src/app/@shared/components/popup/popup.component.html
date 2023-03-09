@@ -1,0 +1,19 @@
+<div class="popup-backdrop" [class.show]="showPopup">
+  <div class="popup-wrapper px-2 py-5 px-md-5">
+    <h4 class="fw-bold text-accent">¿QUÉ ES LEGALIS?</h4>
+    <div class="divider divider-dark my-4"></div>
+    <p class="pt-2 px-4">
+      Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
+      nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam
+      erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci
+      tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
+      <br><br>
+      Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
+      nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam
+    </p>
+    <div class="w-100 d-flex flex-column flex-lg-row align-items-center justify-content-evenly mt-4">
+      <button class="btn btn-outline-accent" (click)="showPopup=false">NO GRACIAS</button>
+      <button class="btn btn-accent mt-4 mt-lg-0" (click)="onSubscribe()">SUSCRIBIRME</button>
+    </div>
+  </div>
+</div>

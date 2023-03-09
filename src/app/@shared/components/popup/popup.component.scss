@@ -1,0 +1,83 @@
+@import "/src/theme/theme-variables.scss";
+
+.popup-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, .1);
+    z-index: -1;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s ease;
+
+    &.show {
+        z-index: 99999;
+        opacity: 1;
+        pointer-events: all;
+
+        .popup-wrapper {
+            display: flex;
+        }
+    }
+}
+
+.popup-wrapper {
+    background-color: white;
+    max-width: 40vw;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    background-image: url(/assets/popup-bg.png);
+    background-size: cover;
+    background-position: center;
+    display: none;
+
+    @media screen and (max-width: 960px) {
+        max-width: 60vw;
+    }
+
+    @media screen and (max-width: 768px) {
+        max-width: 70vw;
+    }
+
+    @media screen and (max-width: 512px) {
+        max-width: 80vw;
+    }
+
+    .divider {
+        background-color: rgba(0, 0, 0, .8);
+    }
+
+    p {
+        color: #15407d;
+        line-height: 1.2;
+        font-weight: 600;
+    }
+
+    .btn {
+        border-radius: 0;
+        font-weight: 300;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        letter-spacing: 2px;
+        outline: none;
+        box-shadow: none;
+    }
+
+    .btn-accent {
+        background-color: $accent;
+        color: #fafafa;
+    }
+
+    .btn-outline-accent {
+        border-color: $accent;
+        color: #15407d;
+    }
+}
