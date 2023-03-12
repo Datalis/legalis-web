@@ -9,13 +9,13 @@ export class PopupComponent implements OnInit {
 
   constructor() { }
 
-  showPopup = true;
+  showPopup = false;
 
   ngOnInit() {
-    const showed = localStorage.getItem('show-welcome-popup') || false;
+    const showed = localStorage.getItem('show-welcome-popup');
     if (!showed) {
       this.showPopup = true;
-      localStorage.setItem('show-welcome-popup', '0');
+      localStorage.setItem('show-welcome-popup', '1');
     }
   }
 
