@@ -13,6 +13,7 @@ const routes: Routes = [
   },
   {
     path: ':id',
+    runGuardsAndResolvers: "paramsChange",
     component: AnalysisDetailComponent,
     data: { title: 'Consultas Frecuentes' },
     resolve: { data:  AnalysisDetailResolver }

@@ -10,19 +10,21 @@ import { Meta } from '@angular/platform-browser';
 export class AnalysisDetailComponent implements OnInit, OnDestroy {
 
   article: any = null;
+  fq: any[] = [];
 
   constructor(private _route: ActivatedRoute, private _meta: Meta) {
     this._meta.addTag({ name: 'robots', content: 'noindex' });
   }
-  
+
   ngOnInit() {
-    let data = this._route.snapshot.data.data;
-    this.article = data;
+    this._route.data.subscribe(data => {
+      this.article = data.data[0];
+      this.fq = data.data[1] || [];
+    });
   }
 
   ngOnDestroy(): void {
     this._meta.removeTag('name=robots');
-    console.log('exited')
   }
-  
+
 }
