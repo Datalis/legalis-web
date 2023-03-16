@@ -11,6 +11,9 @@ export class AnalysisDetailResolver implements Resolve<any> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         let id = route.params.id;
-        return this._apiService.consultaDetail(id);
+        return Promise.all([
+            this._apiService.consultaDetail(id),
+            this._apiService.consultasJuridicas(10),
+        ]);
     }
 }

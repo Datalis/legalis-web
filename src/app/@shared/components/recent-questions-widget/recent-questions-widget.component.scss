@@ -1,0 +1,45 @@
+@import "/src/theme/theme-variables.scss";
+
+.fq-wrapper {
+    border-radius: 5px;
+}
+
+.divider-light {
+    height: 1px;
+    background-color: $light;
+}
+
+::ng-deep .accordion {
+    .card {
+        background: none;
+        box-shadow: none;
+        border: none;
+    }
+    .card-header {
+        border: none;
+        padding: 0;
+        background: none;
+        border-bottom: 1px solid #000;
+    }
+    .card-header .btn {
+        text-align: left;
+        background: none;
+        padding: 0.5rem 0;
+        line-height: 1;
+        box-shadow: none;
+        text-transform: uppercase;
+        width: 100%;
+    }
+    .card-header .btn .panel-toggler i{
+        transition: transform 0.25s ease;
+        transform: rotate(180deg);
+    }
+    .card-header .btn.collapsed .panel-toggler i {
+        transform: rotate(0deg);
+    }
+    .card-body {
+        padding: 1rem 0;
+        line-height: 1.2;
+        font-size: 16px;
+    }
+}
