@@ -13,7 +13,7 @@ export class AnalysisDetailResolver implements Resolve<any> {
         let id = route.params.id;
         return Promise.all([
             this._apiService.consultaDetail(id),
-            this._apiService.consultasJuridicas(10),
+            this._apiService.consultasJuridicas(100),
         ]);
     }
 }
