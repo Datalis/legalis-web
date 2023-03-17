@@ -4,6 +4,12 @@
     border-radius: 5px;
 }
 
+.fq-wrapper .fq-wrapper--inner {
+    max-height: 600px;
+    overflow-y: scroll;
+    padding-right: 1rem;
+}
+
 .divider-light {
     height: 1px;
     background-color: $light;

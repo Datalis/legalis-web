@@ -1,22 +1,24 @@
 <section class="fq-wrapper p-4 bg-blue-light">
   <h5 class="text-blue fw-bold text-uppercase text-center">Preguntas jurídicas frecuentes</h5>
   <div class="divider divider-light my-4"></div>
-  <ngb-accordion class="accordion" [destroyOnHide]="false" [closeOthers]="true" #acc="ngbAccordion" activeIds="ngb-panel-0">
-    <ng-container *ngFor="let c of data; let i = index">
-      <ngb-panel>
-        <ng-template ngbPanelTitle>
-          <div class="d-flex align-items-center">
-            <span class="text-blue fw-bold flex-grow-1">{{ c.title }}</span>
-            <span class="panel-toggler">
-              <i class="fas fa-chevron-down text-accent"></i>
-            </span>
-          </div>
-        </ng-template>
-        <ng-template ngbPanelContent>
-          {{c.excerpt}}
-          <a class="text-blue fw-bold" routerLink="/consultas/{{c.id}}">Leer más</a>
-        </ng-template>
-      </ngb-panel>
-    </ng-container>
-  </ngb-accordion>
+  <div class="fq-wrapper--inner">
+    <ngb-accordion class="accordion" [destroyOnHide]="false" [closeOthers]="true" #acc="ngbAccordion" activeIds="ngb-panel-0">
+      <ng-container *ngFor="let c of data; let i = index">
+        <ngb-panel>
+          <ng-template ngbPanelTitle>
+            <div class="d-flex align-items-center">
+              <span class="text-blue fw-bold flex-grow-1">{{ c.title }}</span>
+              <span class="panel-toggler">
+                <i class="fas fa-chevron-down text-accent"></i>
+              </span>
+            </div>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            {{c.excerpt}}
+            <a class="text-blue fw-bold" routerLink="/consultas/{{c.id}}">Leer más</a>
+          </ng-template>
+        </ngb-panel>
+      </ng-container>
+    </ngb-accordion>
+  </div>
 </section>
