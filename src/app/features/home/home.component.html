@@ -59,18 +59,7 @@
     </a>
     <div class="row mx-0 mb-lg-4 mt-5">
       <div class="col-lg-6 px-0 px-lg-2 ps-lg-0 d-flex flex-column align-items-stretch justify-content-between">
-        <section class="analysis p-4 d-flex flex-column flex-grow-1" *ngFor="let c of consultas; let i = index"
-          [class.mt-2]="i!==0">
-          <h5 class="text-blue fw-bold text-uppercase text-center">Preguntas jurídicas frecuentes</h5>
-          <h6 class="mt-4 fw-bold mb-3">{{c.title}}</h6>
-          <p class="text-dark">
-            {{c.excerpt}}
-          </p>
-          <a class="mt-2 text-end fw-bold text-blue mt-auto" routerLink="/consultas/{{c._id}}">
-            <em class="me-2">Leer más</em> <strong>+</strong>
-          </a>
-        </section>
-
+        <app-recent-questions-widget [data]="consultas"></app-recent-questions-widget>
       </div>
       <section class="related-news my-2 my-lg-0 col-lg-6 bg-blue d-flex flex-column align-items-center py-4 px-5">
         <h5 class="text-light text-center fw-bold text-uppercase mb-4">Publicado en el toque jurídico</h5>
@@ -102,6 +91,15 @@
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen></iframe>
       </div>
+      <section class="info px-0 mt-3 mt-lg-5 mb-1">
+        <div (click)="subscribe()" style="cursor: pointer;">
+          <picture>
+            <source media="(max-width: 768px)" srcset="/assets/banner3sm.jpg">
+            <source media="(min-width: 769px)" srcset="/assets/banner3.jpg">
+            <img class="img-fluid" src="/assets/banner1.png" alt="Desinformaciones jurídicas">
+          </picture>
+        </div>
+      </section>
       <section class="info px-0 mt-3 mt-lg-5 mb-4">
         <a href="https://eltoque.com/desinformaciones-juridicas" target="_blank">
           <picture>

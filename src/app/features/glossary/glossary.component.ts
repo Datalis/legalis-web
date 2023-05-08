@@ -10,6 +10,7 @@ import { GlossaryTerm } from '@app/@shared/model/glossary-term';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { LETTERS } from '@app/@shared/utils/data';
 import deburr from 'lodash.deburr';
+import { LayoutService } from '@app/@shared/services/layout.service';
 
 @UntilDestroy()
 @Component({
@@ -42,7 +43,8 @@ export class GlossaryComponent implements OnInit {
     this.termsCount += 30;
   }
 
-  constructor(private _apiService: ApiService, private _route: ActivatedRoute, private _router: Router) {
+  constructor(private _apiService: ApiService, private _route: ActivatedRoute, private _router: Router,
+    private _layoutService: LayoutService) {
     this.references$ = this._apiService.getGlossaryRefs({});
     this.letters = LETTERS;
     this._route.queryParams
@@ -60,7 +62,7 @@ export class GlossaryComponent implements OnInit {
   }
 
   async ngOnInit() {
-    
+    this._layoutService.scrollToTop();
   }
 
   openRefs() {

@@ -16,7 +16,7 @@ export class HomeResolver implements Resolve<any> {
       this.apiService.findGazettes({ page_size: 1, page: 1 }),
       this.apiService.relatedNews(),
       this.apiService.getInfographics(),
-      this.apiService.consultasJuridicas(2)
+      this.apiService.consultasJuridicas(100)
     ]);
   }
 }
