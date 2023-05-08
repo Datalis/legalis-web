@@ -12,6 +12,7 @@ import { HttpResponse } from '@angular/common/http';
 import { Title } from '@angular/platform-browser';
 import { PDFDocument } from 'pdf-lib';
 import { range } from '@app/@shared';
+import {environment} from "@env/environment";
 
 @UntilDestroy()
 @Component({
@@ -66,12 +67,12 @@ export class NormativeComponent implements OnInit {
 
   downloadGazettePdf(id: any, file: any): Observable<HttpResponse<Blob>> {
     return this._apiService
-      .downloadFile(`https://api-gaceta.datalis.dev/files/${file}`)
+      .downloadFile(`${environment.serverUrl}/files/${file}`)
       .pipe(tap(async () => this._apiService.getGazette(id)));
   }
 
   downloadGazettePdfPages(id: any, file: any, startpage: number, endpage: number): Observable<HttpResponse<Blob> | any> {
-    return this._apiService.downloadFile(`https://api-gaceta.datalis.dev/files/${file}`).pipe(
+    return this._apiService.downloadFile(`${environment.serverUrl}/files/${file}`).pipe(
       switchMap(async (res) => {
         try {
           const arrayBuffer = await new Response(res.body).arrayBuffer();

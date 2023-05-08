@@ -8,6 +8,7 @@ import { Gazette } from '@app/@shared/model/gazette';
 import { Component, Input, OnInit } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { from, Observable } from 'rxjs';
+import { environment } from '@env/environment';
 
 @UntilDestroy()
 @Component({
@@ -39,7 +40,7 @@ export class GazetteItemComponent implements OnInit {
 
   downloadGazettePdf(id: any, file: any): Observable<HttpResponse<Blob>> {
     return this._apiService
-      .downloadFile(`https://api-gaceta.datalis.dev/files/${file}`)
+      .downloadFile(`${environment.serverUrl}/files/${file}`)
       .pipe(tap(async () => this._apiService.getGazette(id)));
   }
 }

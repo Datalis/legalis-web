@@ -4,7 +4,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, AfterVie
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { PdfJsViewerComponent } from 'ng2-pdfjs-viewer';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-
+import { environment } from '@env/environment';
 @UntilDestroy()
 @Component({
   selector: 'app-pdf-viewer',
@@ -22,7 +22,7 @@ export class PdfViewerComponent implements OnInit {
   }
 
   get fileUrl() {
-    return `https://api-gaceta.datalis.dev/files/${this.pdfSrc}`;
+    return `${environment.serverUrl}/files/${this.pdfSrc}`;
   }
 
   constructor(
