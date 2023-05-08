@@ -14,7 +14,7 @@
     "serve:ssr": "node dist/legalis/server/main.js",
     "build:ssr": "ng build && ng run legalis:server",
     "build:shell": "ng run legalis:app-shell:production",
-    "build:netlify": "ng build && ng run legalis:serverless",
+    "build:netlify": "ng build --configuration development && ng run legalis:serverless:development",
     "prerender": "ng run legalis:prerender"
   },
   "dependencies": {
