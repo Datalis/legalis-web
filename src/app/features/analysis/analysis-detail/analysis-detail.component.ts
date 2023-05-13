@@ -27,4 +27,6 @@ export class AnalysisDetailComponent implements OnInit, OnDestroy {
     this._meta.removeTag('name=robots');
   }
 
+  getImage = (url: string) => url.startsWith('/') ? `https://api.eltoque.com${url}` : url;
+
 }

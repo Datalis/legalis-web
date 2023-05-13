@@ -8,7 +8,7 @@
         <img
           loading="lazy"
           class="img-fluid col-md-5 mb-md-0 mb-4 p-0 pe-md-4"
-          src="https://api.eltoque.com{{ consultas[0].feature_image?.url }}"
+          [src]="getImage(consultas[0].feature_image?.url)"
           po
           alt=""
         />
@@ -26,7 +26,7 @@
         <img
           loading="lazy"
           class="img-fluid h-50 mb-4"
-          src="https://api.eltoque.com{{ c.feature_image?.url }}"
+          [src]="getImage(c.feature_image?.url)"
           alt=""
         />
         <div class="article-content d-flex flex-column h-50">

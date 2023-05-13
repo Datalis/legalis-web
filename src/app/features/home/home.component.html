@@ -69,7 +69,8 @@
               <a href="https://eltoque.com/{{ item.slug }}" target="_blank" class="carousel-item">
                 <div class="carousel-image">
                   <img class="img-fluid" *ngIf="item.feature_image"
-                    src="https://api.eltoque.com{{ item.feature_image?.url }}" [alt]="item.feature_image_alt" />
+                    [src]="getImage(item.feature_image?.url)"
+                    [alt]="item.feature_image_alt" />
                 </div>
                 <div class="carousel-content">
                   <span class="text-light fw-bold mb-2">{{ item.title }}</span>
