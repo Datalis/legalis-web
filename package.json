@@ -15,7 +15,7 @@
     "build:ssr": "ng build && ng run legalis:server",
     "build:shell": "ng run legalis:app-shell:production",
     "build:netlify:dev": "ng build --configuration development && ng run legalis:custom-serverless:development",
-    "build:netlify": "ng build --configuration development && ng run legalis:custom-serverless:production",
+    "build:netlify": "ng build --configuration production && ng run legalis:custom-serverless:production",
     "prerender": "ng run legalis:prerender"
   },
   "dependencies": {
