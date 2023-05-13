@@ -2,6 +2,12 @@
   command = "yarn build:netlify"
   publish = "dist/legalis/browser"
 
+[context.deploy-preview]
+  command = "yarn build:netlify"
+
+[context.prod]
+  command = "yarn build:netlify"
+
 [context.dev]
   command = "yarn build:netlify:dev"
 
