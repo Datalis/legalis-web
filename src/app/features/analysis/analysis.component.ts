@@ -24,7 +24,7 @@ export class AnalysisComponent implements OnInit {
     const consultas = this._route.snapshot.data.data;
     this.consultas = consultas;
     this._route.queryParamMap.pipe(
-      untilDestroyed(this), 
+      untilDestroyed(this),
       tap((params) => {
         if (!params.get('limit')) {
           this.limit = 4;
@@ -46,4 +46,5 @@ export class AnalysisComponent implements OnInit {
     })
   }
 
+  getImage = (url: string) => url.startsWith('/') ? `https://api.eltoque.com${url}` : url;
 }

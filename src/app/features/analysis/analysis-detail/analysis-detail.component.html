@@ -1,7 +1,7 @@
 <div class="article-container container-fluid container-lg px-0 px-md-4 pt-5 pb-4">
   <div class="row mx-2">
     <div class="col-md-7 pe-md-5 mt-4 mt-md-0 order-2 order-md-1">
-      <img class="img-fluid" src="https://api.eltoque.com{{ article?.feature_image?.url }}">
+      <img class="img-fluid" [src]="getImage(article?.feature_image?.url)">
       <div class="divider mt-5"></div>
       <h3 class="fw-bold mt-4">{{ article?.title }}</h3>
       <div class="mt-5 html-content" [innerHTML]="article?.body">
@@ -9,7 +9,6 @@
     </div>
     <div class="col-md-5 order-1 order-md-2">
       <app-recent-questions-widget [data]="fq"></app-recent-questions-widget>
-
     </div>
   </div>
 </div>

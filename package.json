@@ -14,7 +14,8 @@
     "serve:ssr": "node dist/legalis/server/main.js",
     "build:ssr": "ng build && ng run legalis:server",
     "build:shell": "ng run legalis:app-shell:production",
-    "build:netlify": "ng build --configuration production && ng run legalis:serverless:production",
+    "build:netlify:dev": "ng build --configuration development && ng run legalis:custom-serverless:development",
+    "build:netlify": "ng build --configuration development && ng run legalis:custom-serverless:production",
     "prerender": "ng run legalis:prerender"
   },
   "dependencies": {
@@ -74,6 +75,7 @@
     "@angular/cli": "~13.1.2",
     "@angular/compiler-cli": "~13.1.2",
     "@angular/language-service": "~13.1.2",
+    "@netlify/plugin-angular-universal": "^1.0.1",
     "@ngneat/until-destroy": "^8.0.4",
     "@nguniversal/builders": "^13.0.2",
     "@types/express": "^4.17.0",

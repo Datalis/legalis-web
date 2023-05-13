@@ -48,4 +48,7 @@ export class HomeComponent implements OnInit {
     this.infographics = infogRes.results ? infogRes.results.slice(0, 3) : [];
     this.consultas = consultasRes || [];
   }
+
+  getImage = (url: string) => url.startsWith('/') ? `https://api.eltoque.com${url}` : url;
+
 }

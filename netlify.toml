@@ -1,0 +1,9 @@
+[build]
+  command = "yarn build:netlify"
+  publish = "dist/legalis/browser"
+
+[context.dev]
+  command = "yarn build:netlify:dev"
+
+[[plugins]]
+  package = "@netlify/plugin-angular-universal"
