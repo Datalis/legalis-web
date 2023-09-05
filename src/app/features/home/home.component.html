@@ -34,10 +34,10 @@
       <h5 class="mb-5 text-dark fw-bold">NORMAS MÁS CONSULTADAS</h5>
       <ng-container *ngIf="isBrowser">
         <carousel [cellWidth]="280" [height]="280" #carousel>
-          <a class="popular-cell carousel-cell px-4 py-3 bg-blue-light d-flex flex-column"
-            *ngFor="let item of popularNormatives" [routerLink]="['/normativa', item.id]">
+          <div class="popular-cell carousel-cell px-4 py-3 bg-blue-light d-flex flex-column"
+            *ngFor="let item of popularNormatives">
             <span class="border-bottom mb-3"></span>
-            <span class="text-accent mb-0 fw-bold" style="line-height: 1">{{ item.name }}</span>
+            <a [routerLink]="['/normativa', item.id]" class="text-accent mb-0 fw-bold" style="line-height: 1">{{ item.name }}</a>
             <!--<small class="text-blue fw-bold text-uppercase mt-1">Tematica</small>-->
             <small class="my-2 text-muted text-small">{{ item.year }}</small>
             <p class="w-100 text-dark mb-0">
@@ -46,7 +46,7 @@
             <!--  <small class="text-small text-blue text-italic fw-bold mt-auto lh-1">
               {{ item.keywords?.slice(0, 2)?.join(", ") | decodeUri }}
             </small> -->
-          </a>
+          </div>
         </carousel>
       </ng-container>
     </div>
