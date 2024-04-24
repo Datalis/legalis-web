@@ -1,17 +1,29 @@
-<div
-  routerLink="/normativa/{{ item.id }}"
-  class="result-item d-flex flex-column text-start px-4 pb-4"
-  [class.result-item-active]="isActive"
+<a
+    routerLink="/normativa/{{ item.id }}"
+    class="result-item d-flex flex-column text-start px-4 pb-4 text-dark"
+    [class.result-item-active]="isActive"
 >
-  <span *ngIf="showState" class="result-state px-2 py-1 text-uppercase align-self-start">{{ item.state }}</span>
-  <h5 class="text-blue fw-bold mt-2" [innerHtml]="item.name"></h5>
-  <p class="result-summary my-2" [innerHtml]="item.summary"></p>
-  <p *ngIf="showText" class="result-text my-2" [innerHtml]="item.text | highlight: searchQuery"></p>
-  <div class="d-flex flex-column mt-auto">
-    <span class="text-small"><strong>Publicado en:</strong> {{ item.gazette }}</span>
-    <span class="text-small"><strong>Emisor:</strong> {{ item.organism }}</span>
-    <!-- <span class="text-small">
+    <span
+        *ngIf="showState"
+        class="result-state px-2 py-1 text-uppercase align-self-start"
+        >{{ item.state }}</span
+    >
+    <h5 class="text-blue fw-bold mt-2" [innerHtml]="item.name"></h5>
+    <p class="result-summary my-2" [innerHtml]="item.summary"></p>
+    <p
+        *ngIf="showText"
+        class="result-text my-2"
+        [innerHtml]="item.text | highlight: searchQuery"
+    ></p>
+    <div class="d-flex flex-column mt-auto">
+        <span class="text-small"
+            ><strong>Publicado en:</strong> {{ item.gazette }}</span
+        >
+        <span class="text-small"
+            ><strong>Emisor:</strong> {{ item.organism }}</span
+        >
+        <!-- <span class="text-small">
       <strong>Palabras claves:</strong> <em class="text-blue fw-bold">{{ item.keywords?.join(", ") | decodeUri }}</em>
     </span> -->
-  </div>
-</div>
+    </div>
+</a>
