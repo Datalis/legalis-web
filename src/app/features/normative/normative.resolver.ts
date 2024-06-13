@@ -17,13 +17,18 @@ export class NormativeResolver implements Resolve<any> {
   ) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const id = route.params.id;
     const slug = route.params.slug;
-    if (!id && !slug) {
+    if (!slug) {
       this.router.navigateByUrl("/");
       return Promise.reject();
     }
-    return this.apiService.getNormative(id || slug).then((normative) => {
+    return this.apiService.getNormative(slug).then((normative) => {
+      if (slug !== normative.slug) {
+        this.router.navigateByUrl(`/normativa/${normative.slug}`, {
+          replaceUrl: true,
+        });
+        return Promise.reject();
+      }
       const gazette = !!normative.gazette
         ? this.apiService.getGazette(normative.gazette)
         : Promise.resolve(null);

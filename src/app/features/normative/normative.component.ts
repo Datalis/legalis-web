@@ -28,8 +28,6 @@ export class NormativeComponent implements OnInit {
 
   isLoading = false;
 
-  schema?: SafeHtml;
-
   constructor(
     private _apiService: ApiService,
     private _route: ActivatedRoute,
@@ -49,7 +47,14 @@ export class NormativeComponent implements OnInit {
     }
 
     this.setPageTitle(this.normative?.name || "");
-    this.schema = this.getSchema(normative, gazette);
+
+    const _schema = this.getSchema(normative, gazette);
+
+    const _script = this._doc.createElement("script");
+    _script.setAttribute("type", "application/ld+json");
+    _script.innerHTML = JSON.stringify(_schema);
+    this._doc.head.appendChild(_script);
+
     this._meta.updateTag({
       name: "description",
       content: this.normative?.summary ?? "",
@@ -84,14 +89,16 @@ export class NormativeComponent implements OnInit {
       subject: normative.summary,
     };
 
-    const _json = JSON.stringify(schema, null, 2).replace(
-      /<\/script>/g,
-      "<\\/script>",
-    );
-    let _html: string | SafeHtml =
-      `<script type="application/ld+json">${_json}</script>`;
-    _html = this.sanitizer.bypassSecurityTrustHtml(_html as string);
-    return _html;
+    return schema;
+
+    // const _json = JSON.stringify(schema, null, 2).replace(
+    //   /<\/script>/g,
+    //   "<\\/script>",
+    // );
+    // let _html: string | SafeHtml =
+    //   `<script type="application/ld+json">${_json}</script>`;
+    // _html = this.sanitizer.bypassSecurityTrustHtml(_html as string);
+    // return _html;
   }
 
   setPageTitle(name: string) {
