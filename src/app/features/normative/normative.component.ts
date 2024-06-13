@@ -70,7 +70,7 @@ export class NormativeComponent implements OnInit {
       "@context": "https://schema.org",
       "@type": "Legislation",
       name: normative.name,
-      legislationIdentifier: "12345/2021",
+      legislationIdentifier: `${normative.number}/${normative.year}`,
       legislationDate: gazette.date,
       legislationType: {
         "@type": "CategoryCode",
@@ -86,7 +86,7 @@ export class NormativeComponent implements OnInit {
       },
       // text: "https://example.com/ley-de-proteccion-de-datos-personales",
       text: `https://legalis.eltoque.com/normativa/${normative.slug}`,
-      subject: normative.summary,
+      // subject: normative.summary,
     };
 
     return schema;
