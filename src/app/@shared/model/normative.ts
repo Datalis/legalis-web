@@ -1,5 +1,6 @@
 export class Normative {
   public id?: number;
+  public slug?: string;
   public tags?: string;
   public directories?: string;
   public name?: string;
