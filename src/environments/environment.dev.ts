@@ -14,6 +14,7 @@ export const environment = {
   production: false,
   version: '1.0.1-dev',
   serverUrl: 'https://api-gaceta.datalis.dev',
+  // serverUrl: 'https://api-gaceta.eltoque.com',
   elToqueApi: 'https://api.eltoque.com',
   defaultLanguage: 'es-CU',
   supportedLanguages: ['en-US', 'es-CU'],

@@ -14,7 +14,7 @@ export class NormativeResolver implements Resolve<any> {
   constructor(
     private apiService: ApiService,
     private router: Router,
-  ) {}
+  ) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const slug = route.params.slug;
@@ -32,6 +32,7 @@ export class NormativeResolver implements Resolve<any> {
       const gazette = !!normative.gazette
         ? this.apiService.getGazette(normative.gazette)
         : Promise.resolve(null);
+      console.log(slug, normative.slug)
       return Promise.all([Promise.resolve(normative), gazette]);
     });
   }
