@@ -1,7 +1,7 @@
 import { ApiService } from "@app/@shared/services/api.service";
 import { switchMap, tap } from "rxjs/operators";
 import { Component, Inject, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { Normative } from "@app/@shared/model/normative";
 import { EMPTY, Observable, throwError } from "rxjs";
 import { Gazette } from "@app/@shared/model/gazette";
@@ -35,8 +35,21 @@ export class NormativeComponent implements OnInit {
     private _title: Title,
     private _meta: Meta,
     private sanitizer: DomSanitizer,
+    private router: Router,
     @Inject(DOCUMENT) private _doc: Document,
-  ) {}
+  ) {
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    }
+    this.router.events.subscribe((evt) => {
+      if (evt instanceof NavigationEnd) {
+        // trick the Router into believing it's last link wasn't previously loaded
+        this.router.navigated = false;
+        // if you need to scroll back to top, here is the right place
+        window.scrollTo(0, 0);
+      }
+    });
+  }
 
   async ngOnInit() {
     const [normative, gazette] = this._route.snapshot.data.data;
@@ -70,8 +83,8 @@ export class NormativeComponent implements OnInit {
       "@context": "https://schema.org",
       "@type": "Legislation",
       name: normative.name,
-      legislationIdentifier: `${normative.number}/${normative.year}`,
-      legislationDate: gazette.date,
+      legislationIdentifier: `${normative?.number ?? "-"}/${normative.year}`,
+      legislationDate: gazette?.date,
       legislationType: {
         "@type": "CategoryCode",
         name: normative.normtype,

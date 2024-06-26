@@ -17,8 +17,20 @@ export class Normative {
   public similarity?: string;
   public read_count?: number;
   public gazette?: string;
-  public derogatedby?: string;
-  public modifiedby?: string[];
+  public derogatedby?: {
+    id?: number;
+    slug?: string;
+    name?: string;
+  };
+  public modifiedby?: {
+    id?: number;
+    slug?: string;
+    name?: string;
+  }[];
   public modifiedto?: string[];
-  public derogatedto?: string[];
+  public derogateto?: {
+    id?: number;
+    slug?: string;
+    name?: string;
+  }[];
 }
