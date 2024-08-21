@@ -1,0 +1,14 @@
+[
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "com.eltoque.legalis",
+            "sha256_cert_fingerprints": [
+                "AF:27:FB:A4:8D:D5:13:57:51:DE:E8:21:C0:00:F4:E0:38:74:3C:5D:D8:EB:1B:2B:49:29:08:DC:E2:1E:A8:07"
+            ]
+        }
+    }
+]

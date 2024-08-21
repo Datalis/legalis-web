@@ -1,0 +1,16 @@
+{
+    "applinks": {
+        "details": [
+            {
+                "appIDs": [
+                    "25S73237BK.com.eltoque.legalis"
+                ],
+                "components": [
+                    {
+                        "/": "/*"
+                    }
+                ]
+            }
+        ]
+    }
+}
