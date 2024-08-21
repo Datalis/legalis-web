@@ -1,25 +1,25 @@
 <div class="footer-container">
   <div class="footer-info">
-    <div class="container-xl py-3">
+    <div class="py-3 container-xl">
       <div class="row">
-        <section class="col-lg-7 py-4">
+        <section class="py-4 col-lg-7">
           <div class="wrapper">
-            <div class="footer-nav row text-center text-lg-start align-items-top justify-content-center pb-md-4">
-              <div class="col-md-4 col-12 d-flex flex-column">
+            <div class="justify-content-center align-items-top pb-md-4 text-center text-lg-start footer-nav row">
+              <div class="d-flex flex-column col-12 col-md-4">
                 <a (click)="goTo('/')" class="mb-2">Inicio</a>
                 <a (click)="goTo('/busqueda-avanzada')" class="mb-2 whitespace-nowrap">Búsqueda Avanzada</a>
                 <!-- <a (click)="goTo('/directorio-tematico')" class="mb-2 whitespace-nowrap">Directorio Temático</a>
                 <a (click)="goTo('/palabras-claves')" class="mb-2 whitespace-nowrap">Palabra Clave</a>
                 <a (click)="goTo('/como-buscar')" class="mb-2 whitespace-nowrap">¿Cómo buscar?</a> -->
               </div>
-              <div class="col-md-4 col-12 d-flex flex-column">
+              <div class="d-flex flex-column col-12 col-md-4">
                 <a (click)="goTo('/gacetas')" class="mb-2 whitespace-nowrap">Índice de Gacetas</a>
                 <a (click)="goTo('/consultas')" class="mb-2 whitespace-nowrap">Consultas frecuentes</a>
                 <!-- <a (click)="goTo('/infografias')" class="mb-2 whitespace-nowrap">Infografía</a> -->
                 <a (click)="goTo('/glosario')" class="mb-2 whitespace-nowrap">Glosario</a>
                 <a (click)="goTo('/acerca-de')" class="mb-2 whitespace-nowrap">¿Quiénes somos?</a>
               </div>
-              <div class="col-lg-4 d-flex flex-column">
+              <div class="d-flex flex-column col-lg-4">
                 <a href="https://constitucion.eltoque.com/" class="mb-2 whitespace-nowrap">constitucion.eltoque.com</a>
                 <a href="https://eltoque.com/" class="mb-2 whitespace-nowrap">eltoque.com</a>
                 <a href="https://sumavoces.org/" class="mb-2 whitespace-nowrap">sumavoces.org</a>
@@ -27,89 +27,80 @@
             </div>
           </div>
         </section>
-        <section class="col-lg-5 py-4">
+        <section class="py-4 col-lg-5">
           <div class="wrapper">
-            <div class="footer-subscribe mt-2">
-              <h6 class="text-light fw-bold text-uppercase mb-2">mantente actualizado</h6>
+            <div class="mt-2 footer-subscribe">
+              <h6 class="mb-2 fw-bold text-light text-uppercase">mantente actualizado</h6>
               <small class="mb-2 text-muted">Suscríbete a nuestro boletín</small>
               <div class="d-flex mt-3">
-                <input
+                <!-- <input
                   [(ngModel)]="subscribeEmail"
                   required
                   email
                   #email="ngModel"
-                  class="form-control-email form-control form-control me-2"
+                  class="form-control form-control form-control-email me-2"
                   placeholder="Correo Electrónico"
-                />
+                /> -->
                 <!-- <small class="invalid-feedback">Debe introducir su correo electrónico</small> -->
-                <button class="btn btn-outline-light mx-auto" [class.disabled]="email.invalid" (click)="subscribe()">
+                <button class="btn btn-outline-light" (click)="subscribe()">
                   Suscríbete
                 </button>
               </div>
             </div>
           </div>
         </section>
-        <!-- <section class="col-lg-5 py-4">
+        <!-- <section class="py-4 col-lg-5">
           <div class="wrapper">
-            <div class="footer-contact text-center text-lg-start">
-              <h6 class="text-light fw-bold text-uppercase mb-2">CONSÚLTANOS TU DUDA</h6>
+            <div class="text-center text-lg-start footer-contact">
+              <h6 class="mb-2 fw-bold text-light text-uppercase">CONSÚLTANOS TU DUDA</h6>
               <small class="mb-2 text-muted">Envíanos tu consulta y un correo electrónico de contacto</small>
 
               <textarea
                 rows="4"
-                class="form-control-contact form-control mt-3"
+                class="form-control form-control-contact mt-3"
                 placeholder="Escribe tu consulta aquí..."
               ></textarea>
               <div class="d-flex mt-3">
-                <input class="form-control-email form-control form-control me-2" placeholder="Correo Electrónico" />
-                <button class="btn btn-outline-light whitespace-nowrap">Enviar consulta</button>
+                <input class="form-control form-control form-control-email me-2" placeholder="Correo Electrónico" />
+                <button class="whitespace-nowrap btn btn-outline-light">Enviar consulta</button>
               </div>
             </div>
           </div>
         </section> -->
-        <section class="col-12 pb-4">
-          <div class="footer-social d-none d-md-flex align-items-center justify-content-center mt-4">
-            <a
-              href="https://www.facebook.com/groups/legaliscuba"
-              target="blank"
-              class="btn btn-outline-light btn-sm border-2 me-3"
-            >
-              <i class="fab fa-facebook"></i>
+        <section class="pb-4 col-12">
+          <div class="d-md-flex justify-content-center align-items-center mt-4 d-none footer-social">
+            <a href="https://www.facebook.com/groups/legaliscuba" target="blank"
+              class="border-2 btn btn-outline-light btn-sm me-3">
+              <i class="fa-facebook fab"></i>
             </a>
-            <a
-              href="https://twitter.com/eltoquejuridico"
-              target="blank"
-              class="btn btn-outline-light btn-sm border-2 me-3"
-            >
-              <i class="fab fa-twitter"></i>
+            <a href="https://twitter.com/eltoquejuridico" target="blank"
+              class="border-2 btn btn-outline-light btn-sm me-3">
+              <i class="fa-twitter fab"></i>
             </a>
-            <a href="https://t.me/+7j46ojvcK5xjM2Jh" target="blank" class="btn btn-outline-light btn-sm border-2">
-              <i class="fab fa-telegram"></i>
+            <a href="https://t.me/+7j46ojvcK5xjM2Jh" target="blank" class="border-2 btn btn-outline-light btn-sm">
+              <i class="fa-telegram fab"></i>
             </a>
           </div>
         </section>
       </div>
     </div>
   </div>
-  <div class="footer-social footer-social-sm d-flex d-md-none align-items-center justify-content-center py-4">
-    <a href="https://es-la.facebook.com/eltoquecom" target="blank" class="btn btn-sm btn-outline-light border-2 me-4">
-      <i class="fab fa-facebook"></i>
+  <div class="d-flex justify-content-center align-items-center py-4 d-md-none footer-social footer-social-sm">
+    <a href="https://es-la.facebook.com/eltoquecom" target="blank" class="border-2 btn btn-outline-light btn-sm me-4">
+      <i class="fa-facebook fab"></i>
     </a>
-    <a href="https://www.instagram.com/eltoquecom/" target="blank" class="btn btn-sm btn-outline-light border-2 me-4">
-      <i class="fab fa-instagram"></i>
+    <a href="https://www.instagram.com/eltoquecom/" target="blank" class="border-2 btn btn-outline-light btn-sm me-4">
+      <i class="fa-instagram fab"></i>
     </a>
-    <a href="https://twitter.com/eltoquecom" target="blank" class="btn btn-sm btn-outline-light border-2 me-4">
-      <i class="fab fa-twitter"></i>
+    <a href="https://twitter.com/eltoquecom" target="blank" class="border-2 btn btn-outline-light btn-sm me-4">
+      <i class="fa-twitter fab"></i>
     </a>
-    <a
-      href="https://www.linkedin.com/company/eltoquecom/"
-      target="blank"
-      class="btn btn-sm btn-outline-light border-2 me-4"
-    >
-      <i class="fab fa-linkedin"></i>
+    <a href="https://www.linkedin.com/company/eltoquecom/" target="blank"
+      class="border-2 btn btn-outline-light btn-sm me-4">
+      <i class="fa-linkedin fab"></i>
     </a>
-    <a href="https://t.me/eltoquecom" target="blank" class="btn btn-sm btn-outline-light border-2">
-      <i class="fab fa-telegram"></i>
+    <a href="https://t.me/eltoquecom" target="blank" class="border-2 btn btn-outline-light btn-sm">
+      <i class="fa-telegram fab"></i>
     </a>
   </div>
 </div>

@@ -22,7 +22,7 @@ export class FooterComponent implements OnInit {
   constructor(
     private _router: Router,
     //private _dataService: DataService,
-    private _layoutService: LayoutService) {}
+    private _layoutService: LayoutService) { }
 
   ngOnInit() {
     //this.$news = this._dataService.getLatestNews();
@@ -31,7 +31,7 @@ export class FooterComponent implements OnInit {
 
   subscribe() {
     let URL = "https://dashboard.mailerlite.com/forms/654880/105395635489867128/share"
-    URL = URL + '&MERGE0=' + this.subscribeEmail;
+    // URL = URL + '&MERGE0=' + this.subscribeEmail;
     window.open(URL, '_blank');
     console.log('this')
   }
