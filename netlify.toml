@@ -2,6 +2,9 @@
   command = "yarn build:netlify"
   publish = "dist/legalis/browser"
 
+[build.environment]
+  NODE_ENV = "development"
+
 [context.deploy-preview]
   command = "yarn build:netlify"
 
