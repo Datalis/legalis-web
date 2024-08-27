@@ -179,6 +179,7 @@
 
       p {
         color: rgba($light, 0.85);
+        line-clamp: 5;
         -webkit-line-clamp: 5;
       }
     }
