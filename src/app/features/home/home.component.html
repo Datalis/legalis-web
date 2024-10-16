@@ -1,117 +1,216 @@
 <div class="home-container container-fluid container-lg px-0 px-md-4">
-  <div>
-    <div class="recent bg-blue-light my-md-5" *ngIf="recentGazette">
-      <h5 class="py-4 text-center text-dark fw-bolder mb-0">NORMATIVA RECIENTE</h5>
-      <div class="divider"></div>
-      <div class="d-flex flex-column px-4 py-3">
-        <h5 class="mb-1 text-dark fw-bold">{{ recentGazette.name }}</h5>
-        <small class="text-small text-muted">{{ recentGazette.date }}</small>
-      </div>
-      <div class="divider"></div>
-      <div class="recent-container row mx-0 py-3">
-        <div class="col-sm-12 px-4 py-2" *ngFor="let item of recentGazette.normatives"
-          [class.col-md-6]="recentGazette.normatives.length > 1">
-          <a class="recent-item pb-2" [routerLink]="['/normativa', item.id]">
-            <span class="d-block text-accent mb-0 fw-bold">{{ item.name }}</span>
-            <small class="text-small text-dark text-uppercase fw-bold">{{ item.normtype }}</small>
-            <p class="mb-1 text-dark">
-              {{ item.summary }}
-            </p>
-            <small class="text-blue text-small text-italic fw-bold">{{ item.keywords?.join(", ") | decodeUri }}</small>
-          </a>
+    <div>
+        <div class="recent bg-blue-light my-md-5" *ngIf="recentGazette">
+            <h5 class="py-4 text-center text-dark fw-bolder mb-0">
+                NORMATIVA RECIENTE
+            </h5>
+            <div class="divider"></div>
+            <div class="d-flex flex-column px-4 py-3">
+                <h5 class="mb-1 text-dark fw-bold">{{ recentGazette.name }}</h5>
+                <small class="text-small text-muted"
+                    >{{ recentGazette.date }}</small
+                >
+            </div>
+            <div class="divider"></div>
+            <div class="recent-container row mx-0 py-3">
+                <div
+                    class="col-sm-12 px-4 py-2"
+                    *ngFor="let item of recentGazette.normatives"
+                    [class.col-md-6]="recentGazette.normatives.length > 1"
+                >
+                    <a
+                        class="recent-item pb-2"
+                        [routerLink]="['/normativa', item.slug]"
+                    >
+                        <span class="d-block text-accent mb-0 fw-bold"
+                            >{{ item.name }}</span
+                        >
+                        <small
+                            class="text-small text-dark text-uppercase fw-bold"
+                            >{{ item.normtype }}</small
+                        >
+                        <p class="mb-1 text-dark">{{ item.summary }}</p>
+                        <small class="text-blue text-small text-italic fw-bold"
+                            >{{ item.keywords?.join(", ") | decodeUri }}</small
+                        >
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="w-100">
-      <picture>
-        <source media="(max-width: 768px)" srcset="/assets/banner2sm.jpg">
-        <source media="(min-width: 769px)" srcset="/assets/banner2.jpg">
-        <img src="/assets/banner2.jpg" style="cursor: pointer;" class="img-fluid" (click)="openTawk()"
-          alt="Solicitar dictamen">
-      </picture>
-    </div>
-    <div class="d-flex flex-column align-items-center my-5 px-lg-0 px-5 mx-md-0">
-      <h5 class="mb-5 text-dark fw-bold">NORMAS MÁS CONSULTADAS</h5>
-      <ng-container *ngIf="isBrowser">
-        <carousel [cellWidth]="280" [height]="280" #carousel>
-          <a class="popular-cell carousel-cell px-4 py-3 bg-blue-light d-flex flex-column"
-            *ngFor="let item of popularNormatives" [routerLink]="['/normativa', item.id]">
-            <span class="border-bottom mb-3"></span>
-            <span class="text-accent mb-0 fw-bold" style="line-height: 1">{{ item.name }}</span>
-            <!--<small class="text-blue fw-bold text-uppercase mt-1">Tematica</small>-->
-            <small class="my-2 text-muted text-small">{{ item.year }}</small>
-            <p class="w-100 text-dark mb-0">
-              {{ item.summary }}
-            </p>
-            <!--  <small class="text-small text-blue text-italic fw-bold mt-auto lh-1">
+        <div class="w-100">
+            <picture>
+                <source
+                    media="(max-width: 768px)"
+                    srcset="/assets/banner2sm.jpg"
+                />
+                <source
+                    media="(min-width: 769px)"
+                    srcset="/assets/banner2.jpg"
+                />
+                <img
+                    src="/assets/banner2.jpg"
+                    style="cursor: pointer"
+                    class="img-fluid"
+                    (click)="openTawk()"
+                    alt="Solicitar dictamen"
+                />
+            </picture>
+        </div>
+        <div
+            class="d-flex flex-column align-items-center my-5 px-lg-0 px-5 mx-md-0"
+        >
+            <h5 class="mb-5 text-dark fw-bold">NORMAS MÁS CONSULTADAS</h5>
+            <ng-container *ngIf="isBrowser">
+                <carousel [cellWidth]="280" [height]="280" #carousel>
+                    <div
+                        class="popular-cell carousel-cell px-4 py-3 bg-blue-light d-flex flex-column"
+                        *ngFor="let item of popularNormatives"
+                    >
+                        <span class="border-bottom mb-3"></span>
+                        <a
+                            [routerLink]="['/normativa', item.slug]"
+                            class="text-accent mb-0 fw-bold"
+                            style="line-height: 1"
+                            >{{ item.name }}</a
+                        >
+                        <!--<small class="text-blue fw-bold text-uppercase mt-1">Tematica</small>-->
+                        <small class="my-2 text-muted text-small"
+                            >{{ item.year }}</small
+                        >
+                        <p class="w-100 text-dark mb-0">{{ item.summary }}</p>
+                        <!--  <small class="text-small text-blue text-italic fw-bold mt-auto lh-1">
               {{ item.keywords?.slice(0, 2)?.join(", ") | decodeUri }}
             </small> -->
-          </a>
-        </carousel>
-      </ng-container>
-    </div>
-    <a routerLink="/glosario">
-      <picture>
-        <source media="(max-width: 768px)" srcset="/assets/banner-glosario-movil.jpg">
-        <source media="(min-width: 769px)" srcset="/assets/banner-glosario-web.jpg">
-        <img class="img-fluid" src="/assets/banner-glosario-web.jpg" alt="Desinformaciones jurídicas">
-      </picture>
-    </a>
-    <div class="row mx-0 mb-lg-4 mt-5">
-      <div class="col-lg-6 px-0 px-lg-2 ps-lg-0 d-flex flex-column align-items-stretch justify-content-between">
-        <app-recent-questions-widget [data]="consultas"></app-recent-questions-widget>
-      </div>
-      <section class="related-news my-2 my-lg-0 col-lg-6 bg-blue d-flex flex-column align-items-center py-4 px-5">
-        <h5 class="text-light text-center fw-bold text-uppercase mb-4">Publicado en el toque jurídico</h5>
-        <ng-container *ngIf="isBrowser">
-          <carousel cellWidth="100%" [lightDOM]="true" [height]="450">
-            <div class="carousel-cell" *ngFor="let item of relatedNews">
-              <a href="https://eltoque.com/{{ item.slug }}" target="_blank" class="carousel-item">
-                <div class="carousel-image">
-                  <img class="img-fluid" *ngIf="item.feature_image"
-                    src="https://api.eltoque.com{{ item.feature_image?.url }}" [alt]="item.feature_image_alt" />
-                </div>
-                <div class="carousel-content">
-                  <span class="text-light fw-bold mb-2">{{ item.title }}</span>
-                  <small class="text-accent text-small" *ngIf="item.authors?.length">{{ item.authors[0]?.fullName }}, {{
-                    item.publish_date | date: "longDate":"":"es-CU" }}</small>
-                  <p class="mt-3 mb-0">
-                    {{ item.excerpt }}
-                  </p>
-                </div>
-              </a>
-            </div>
-          </carousel>
-        </ng-container>
-      </section>
-      <div class="row mx-0 mt-5 px-0">
-        <iframe width="560" height="450" style="padding: 0px"
-          src="https://www.youtube.com/embed/videoseries?list=PLI19GhFs5U5CzxK5KMdXQ-RicmObKFWpq"
-          title="YouTube video player" frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen></iframe>
-      </div>
-      <section class="info px-0 mt-3 mt-lg-5 mb-1">
-        <div (click)="subscribe()" style="cursor: pointer;">
-          <picture>
-            <source media="(max-width: 768px)" srcset="/assets/banner3sm.jpg">
-            <source media="(min-width: 769px)" srcset="/assets/banner3.jpg">
-            <img class="img-fluid" src="/assets/banner1.png" alt="Desinformaciones jurídicas">
-          </picture>
+                    </div>
+                </carousel>
+            </ng-container>
         </div>
-      </section>
-      <section class="info px-0 mt-3 mt-lg-5 mb-4">
-        <a href="https://eltoque.com/desinformaciones-juridicas" target="_blank">
-          <picture>
-            <source media="(max-width: 768px)" srcset="/assets/banner1sm.png">
-            <source media="(min-width: 769px)" srcset="/assets/banner1.png">
-            <img class="img-fluid" src="/assets/banner1.png" alt="Desinformaciones jurídicas">
-          </picture>
+        <a routerLink="/glosario">
+            <picture>
+                <source
+                    media="(max-width: 768px)"
+                    srcset="/assets/banner-glosario-movil.jpg"
+                />
+                <source
+                    media="(min-width: 769px)"
+                    srcset="/assets/banner-glosario-web.jpg"
+                />
+                <img
+                    class="img-fluid"
+                    src="/assets/banner-glosario-web.jpg"
+                    alt="Desinformaciones jurídicas"
+                />
+            </picture>
         </a>
-      </section>
+        <div class="row mx-0 mb-lg-4 mt-5">
+            <div
+                class="col-lg-6 px-0 px-lg-2 ps-lg-0 d-flex flex-column align-items-stretch justify-content-between"
+            >
+                <app-recent-questions-widget
+                    [data]="consultas"
+                ></app-recent-questions-widget>
+            </div>
+            <section
+                class="related-news my-2 my-lg-0 col-lg-6 bg-blue d-flex flex-column align-items-center py-4 px-5"
+            >
+                <h5 class="text-light text-center fw-bold text-uppercase mb-4">
+                    Publicado en el toque jurídico
+                </h5>
+                <ng-container *ngIf="isBrowser">
+                    <carousel cellWidth="100%" [lightDOM]="true" [height]="450">
+                        <div
+                            class="carousel-cell"
+                            *ngFor="let item of relatedNews"
+                        >
+                            <a
+                                href="https://eltoque.com/{{ item.slug }}"
+                                target="_blank"
+                                class="carousel-item"
+                            >
+                                <div class="carousel-image">
+                                    <img
+                                        class="img-fluid"
+                                        *ngIf="item.feature_image"
+                                        [src]="
+                                            getImage(item.feature_image?.url)
+                                        "
+                                        [alt]="item.feature_image_alt"
+                                    />
+                                </div>
+                                <div class="carousel-content">
+                                    <span class="text-light fw-bold mb-2"
+                                        >{{ item.title }}</span
+                                    >
+                                    <small
+                                        class="text-accent text-small"
+                                        *ngIf="item.authors?.length"
+                                        >{{ item.authors[0]?.fullName }}, {{
+                                        item.publish_date | date : "longDate" :
+                                        "" : "es-CU" }}</small
+                                    >
+                                    <p class="mt-3 mb-0">{{ item.excerpt }}</p>
+                                </div>
+                            </a>
+                        </div>
+                    </carousel>
+                </ng-container>
+            </section>
+            <div class="row mx-0 mt-5 px-0">
+                <iframe
+                    width="560"
+                    height="450"
+                    style="padding: 0px"
+                    src="https://www.youtube.com/embed/videoseries?list=PLI19GhFs5U5CzxK5KMdXQ-RicmObKFWpq"
+                    title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen
+                ></iframe>
+            </div>
+            <section class="info px-0 mt-3 mt-lg-5 mb-1">
+                <div (click)="subscribe()" style="cursor: pointer">
+                    <picture>
+                        <source
+                            media="(max-width: 768px)"
+                            srcset="/assets/banner3sm.jpg"
+                        />
+                        <source
+                            media="(min-width: 769px)"
+                            srcset="/assets/banner3.jpg"
+                        />
+                        <img
+                            class="img-fluid"
+                            src="/assets/banner1.png"
+                            alt="Desinformaciones jurídicas"
+                        />
+                    </picture>
+                </div>
+            </section>
+            <section class="info px-0 mt-3 mt-lg-5 mb-4">
+                <a
+                    href="https://eltoque.com/desinformaciones-juridicas"
+                    target="_blank"
+                >
+                    <picture>
+                        <source
+                            media="(max-width: 768px)"
+                            srcset="/assets/banner1sm.png"
+                        />
+                        <source
+                            media="(min-width: 769px)"
+                            srcset="/assets/banner1.png"
+                        />
+                        <img
+                            class="img-fluid"
+                            src="/assets/banner1.png"
+                            alt="Desinformaciones jurídicas"
+                        />
+                    </picture>
+                </a>
+            </section>
+        </div>
     </div>
-  </div>
-  <ng-template #loading>
-    <app-loader></app-loader>
-  </ng-template>
+    <ng-template #loading>
+        <app-loader></app-loader>
+    </ng-template>
 </div>

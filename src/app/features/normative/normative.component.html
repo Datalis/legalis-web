@@ -1,44 +1,81 @@
-<div class="normative container-fluid container-xl px-md-4 py-4">
-  <div class="row" *ngIf="normative; else loading">
-    <div class="col-lg-8 mb-4">
-      <div class="d-flex flex-column justify-content-start ps-lg-4">
-        <h3 class="text-blue mb-1 fw-bold mb-0">{{ normative?.name }}</h3>
-        <span
-          class="normative-state text-light text-uppercase px-2 me-auto mt-2"
-          style="border-radius: 5px"
-          [class.active]="isActive(normative)"
-          >{{ normative?.state }}</span
-        >
-        <div class="col-12 mt-3">
-          <span class="text-muted">Tipo:</span>
-          <span class="text-dark">{{ normative?.normtype }}</span>
-        </div>
-        <div class="col-12 mt-1">
-          <span class="text-muted">Año:</span>
-          <span class="text-dark">{{ normative?.year }}</span>
-        </div>
-        <div class="col-12 mt-1">
-          <span class="text-muted">Publicado en:</span>
-          <span class="text-dark">Gaceta {{ gazette?.type }} No. {{ gazette?.number }}</span>
-        </div>
-        <div class="col-12 mt-1">
-          <span class="text-muted">Emisor: </span>
-          <span class="text-dark">{{ normative?.organism }}</span>
-        </div>
+<div class="px-md-4 py-4 container-fluid container-xl normative">
+    <div class="row" *ngIf="normative; else loading">
+        <div class="mb-4 col-lg-8">
+            <div class="d-flex flex-column justify-content-start ps-lg-4">
+                <h1 class="mb-0 mb-1 fw-bold text-blue">
+                    {{ normative?.name }}
+                </h1>
+                <span class="mt-2 px-2 text-light text-uppercase me-auto normative-state" style="border-radius: 5px"
+                    [class.active]="isActive(normative)">{{ normative?.state }}</span>
+                <div class="mt-3 col-12">
+                    <span class="text-muted">Tipo:</span>
+                    <span class="text-dark">{{ normative?.normtype }}</span>
+                </div>
+                <div class="mt-1 col-12">
+                    <span class="text-muted">Año:</span>
+                    <span class="text-dark">{{ normative?.year }}</span>
+                </div>
+                <div class="mt-1 col-12">
+                    <span class="text-muted">Publicado en:</span>
+                    <span class="text-dark">Gaceta {{ gazette?.type }} No. {{ gazette?.number
+                        }}</span>
+                </div>
+                <div class="mt-1 col-12">
+                    <span class="text-muted">Emisor: </span>
+                    <span class="text-dark">{{ normative?.organism }}</span>
+                </div>
 
-        <div class="divider my-4"></div>
-        <div class="col-sm-12">
-          <span class="text-muted">Resumen:</span>
-          <p class="mt-1" style="line-height: 1">{{ normative?.summary || "---" }}</p>
-        </div>
+                <div class="my-4 divider"></div>
+                <div class="col-sm-12">
+                    <span class="text-muted">Resumen:</span>
+                    <p class="mt-1" style="line-height: 1">
+                        {{ normative?.summary || "---" }}
+                    </p>
+                </div>
 
-        <!-- <div class="col-sm-12">
+                <div class="my-4 divider"></div>
+
+                <div class="col-sm-12" *ngIf="normative.derogatedby">
+                    <span class="text-muted">Norma que la deroga:</span>
+                    <div class="mt-1" style="line-height: 1">
+                        <a class="text-blue text-decoration-underline me-2"
+                            routerLink="/normativa/{{normative.derogatedby.slug || normative.derogatedby.id}}">
+                            {{ normative.derogatedby.name }}
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 mt-3" *ngIf="normative.modifiedby && normative.modifiedby.length">
+                    <span class="text-muted">Normas que la modifican:</span>
+                    <div class="mt-1" style="line-height: 1">
+                        <a *ngFor="let k of normative.modifiedby"
+                            class="d-block mt-1 text-blue text-decoration-underline me-2"
+                            [routerLink]="['/normativa', k.slug || k.id]">
+                            {{ k.name }}
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 mt-3" *ngIf="normative.derogateto && normative.derogateto.length">
+                    <span class="text-muted">Normas que modifica o deroga:</span>
+                    <div class="mt-1" style="line-height: 1">
+                        <a *ngFor="let k of normative.derogateto"
+                            class="d-block mt-1 text-blue text-decoration-underline me-2"
+                            [routerLink]="['/normativa', k.slug || k.id]">
+                            {{ k.name }}
+                        </a>
+                    </div>
+                </div>
+
+
+
+                <!-- <div class="col-sm-12">
           <span class="text-muted">Temáticas:</span>
           <div class="d-flex flex-wrap">
-            <span class="text-italic text-blue fw-bold">
+            <span class="fw-bold text-blue text-italic">
               <a
                 *ngFor="let k of normative.keywords"
-                class="text-blue me-2 text-decoration-underline"
+                class="text-blue text-decoration-underline me-2"
                 routerLink="/palabras-claves?keyword={{ k }}"
               >
                 {{ k | decodeUri }}
@@ -46,68 +83,62 @@
             </span>
           </div>
         </div> -->
-      </div>
-    </div>
-    <div class="col-lg-4">
-      <div
-        class="gazette-details bg-blue-light d-flex flex-column align-items-start justify-content-center p-3"
-        *ngIf="gazette"
-      >
-        <span class="text-uppercase fw-bold">Gaceta que contiene la norma</span>
-        <span class="mt-1 mb-1 text-blue fw-bold">Gaceta {{ gazette?.type }} No. {{ gazette?.number }}</span>
-        <div class="d-flex flex-column w-100">
-          <small class="flex-grow-1 text-small text-muted">{{ gazette?.date | date: "dd/MM/YYYY" }}</small>
-          <div class="d-flex flex-column mt-3 align-items-end">
-            <button class="btn btn-light btn-sm w-100" (click)="showGazettePdf(gazette?.file, normative.startpage)">
-              <i class="fas fa-arrow-up-right-from-square me-2"></i> LEER NORMA
-            </button>
-            <button
-              class="btn btn-light btn-sm w-100 mt-2"
-              fileSaver
-              [fileName]="gazette?.file"
-              [http]="downloadGazettePdf(gazette?.id, gazette?.file)"
-            >
-              <i class="fas fa-download me-2"></i> DESCARGAR GACETA COMPLETA
-            </button>
-            <button
-              class="btn btn-light btn-sm w-100 mt-2"
-              *ngIf="normative.startpage && normative.endpage"
-              fileSaver
-              [fileName]="gazette?.file"
-              [http]="downloadGazettePdfPages(gazette?.id, gazette?.file, normative.startpage, normative.endpage)"
-            >
-              <i class="fas fa-download me-2"></i> DESCARGAR NORMA ESPECÍFICA
-            </button>
-            <!-- <small
-              class="text-small text-blue me-3 pointer"
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="d-flex flex-column justify-content-center align-items-start bg-blue-light p-3 gazette-details"
+                *ngIf="gazette">
+                <span class="fw-bold text-uppercase">Gaceta que contiene la norma</span>
+                <span class="mt-1 mb-1 fw-bold text-blue">Gaceta {{ gazette?.type }} No. {{ gazette?.number }}</span>
+                <div class="d-flex flex-column w-100">
+                    <small class="flex-grow-1 text-muted text-small">{{ gazette?.date | date: "dd/MM/YYYY" }}</small>
+                    <div class="d-flex flex-column align-items-end mt-3">
+                        <button class="w-100 btn btn-light btn-sm"
+                            (click)="showGazettePdf(gazette?.file, normative.startpage)">
+                            <i class="fa-arrow-up-right-from-square fas me-2"></i>
+                            LEER NORMA
+                        </button>
+                        <button class="mt-2 w-100 btn btn-light btn-sm" fileSaver [fileName]="gazette?.file"
+                            [http]="downloadGazettePdf(gazette?.id, gazette?.file)">
+                            <i class="fa-download fas me-2"></i> DESCARGAR
+                            GACETA COMPLETA
+                        </button>
+                        <button class="mt-2 w-100 btn btn-light btn-sm" *ngIf="normative.startpage && normative.endpage"
+                            fileSaver [fileName]="gazette?.file"
+                            [http]="downloadGazettePdfPages(gazette?.id, gazette?.file, normative.startpage, normative.endpage)">
+                            <i class="fa-download fas me-2"></i> DESCARGAR NORMA
+                            ESPECÍFICA
+                        </button>
+                        <!-- <small
+              class="text-blue text-small me-3 pointer"
               (click)="showGazettePdf(gazette?.file, normative.startpage)"
               style="font-size: 10px !important"
-              ><i class="fas fa-eye me-1"></i> VER</small
+              ><i class="fa-eye fas me-1"></i> VER</small
             >
             <small
-              class="text-small text-blue me-3 pointer"
+              class="text-blue text-small me-3 pointer"
               style="font-size: 10px !important"
               fileSaver
               [fileName]="gazette?.file"
               [http]="downloadGazettePdf(gazette?.id, gazette?.file)"
-              ><i class="fas fa-file-download me-1"></i> DESCARGAR</small
+              ><i class="fa-file-download fas me-1"></i> DESCARGAR</small
             >
             <small
               *ngIf="normative.startpage && normative.endpage"
-              class="text-small text-blue pointer"
+              class="text-blue text-small pointer"
               fileSaver
               [fileName]="gazette?.file"
               style="font-size: 10px !important"
               [http]="downloadGazettePdfPages(gazette?.id, gazette?.file, normative.startpage, normative.endpage)"
-              ><i class="fas fa-file-download me-1"></i> DESCARGAR (Paginas {{ normative.startpage }}-{{
+              ><i class="fa-file-download fas me-1"></i> DESCARGAR (Paginas {{ normative.startpage }}-{{
                 normative.endpage
               }})</small> -->
-          </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <ng-template #loading>
-    <app-loader></app-loader>
-  </ng-template>
+    <ng-template #loading>
+        <app-loader></app-loader>
+    </ng-template>
 </div>

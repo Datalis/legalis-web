@@ -1,6 +1,21 @@
 <ngx-loading-bar [color]="'#6cc1ff'" [includeSpinner]="false"></ngx-loading-bar>
 <!-- <app-share-btn></app-share-btn> -->
+
 <app-popup></app-popup>
+<a *ngIf="isAndroid" class="banner-app" target="_blank"
+  href="https://play.google.com/store/apps/details?id=com.eltoque.legalis&pli=1">
+  <img src="/assets/banner-app.png">
+</a>
 <ng-scrollbar viewClass="app-scroller" #scrollerRef track="vertical">
   <router-outlet></router-outlet>
 </ng-scrollbar>
+
+<div *ngIf="showDesktopBanner" class="banner-bottom">
+  <button (click)="closeBanner()" class="btn"><svg fill="#fafafa" xmlns="http://www.w3.org/2000/svg" width="24"
+      height="24" viewBox="0 0 24 24">
+      <path
+        d="m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z">
+      </path>
+    </svg></button>
+  <img src="/assets/banner-var2.png">
+</div>

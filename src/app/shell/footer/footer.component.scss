@@ -12,22 +12,27 @@
     background-color: rgba($color: $light, $alpha: 0.1);
     border: 3px solid rgba($color: $light, $alpha: 0.1);
     color: $light;
+
     &::placeholder {
       color: rgba($light, 0.5) !important;
     }
+
     &:focus {
       box-shadow: none;
       color: $light;
     }
   }
+
   .form-control-email {
     box-shadow: 1px 1px 5px 5px rgba($black, 0.025);
     background-color: rgba($color: $light, $alpha: 0.1);
     border: 3px solid rgba($color: $light, $alpha: 0.1);
     color: $light;
+
     &::placeholder {
       color: rgba($light, 0.5) !important;
     }
+
     &:focus {
       box-shadow: none;
       color: $light;
@@ -64,9 +69,11 @@
   .footer-nav {
     a {
       color: rgba($light, 0.85);
+
       @include media-breakpoint-down(sm) {
         font-size: 12px;
       }
+
       &:hover {
         color: $light;
       }
@@ -76,9 +83,11 @@
   .footer-news {
     margin-left: auto;
     margin-right: auto;
+
     @include media-breakpoint-up(lg) {
       margin-right: 0;
     }
+
     max-width: 800px;
     padding-right: 60px;
     padding-left: 60px;
@@ -91,9 +100,18 @@
     max-width: 460px;
     margin-left: auto;
     margin-right: auto;
+
     @include media-breakpoint-up(lg) {
       text-align: left;
       margin-left: 0;
+    }
+
+    .btn {
+      margin: auto;
+
+      @include media-breakpoint-up(lg) {
+        margin-left: 0;
+      }
     }
   }
 
@@ -106,6 +124,7 @@
     button {
       border-color: rgba($light, 0.85) !important;
       color: rgba($light, 0.85) !important;
+
       &:hover,
       &:focus {
         border-color: transparent !important;
@@ -113,6 +132,7 @@
         color: $blue !important;
       }
     }
+
     &.footer-social-sm {
       border-top: 1px solid $divider-blue-light !important;
     }
@@ -122,14 +142,18 @@
     height: 100%;
     display: flex;
     position: relative;
+
     @include media-breakpoint-down(md) {
       flex-direction: column;
     }
+
     .carousel-image {
       flex-basis: 50%;
+
       @include media-breakpoint-down(md) {
         height: 50% !important;
       }
+
       img {
         object-fit: cover !important;
         object-position: center;
@@ -137,6 +161,7 @@
         padding: 0.1rem;
       }
     }
+
     .carousel-content {
       display: flex;
       flex-direction: column;
@@ -145,13 +170,16 @@
       flex-basis: 50%;
       line-height: 1;
       box-sizing: content-box;
+
       @include media-breakpoint-down(md) {
         justify-content: flex-start;
         padding-left: 0;
         padding-top: 1rem;
       }
+
       p {
         color: rgba($light, 0.85);
+        line-clamp: 5;
         -webkit-line-clamp: 5;
       }
     }

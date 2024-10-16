@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
   }
 
   subscribe() {
-    let URL = "https://sumavoces.us16.list-manage.com/subscribe?u=2c3cee32035916c525e68d623&id=341cef9774";
+    let URL = "https://dashboard.mailerlite.com/forms/654880/105395635489867128/share";
     window.open(URL, '_blank');
     console.log('this')
   }
@@ -48,4 +48,7 @@ export class HomeComponent implements OnInit {
     this.infographics = infogRes.results ? infogRes.results.slice(0, 3) : [];
     this.consultas = consultasRes || [];
   }
+
+  getImage = (url: string) => url.startsWith('/') ? `https://api.eltoque.com${url}` : url;
+
 }

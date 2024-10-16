@@ -21,12 +21,29 @@ const log = new Logger('App');
 export class AppComponent implements OnInit {
   @ViewChild('scrollerRef') scroller?: NgScrollbar;
 
+  isAndroid = false;
+  showDesktopBanner = true;
+
+  _isAndroidBrowser() {
+    var userAgent = navigator.userAgent.toLowerCase();
+
+    // Check for Android and common Android browsers
+    var isAndroid = userAgent.indexOf("android") > -1;
+    var isAndroidBrowser = userAgent.indexOf("samsungbrowser") > -1 ||
+      userAgent.indexOf("chrome") > -1 ||
+      userAgent.indexOf("firefox") > -1 ||
+      userAgent.indexOf("opera") > -1 ||
+      userAgent.indexOf("ucbrowser") > -1;
+
+    return isAndroid && isAndroidBrowser;
+  }
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private titleService: Title,
     private layoutService: LayoutService
-  ) {}
+  ) { }
 
   ngOnInit() {
     if (environment.production) {
@@ -79,5 +96,14 @@ export class AppComponent implements OnInit {
     this.layoutService.scrollToElement$
       .pipe(untilDestroyed(this))
       .subscribe((anchor) => this.scroller?.scrollToElement(anchor));
+
+    this.isAndroid = this._isAndroidBrowser();
+
+    this.showDesktopBanner = localStorage.getItem('_banner') !== "0";
+  }
+
+  closeBanner() {
+    localStorage.setItem('_banner', "0");
+    this.showDesktopBanner = false;
   }
 }
