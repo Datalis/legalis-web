@@ -18,7 +18,7 @@ import {
   HttpResponse,
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, firstValueFrom, filter, map } from "rxjs";
+import { Observable, firstValueFrom, filter, map, timeout } from "rxjs";
 import { PagedResult } from "../model/paged-result";
 import { AboutItem } from "../model/about-item";
 import { HttpUrlEncoder } from "../http/http-url-encoder";
@@ -206,7 +206,7 @@ export class ApiService {
       this.client.get<any[]>(
         environment.elToqueApi +
           "/posts?categories=600c46c1929b80000d284502&categories_nin=63c6fa3ced8925001c36c57a&_sort=publish_date:DESC&_limit=10",
-      ),
+      ).pipe(timeout(10000)),
     );
   }
 
@@ -219,13 +219,13 @@ export class ApiService {
         environment.elToqueApi +
           "/posts?categories=63c6fa3ced8925001c36c57a&_sort=publish_date:DESC",
         { params: { _limit: limit, _start: start } },
-      ),
+      ).pipe(timeout(10000)),
     );
   }
 
   async consultaDetail(id: string): Promise<any> {
     return firstValueFrom<any>(
-      this.client.get(environment.elToqueApi + "/posts/" + id),
+      this.client.get(environment.elToqueApi + "/posts/" + id).pipe(timeout(10000)),
     );
   }
 
