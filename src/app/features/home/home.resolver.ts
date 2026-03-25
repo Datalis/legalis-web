@@ -18,9 +18,9 @@ export class HomeResolver implements Resolve<any> {
         // year: new Date().getFullYear(),
       }),
       this.apiService.findGazettes({ page_size: 1, page: 1 }),
-      this.apiService.relatedNews(),
+      this.apiService.relatedNews().catch(() => []),
       this.apiService.getInfographics(),
-      this.apiService.consultasJuridicas(100)
+      this.apiService.consultasJuridicas(100).catch(() => [])
     ]);
   }
 }
