@@ -13,7 +13,8 @@ import { isPlatformBrowser } from '@angular/common';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  recentGazette: Gazette | null = null;
+  recentGazettes: Gazette[] = [];
+  recentGazettesDate: string | null = null;
   popularNormatives: Normative[] = [];
   infographics: Infographic[] = [];
   relatedNews: any[] = [];
@@ -44,9 +45,15 @@ export class HomeComponent implements OnInit {
 
     this.relatedNews = newsRes || [];
     this.popularNormatives = popularRes.results || [];
-    this.recentGazette = recentRes.results ? recentRes.results[0] : null;
     this.infographics = infogRes.results ? infogRes.results.slice(0, 3) : [];
     this.consultas = consultasRes || [];
+
+    const allGazettes: Gazette[] = recentRes.results || [];
+    if (allGazettes.length > 0) {
+      const latestDate = allGazettes[0].date;
+      this.recentGazettesDate = latestDate || null;
+      this.recentGazettes = allGazettes.filter(g => g.date === latestDate);
+    }
   }
 
   getImage = (url: string) => url.startsWith('/') ? `https://api.eltoque.com${url}` : url;
