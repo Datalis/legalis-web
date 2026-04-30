@@ -11,12 +11,12 @@ $sami-window-z: 9999;
     position: fixed;
     bottom: 1.25rem;
     right: 1.25rem;
-    width: 3.5rem;
-    height: 3.5rem;
-    background: $sami-primary;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    width: 3.85rem;
+    height: 3.85rem;
+    background: transparent;
+    border: 0;
     border-radius: 50%;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -24,22 +24,91 @@ $sami-window-z: 9999;
     z-index: $sami-fab-z;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     padding: 0;
+    overflow: hidden;
 
     &:hover {
         transform: scale(1.1);
-        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
     }
 
     &--hidden {
         display: none;
     }
 
+    &--bounce {
+        animation: sami-fab-bounce 0.9s ease-in-out 2;
+    }
+
     img {
-        width: 3rem;
-        height: 3rem;
+        width: 100%;
+        height: 100%;
         border-radius: 50%;
         object-fit: cover;
+        display: block;
     }
+}
+
+@keyframes sami-fab-bounce {
+    0%, 100% { transform: translateY(0) rotate(0); }
+    20% { transform: translateY(-6px) rotate(-6deg); }
+    40% { transform: translateY(0) rotate(6deg); }
+    60% { transform: translateY(-3px) rotate(-3deg); }
+    80% { transform: translateY(0) rotate(0); }
+}
+
+.sami-hint {
+    position: fixed;
+    bottom: 1.85rem;
+    right: 5.5rem;
+    max-width: 16rem;
+    padding: 0.625rem 0.875rem;
+    background: #fff;
+    color: #111827;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.875rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+    font-size: 0.8125rem;
+    line-height: 1.35;
+    z-index: $sami-fab-z;
+    cursor: pointer;
+    animation: sami-hint-in 0.35s ease-out both;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    &__close {
+        flex-shrink: 0;
+        background: transparent;
+        border: 0;
+        color: #9ca3af;
+        font-size: 1rem;
+        line-height: 1;
+        cursor: pointer;
+        padding: 0;
+        margin-left: 0.25rem;
+
+        &:hover {
+            color: #374151;
+        }
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        right: -6px;
+        bottom: 1.1rem;
+        width: 12px;
+        height: 12px;
+        background: #fff;
+        border-right: 1px solid #e5e7eb;
+        border-top: 1px solid #e5e7eb;
+        transform: rotate(45deg);
+    }
+}
+
+@keyframes sami-hint-in {
+    from { opacity: 0; transform: translateX(8px); }
+    to { opacity: 1; transform: translateX(0); }
 }
 
 .sami-window {
@@ -242,6 +311,43 @@ $sami-window-z: 9999;
         border-radius: 0.5rem;
         border: 1px solid #e5e7eb;
         box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+}
+
+.sami-disclaimer {
+    display: block;
+    margin-top: 0.625rem;
+    padding: 0.5rem 0.75rem;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-left: 3px solid #f59e0b;
+    border-radius: 0.5rem;
+    font-size: 0.6875rem;
+    line-height: 1.45;
+    color: #78350f;
+
+    a {
+        color: #b45309;
+        text-decoration: underline;
+        word-break: break-all;
+
+        &:hover {
+            color: #78350f;
+        }
+    }
+
+    .sami-bubble--user & {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.18);
+        border-left-color: #fbbf24;
+        color: #fef3c7;
+
+        a {
+            color: #fde68a;
+            &:hover {
+                color: #fef3c7;
+            }
+        }
     }
 }
 

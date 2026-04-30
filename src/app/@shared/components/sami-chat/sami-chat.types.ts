@@ -22,7 +22,7 @@ export interface Message {
 }
 
 export interface ContentBlock {
-  kind: 'html' | 'link' | 'image' | 'eltoque';
+  kind: 'html' | 'link' | 'image' | 'eltoque' | 'disclaimer';
   html?: SafeHtml;
   url?: string;
 }

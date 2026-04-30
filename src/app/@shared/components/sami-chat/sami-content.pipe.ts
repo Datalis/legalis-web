@@ -23,6 +23,12 @@ const IMAGE_HOSTS = [
 ];
 const INLINE_TAGS = ['b', 'strong', 'i', 'em', 'u'];
 
+// The bot prepends or appends this disclaimer to most replies. We pull it
+// out and render it with a smaller, framed style. The match terminates at
+// the Telegram URL so we don't accidentally swallow the body of the message
+// when the disclaimer comes first.
+const DISCLAIMER_REGEX = /(?:⚠️|⚠️|⚠)\s*Esta orientación tiene carácter informativo[\s\S]*?https?:\/\/t\.me\/LegalisElToque\b/i;
+
 @Pipe({ name: 'samiContent', pure: true })
 export class SamiContentPipe implements PipeTransform {
   constructor(private readonly sanitizer: DomSanitizer) {}
@@ -34,28 +40,70 @@ export class SamiContentPipe implements PipeTransform {
       console.log('[sami] raw:', JSON.stringify(content));
       console.log('[sami] normalized:', JSON.stringify(normalized));
     }
+
+    // Pull out the disclaimer (if any) before tokenizing the body. The
+    // disclaimer can appear at the start, end, or even middle of the message
+    // depending on the model's mood, so we re-stitch the surrounding text.
+    let body = normalized;
+    let disclaimerHtml: SafeHtml | null = null;
+    const disclaimerMatch = normalized.match(DISCLAIMER_REGEX);
+    if (disclaimerMatch && disclaimerMatch.index != null) {
+      const start = disclaimerMatch.index;
+      const end = start + disclaimerMatch[0].length;
+      body = (normalized.slice(0, start) + '\n' + normalized.slice(end))
+        .replace(/\n{2,}/g, '\n')
+        .trim();
+      disclaimerHtml = this.processFullText(disclaimerMatch[0].trim());
+    }
+
     const blocks: ContentBlock[] = [];
-    const parts = normalized.split(URL_REGEX);
+    if (body) {
+      const parts = body.split(URL_REGEX);
+      parts.forEach((part, idx) => {
+        if (!part) return;
+        const isUrl = idx % 2 === 1;
 
-    parts.forEach((part, idx) => {
-      if (!part) return;
-      const isUrl = idx % 2 === 1;
-
-      if (isUrl) {
-        const cleanUrl = part.replace(/[.,;!?]+$/, '');
-        if (ELTOQUE_URLS.has(cleanUrl)) {
-          blocks.push({ kind: 'eltoque', url: cleanUrl });
-        } else if (this.isImageUrl(cleanUrl)) {
-          blocks.push({ kind: 'image', url: cleanUrl });
+        if (isUrl) {
+          const cleanUrl = part.replace(/[.,;!?]+$/, '');
+          if (ELTOQUE_URLS.has(cleanUrl)) {
+            blocks.push({ kind: 'eltoque', url: cleanUrl });
+          } else if (this.isImageUrl(cleanUrl)) {
+            blocks.push({ kind: 'image', url: cleanUrl });
+          } else {
+            blocks.push({ kind: 'link', url: cleanUrl });
+          }
         } else {
-          blocks.push({ kind: 'link', url: cleanUrl });
+          blocks.push({ kind: 'html', html: this.processInlineMarkup(part) });
         }
-      } else {
-        blocks.push({ kind: 'html', html: this.processInlineMarkup(part) });
-      }
-    });
+      });
+    }
+
+    if (disclaimerHtml) {
+      blocks.push({ kind: 'disclaimer', html: disclaimerHtml });
+    }
 
     return blocks;
+  }
+
+  /**
+   * Like processInlineMarkup but also turns plain URLs into <a> elements.
+   * Used for the disclaimer block, where we want everything (text + link)
+   * inside a single styled container.
+   */
+  private processFullText(text: string): SafeHtml {
+    let s = this.escapeHtml(text);
+    for (const tag of INLINE_TAGS) {
+      s = s
+        .replace(new RegExp(`&lt;${tag}(?:\\s[^&]*)?&gt;`, 'gi'), `<${tag}>`)
+        .replace(new RegExp(`&lt;/${tag}\\s*&gt;`, 'gi'), `</${tag}>`);
+    }
+    s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    s = s.replace(URL_REGEX, (url) => {
+      const clean = url.replace(/[.,;!?]+$/, '');
+      return `<a href="${clean}" target="_blank" rel="noopener noreferrer">${clean}</a>`;
+    });
+    s = s.replace(/<(u|b|strong|i|em)>\s*<\/\1>/gi, '');
+    return this.sanitizer.bypassSecurityTrustHtml(s);
   }
 
   private isImageUrl(url: string): boolean {

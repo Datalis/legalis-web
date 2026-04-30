@@ -62,7 +62,9 @@ export class NormativeComponent implements OnInit, OnDestroy {
     }
 
     this.setPageTitle(this.normative?.name || "");
-    this.samiChat.setContext(this.buildContextLabel());
+    if (this.normative?.id != null) {
+      this.samiChat.setNormContext({ normId: this.normative.id });
+    }
 
     const _schema = this.getSchema(normative, gazette);
 
@@ -123,16 +125,6 @@ export class NormativeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.samiChat.clearContext();
-  }
-
-  private buildContextLabel(): string | null {
-    const n = this.normative;
-    if (!n) return null;
-    const parts = [n.normtype, n.number ? `No. ${n.number}` : null, n.year]
-      .filter((x): x is string | number => x != null && x !== "");
-    const id = parts.length ? parts.join(" ") : null;
-    if (n.name && id) return `${n.name} (${id})`;
-    return n.name || id || null;
   }
 
   isActive(item: any): boolean {

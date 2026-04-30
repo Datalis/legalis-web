@@ -2,11 +2,24 @@
     type="button"
     class="sami-fab"
     [class.sami-fab--hidden]="isOpen"
+    [class.sami-fab--bounce]="bounceFab"
     (click)="toggle()"
     aria-label="Abrir chat"
 >
     <img [src]="avatarUrl" alt="SaMi" />
 </button>
+
+<div *ngIf="showHint && !isOpen" class="sami-hint" (click)="toggle()">
+    <span>{{ hintText }}</span>
+    <button
+        type="button"
+        class="sami-hint__close"
+        (click)="$event.stopPropagation(); dismissHint()"
+        aria-label="Cerrar aviso"
+    >
+        ✕
+    </button>
+</div>
 
 <div class="sami-window" *ngIf="isOpen">
     <div class="sami-header">
@@ -15,7 +28,6 @@
             <div>
                 <div class="sami-header__title-row">
                     <h3>SaMi</h3>
-                    <span class="sami-badge">v{{ version }}</span>
                 </div>
                 <p class="sami-header__status">
                     <ng-container *ngIf="connectionStatus === 'connected'; else offline">
@@ -102,6 +114,8 @@
                                     </div>
                                 </div>
                             </a>
+
+                            <div *ngSwitchCase="'disclaimer'" class="sami-disclaimer" [innerHTML]="block.html || ''"></div>
                         </ng-container>
                     </div>
 
@@ -177,12 +191,12 @@
                 placeholder="Escribe tu mensaje..."
                 [(ngModel)]="inputValue"
                 (keypress)="onKey($event)"
-                [disabled]="isTyping || connectionStatus !== 'connected'"
+                [disabled]="isTyping"
             />
             <button
                 type="button"
                 class="sami-send"
-                [disabled]="!inputValue.trim() || connectionStatus !== 'connected'"
+                [disabled]="!inputValue.trim() || isTyping"
                 (click)="send()"
                 aria-label="Enviar mensaje"
             >
@@ -193,14 +207,14 @@
         <div *ngIf="!legalMode" class="sami-quick">
             <button
                 type="button"
-                [disabled]="isTyping || connectionStatus !== 'connected'"
+                [disabled]="isTyping"
                 (click)="sendQuick('Tasas del mercado informal hoy')"
             >
                 <span>📊</span><span>Tasas</span>
             </button>
             <button
                 type="button"
-                [disabled]="isTyping || connectionStatus !== 'connected'"
+                [disabled]="isTyping"
                 (click)="sendQuick('Últimas noticias')"
             >
                 <span>📰</span><span>Últimas noticias</span>

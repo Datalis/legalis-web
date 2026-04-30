@@ -30,6 +30,12 @@ export class CachingInterceptor implements HttpInterceptor {
   }
 
   isCacheable(req: HttpRequest<any>): boolean {
-    return req.url.indexOf('/api') != -1 && !req.headers.has('no-cache');
+    // Solo GET es cacheable. Cachear POST/PUT/DELETE/PATCH por URL es
+    // incorrecto — la respuesta depende del body, no solo de la URL — y
+    // produce "cache hits" que omiten requests reales (ej. el chat de SaMi
+    // dejaba de llegar al backend tras el primer mensaje).
+    return req.method === 'GET'
+      && req.url.indexOf('/api') != -1
+      && !req.headers.has('no-cache');
   }
 }

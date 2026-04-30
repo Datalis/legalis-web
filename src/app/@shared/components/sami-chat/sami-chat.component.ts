@@ -24,6 +24,8 @@ const COOKIE_USER_ID = 'samiChatUserId';
 const STORAGE_USER_ID = 'chatUserId';
 const STORAGE_IS_OPEN = 'samiChatIsOpen';
 const STORAGE_MESSAGES = 'samiChatMessages';
+const HINT_DELAY_MS = 5000;
+const HINT_AUTOHIDE_MS = 10000;
 
 @UntilDestroy()
 @Component({
@@ -32,7 +34,7 @@ const STORAGE_MESSAGES = 'samiChatMessages';
   styleUrls: ['./sami-chat.component.scss'],
 })
 export class SamiChatComponent implements OnInit, OnDestroy, AfterViewChecked {
-  @Input() initialMessage = '¡Hola! Soy SaMi, tu asistente de elTOQUE. ¿En qué puedo ayudarte hoy?';
+  @Input() initialMessage = '¡Hola! Soy SaMi, tu asistente legal de Legalis. Pregúntame sobre normativas, gacetas o cualquier consulta jurídica de Cuba.';
   @Input() backendUrl = environment.samiBackendUrl;
   @Input() legalMode = true;
 
@@ -48,6 +50,9 @@ export class SamiChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   connectionStatus: ConnectionStatus = 'disconnected';
   messages: Message[] = [];
   visibleCount = 10;
+  showHint = false;
+  bounceFab = false;
+  readonly hintText = '¡Hola! ¿Tienes una duda legal?';
 
   private userId = '';
   private initialized = false;
@@ -58,6 +63,9 @@ export class SamiChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   private isConnecting = false;
   private prevMessagesLength = 0;
   private shouldScroll = false;
+  private typingWatchdog: ReturnType<typeof setTimeout> | null = null;
+  private hintShowTimer: ReturnType<typeof setTimeout> | null = null;
+  private hintHideTimer: ReturnType<typeof setTimeout> | null = null;
 
   @ViewChild('messagesEnd') messagesEnd?: ElementRef<HTMLDivElement>;
   @ViewChild('messagesContainer') messagesContainer?: ElementRef<HTMLDivElement>;
@@ -91,12 +99,12 @@ export class SamiChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     if (savedMessages) {
       try {
-        this.messages = JSON.parse(savedMessages);
+        this.messages = this.sortMessages(JSON.parse(savedMessages));
       } catch {
-        this.messages = [{ id: 1, role: 'assistant', content: this.initialMessage }];
+        this.messages = [{ id: 1, role: 'assistant', content: this.initialMessage, createdAt: new Date().toISOString() }];
       }
     } else {
-      this.messages = [{ id: 1, role: 'assistant', content: this.initialMessage }];
+      this.messages = [{ id: 1, role: 'assistant', content: this.initialMessage, createdAt: new Date().toISOString() }];
     }
     this.prevMessagesLength = this.messages.length;
 
@@ -107,10 +115,60 @@ export class SamiChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     this.samiChat.toggle$.pipe(untilDestroyed(this)).subscribe((open: boolean) => this.setOpen(open));
+
+    this.scheduleHint();
   }
 
   ngOnDestroy() {
     this.cleanupConnection();
+    if (this.typingWatchdog) {
+      clearTimeout(this.typingWatchdog);
+      this.typingWatchdog = null;
+    }
+    this.cancelHint();
+  }
+
+  /* --------------------------------- HINT --------------------------------- */
+
+  dismissHint() {
+    this.showHint = false;
+    this.bounceFab = false;
+    if (this.hintHideTimer) {
+      clearTimeout(this.hintHideTimer);
+      this.hintHideTimer = null;
+    }
+  }
+
+  private scheduleHint() {
+    if (!this.isBrowser) return;
+    if (this.isOpen) return;
+
+    this.hintShowTimer = setTimeout(() => {
+      this.hintShowTimer = null;
+      if (this.isOpen) return;
+      this.showHint = true;
+      this.bounceFab = true;
+      this.cdr.detectChanges();
+      this.hintHideTimer = setTimeout(() => {
+        this.hintHideTimer = null;
+        this.bounceFab = false;
+        this.showHint = false;
+        this.cdr.detectChanges();
+      }, HINT_AUTOHIDE_MS);
+    }, HINT_DELAY_MS);
+  }
+
+  private cancelHint() {
+    if (this.hintShowTimer) {
+      clearTimeout(this.hintShowTimer);
+      this.hintShowTimer = null;
+    }
+    if (this.hintHideTimer) {
+      clearTimeout(this.hintHideTimer);
+      this.hintHideTimer = null;
+    }
+    this.showHint = false;
+    this.bounceFab = false;
   }
 
   ngAfterViewChecked() {
@@ -140,6 +198,7 @@ export class SamiChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       localStorage.setItem(STORAGE_IS_OPEN, String(open));
     }
     if (open) {
+      this.dismissHint();
       this.connect();
       setTimeout(() => this.scrollToBottom(), 100);
     } else {
@@ -160,16 +219,49 @@ export class SamiChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   send() {
     const text = this.inputValue.trim();
-    if (!text || this.isTyping || !this.userId) return;
+    console.log('[sami] send() called', {
+      text,
+      isTyping: this.isTyping,
+      userId: this.userId,
+      connectionStatus: this.connectionStatus,
+      hasEventSource: !!this.eventSource,
+      normContext: this.samiChat.normContext,
+    });
+    if (!text) {
+      console.warn('[sami] send aborted: empty text');
+      return;
+    }
+    if (this.isTyping) {
+      console.warn('[sami] send aborted: isTyping=true is stuck');
+      return;
+    }
+    if (!this.userId) {
+      console.warn('[sami] send aborted: userId missing');
+      return;
+    }
     this.appendUserMessage(text);
     this.inputValue = '';
+    this.ensureConnected();
     this.postChat(text);
   }
 
   sendQuick(text: string) {
     if (this.isTyping || !this.userId) return;
     this.appendUserMessage(text);
+    this.ensureConnected();
     this.postChat(text);
+  }
+
+  private ensureConnected() {
+    if (this.eventSource || this.isConnecting) return;
+    // Drop any back-off lock so a user-triggered send can immediately retry SSE
+    // even if we previously gave up after 5 failed attempts.
+    this.reconnectAttempts = 0;
+    if (this.reconnectTimeout) {
+      clearTimeout(this.reconnectTimeout);
+      this.reconnectTimeout = null;
+    }
+    this.connect();
   }
 
   trackById(_: number, message: Message) {
@@ -195,45 +287,106 @@ export class SamiChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   /* --------------------------- INTERNAL HELPERS --------------------------- */
 
   private appendUserMessage(text: string) {
-    this.messages = [
+    this.messages = this.sortMessages([
       ...this.messages,
-      { id: Date.now(), role: 'user', content: text },
-    ];
-    this.isTyping = true;
+      { id: Date.now(), role: 'user', content: text, createdAt: new Date().toISOString() },
+    ]);
+    this.setTyping(true);
     this.persistMessages();
+  }
+
+  /**
+   * Sort messages chronologically. We use createdAt when present (real DB
+   * timestamps from the backend) and fall back to the local id (Date.now()
+   * for messages we authored) for those that don't have one. The sort is
+   * stable, so consecutive messages with the same key keep their order.
+   */
+  private sortMessages(list: Message[]): Message[] {
+    const keyed = list.map((m, idx) => ({ m, idx, key: this.sortKey(m) }));
+    keyed.sort((a, b) => {
+      if (a.key === b.key) return a.idx - b.idx;
+      return a.key < b.key ? -1 : 1;
+    });
+    return keyed.map((x) => x.m);
+  }
+
+  private sortKey(m: Message): number {
+    if (m.createdAt) {
+      const t = Date.parse(m.createdAt);
+      if (!Number.isNaN(t)) return t;
+    }
+    if (typeof m.id === 'number') return m.id;
+    const parsed = Number(String(m.id).split('_')[0]);
+    return Number.isNaN(parsed) ? 0 : parsed;
+  }
+
+  /**
+   * Fallback dedupe key when messageId is missing or the backend redelivers
+   * the same message with a different id/timestamp. For assistant messages
+   * we fold by content alone — an assistant repeating the exact same reply
+   * is overwhelmingly a duplicate, not an intentional repeat. For user
+   * messages we key on the locally-assigned id (always unique), so a user
+   * legitimately sending "ok" twice still produces two messages.
+   */
+  private fingerprint(m: Message): string {
+    if (m.role === 'user') return `user::${m.id}`;
+    return `assistant::${m.content.trim()}`;
+  }
+
+  private setTyping(value: boolean) {
+    this.isTyping = value;
+    if (this.typingWatchdog) {
+      clearTimeout(this.typingWatchdog);
+      this.typingWatchdog = null;
+    }
+    if (value && this.isBrowser) {
+      this.typingWatchdog = setTimeout(() => {
+        if (this.isTyping) {
+          console.warn('[sami] typing watchdog: no response after 30s, unblocking input');
+          this.isTyping = false;
+          this.cdr.detectChanges();
+        }
+        this.typingWatchdog = null;
+      }, 30000);
+    }
   }
 
   private postChat(content: string) {
     const endpoint = this.legalMode ? '/api/legal-chat' : '/api/chat';
-    const ctx = this.samiChat.context;
-    const payloadContent = ctx
-      ? `[Contexto: el usuario está consultando la norma "${ctx}". Si pregunta por "esta norma", "este decreto", "esta ley" u otra referencia ambigua, asume que se refiere a esa.]\n\n${content}`
-      : content;
+    const normCtx = this.samiChat.normContext;
+    const body: Record<string, unknown> = {
+      userId: this.userId,
+      username: 'Web User',
+      currentUrl: this.isBrowser ? window.location.href : '',
+      messages: [{ role: 'user', content }],
+    };
+    if (normCtx?.normId != null && normCtx.normId !== '') {
+      body['context'] = { normId: normCtx.normId };
+    }
     this.http
-      .post(`${this.backendUrl}${endpoint}`, {
-        userId: this.userId,
-        username: 'Web User',
-        currentUrl: this.isBrowser ? window.location.href : '',
-        messages: [{ role: 'user', content: payloadContent }],
-      })
+      .post(`${this.backendUrl}${endpoint}`, body)
       .subscribe({
-        error: (err: unknown) => console.warn(`POST ${endpoint} falló:`, err),
+        error: (err: unknown) => {
+          console.error(`POST ${endpoint} falló:`, err);
+          this.setTyping(false);
+          this.messages = this.sortMessages([
+            ...this.messages,
+            {
+              id: Date.now(),
+              role: 'assistant',
+              content: '⚠️ No pude enviar tu mensaje. Intenta de nuevo en un momento.',
+              createdAt: new Date().toISOString(),
+            },
+          ]);
+          this.persistMessages();
+          this.cdr.detectChanges();
+        },
       });
   }
 
   private connect() {
     if (!this.isBrowser || !this.userId) return;
     if (this.eventSource || this.isConnecting) return;
-
-    if (this.reconnectAttempts >= 5) {
-      this.connectionStatus = 'disconnected';
-      this.messages = [
-        ...this.messages,
-        { id: Date.now(), role: 'assistant', content: '❌ No se pudo conectar con el servidor.' },
-      ];
-      this.persistMessages();
-      return;
-    }
 
     this.isConnecting = true;
     this.connectionStatus = 'connecting';
@@ -259,9 +412,9 @@ export class SamiChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
         this.connectionStatus = 'disconnected';
 
-        if (this.isOpen && this.reconnectAttempts < 5) {
+        if (this.isOpen) {
           this.reconnectAttempts += 1;
-          const delay = Math.min(1000 * Math.pow(2, this.reconnectAttempts), 10000);
+          const delay = Math.min(1000 * Math.pow(2, this.reconnectAttempts), 30000);
           this.reconnectTimeout = setTimeout(() => this.connect(), delay);
         }
         this.cdr.detectChanges();
@@ -285,7 +438,7 @@ export class SamiChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     if (data.type === 'typing' && data.isTyping === false) {
-      this.isTyping = false;
+      this.setTyping(false);
       this.cdr.detectChanges();
       return;
     }
@@ -293,6 +446,7 @@ export class SamiChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (data.type === 'pending_batch') {
       const batch: any[] = Array.isArray(data.messages) ? data.messages : [];
       const existingIds = new Set(this.messages.map((m) => m.messageId).filter(Boolean));
+      const existingFingerprints = new Set(this.messages.map((m) => this.fingerprint(m)));
 
       const mapped: Message[] = batch.map((m: any) => ({
         id: m.messageId || `${Date.now()}_${Math.random()}`,
@@ -307,13 +461,21 @@ export class SamiChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         feedback: typeof m.feedback === 'boolean' ? m.feedback : null,
       }));
 
-      const deduped = mapped.filter((m) => !m.messageId || !existingIds.has(m.messageId));
+      const deduped: Message[] = [];
+      for (const m of mapped) {
+        if (m.messageId && existingIds.has(m.messageId)) continue;
+        const fp = this.fingerprint(m);
+        if (existingFingerprints.has(fp)) continue;
+        deduped.push(m);
+        existingFingerprints.add(fp);
+        if (m.messageId) existingIds.add(m.messageId);
+      }
       deduped.forEach((m) => {
         if (m.messageId && m.role === 'assistant') this.sendAck(m.messageId);
       });
 
-      this.messages = [...this.messages, ...deduped];
-      this.isTyping = false;
+      this.messages = this.sortMessages([...this.messages, ...deduped]);
+      this.setTyping(false);
       this.persistMessages();
       this.cdr.detectChanges();
       return;
@@ -323,25 +485,28 @@ export class SamiChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (data.messageId && this.messages.some((m) => m.messageId === data.messageId)) {
         return;
       }
+      const candidate: Message = {
+        id: data.messageId || `${Date.now()}_${Math.random()}`,
+        messageId: data.messageId || null,
+        createdAt: data.createdAt || new Date().toISOString(),
+        role: data.role,
+        content: data.content || '',
+        image: data.image || undefined,
+        preview: data.preview || null,
+        requestFeedback: data.requestFeedback || false,
+        feedbackMessageId: data.feedbackMessageId || null,
+      };
+      const fp = this.fingerprint(candidate);
+      if (this.messages.some((m) => this.fingerprint(m) === fp)) return;
 
-      this.messages = [
+      this.messages = this.sortMessages([
         ...this.messages,
-        {
-          id: data.messageId || `${Date.now()}_${Math.random()}`,
-          messageId: data.messageId || null,
-          createdAt: data.createdAt || null,
-          role: data.role,
-          content: data.content || '',
-          image: data.image || undefined,
-          preview: data.preview || null,
-          requestFeedback: data.requestFeedback || false,
-          feedbackMessageId: data.feedbackMessageId || null,
-        },
-      ];
+        candidate,
+      ]);
 
       if (data.messageId && data.role === 'assistant') this.sendAck(data.messageId);
 
-      this.isTyping = false;
+      this.setTyping(false);
       this.persistMessages();
       this.cdr.detectChanges();
     }
