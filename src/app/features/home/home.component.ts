@@ -5,6 +5,7 @@ import { Gazette } from '@app/@shared/model/gazette';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { isPlatformBrowser } from '@angular/common';
+import { SamiChatService } from '@app/@shared/components/sami-chat/sami-chat.service';
 
 @UntilDestroy()
 @Component({
@@ -22,15 +23,16 @@ export class HomeComponent implements OnInit {
 
   isBrowser: boolean = false;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: any, private route: ActivatedRoute) {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: any,
+    private route: ActivatedRoute,
+    private samiChat: SamiChatService,
+  ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
-  openTawk() {
-    let w = window as any;
-    if (w.Tawk_API) {
-      w.Tawk_API.maximize();
-    }
+  openSami() {
+    this.samiChat.open();
   }
 
   subscribe() {
