@@ -4,6 +4,7 @@
 
 [build.environment]
   NODE_ENV = "development"
+  NODE_VERSION = "18"
 
 [context.deploy-preview]
   command = "yarn build:netlify"
