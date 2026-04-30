@@ -1,0 +1,224 @@
+<button
+    type="button"
+    class="sami-fab"
+    [class.sami-fab--hidden]="isOpen"
+    [class.sami-fab--bounce]="bounceFab"
+    (click)="toggle()"
+    aria-label="Abrir chat"
+>
+    <img [src]="avatarUrl" alt="SaMi" />
+</button>
+
+<div *ngIf="showHint && !isOpen" class="sami-hint" (click)="toggle()">
+    <span>{{ hintText }}</span>
+    <button
+        type="button"
+        class="sami-hint__close"
+        (click)="$event.stopPropagation(); dismissHint()"
+        aria-label="Cerrar aviso"
+    >
+        ✕
+    </button>
+</div>
+
+<div class="sami-window" *ngIf="isOpen">
+    <div class="sami-header">
+        <div class="sami-header__info">
+            <img [src]="avatarUrl" alt="SaMi" class="sami-header__avatar" />
+            <div>
+                <div class="sami-header__title-row">
+                    <h3>SaMi</h3>
+                </div>
+                <p class="sami-header__status">
+                    <ng-container *ngIf="connectionStatus === 'connected'; else offline">
+                        🟢 En línea
+                    </ng-container>
+                    <ng-template #offline>🔴 Sin conexión</ng-template>
+                </p>
+            </div>
+        </div>
+        <button
+            type="button"
+            class="sami-header__close"
+            (click)="setOpen(false)"
+            aria-label="Cerrar chat"
+        >
+            ✕
+        </button>
+    </div>
+
+    <div class="sami-messages" #messagesContainer>
+        <button
+            *ngIf="messages.length > visibleCount"
+            type="button"
+            class="sami-load-more"
+            (click)="loadMore()"
+        >
+            Cargar mensajes anteriores ({{ messages.length - visibleCount }} más)
+        </button>
+
+        <div
+            *ngFor="let message of messages.slice(-visibleCount); trackBy: trackById"
+            class="sami-message"
+            [class.sami-message--user]="message.role === 'user'"
+        >
+            <div class="sami-bubble-wrapper">
+                <div
+                    class="sami-bubble"
+                    [class.sami-bubble--user]="message.role === 'user'"
+                >
+                    <img
+                        *ngIf="message.image"
+                        [src]="message.image"
+                        alt="Imagen"
+                        class="sami-bubble__image"
+                    />
+
+                    <div class="sami-bubble__content">
+                        <ng-container
+                            *ngFor="let block of message.content | samiContent; let i = index"
+                            [ngSwitch]="block.kind"
+                        >
+                            <span *ngSwitchCase="'html'" class="sami-text" [innerHTML]="block.html || ''"></span>
+
+                            <a
+                                *ngSwitchCase="'link'"
+                                [href]="block.url"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="sami-link"
+                            >
+                                {{ block.url }}
+                            </a>
+
+                            <span *ngSwitchCase="'image'" class="sami-inline-image">
+                                <img [src]="block.url" alt="Imagen" />
+                            </span>
+
+                            <a
+                                *ngSwitchCase="'eltoque'"
+                                [href]="block.url"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="sami-eltoque-card"
+                            >
+                                <div class="sami-eltoque-card__image">
+                                    <img [src]="elToqueImageUrl" alt="elTOQUE" />
+                                </div>
+                                <div class="sami-eltoque-card__body">
+                                    <h4>elTOQUE — Periodismo independiente sobre Cuba</h4>
+                                    <p>Noticias, análisis y reportajes con una visión crítica y plural.</p>
+                                    <div class="sami-eltoque-card__footer">
+                                        <span>eltoque.com</span>
+                                        <span class="sami-eltoque-card__cta">Visitar →</span>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <div *ngSwitchCase="'disclaimer'" class="sami-disclaimer" [innerHTML]="block.html || ''"></div>
+                        </ng-container>
+                    </div>
+
+                    <div *ngIf="message.preview?.length" class="sami-previews">
+                        <a
+                            *ngFor="let p of message.preview || []"
+                            [href]="p.url"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="sami-preview"
+                        >
+                            <img *ngIf="p.image" [src]="p.image" [alt]="p.title || ''" />
+                            <div class="sami-preview__body">
+                                <h4 *ngIf="p.title">{{ p.title }}</h4>
+                                <p *ngIf="p.description">{{ p.description }}</p>
+                                <div class="sami-preview__footer">
+                                    <span>{{ p.source }}</span>
+                                    <span class="sami-preview__cta">Ver más →</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div
+                    *ngIf="message.role === 'assistant' && message.requestFeedback && message.messageId"
+                    class="sami-feedback"
+                >
+                    <p>¿Te resultó útil esta respuesta?</p>
+                    <div class="sami-feedback__buttons">
+                        <button
+                            type="button"
+                            class="sami-feedback__btn sami-feedback__btn--yes"
+                            [class.is-active]="message.feedback === true"
+                            [class.is-disabled]="message.feedback === false"
+                            [disabled]="message.feedback != null"
+                            (click)="sendFeedback(message, true)"
+                            aria-label="Respuesta útil"
+                        >
+                            <span>👍</span><span>Sí</span>
+                        </button>
+                        <button
+                            type="button"
+                            class="sami-feedback__btn sami-feedback__btn--no"
+                            [class.is-active]="message.feedback === false"
+                            [class.is-disabled]="message.feedback === true"
+                            [disabled]="message.feedback != null"
+                            (click)="sendFeedback(message, false)"
+                            aria-label="Respuesta no útil"
+                        >
+                            <span>👎</span><span>No</span>
+                        </button>
+                    </div>
+                    <p *ngIf="message.feedback != null" class="sami-feedback__thanks">
+                        Gracias por tu feedback.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="isTyping" class="sami-typing">
+            <span></span><span></span><span></span>
+        </div>
+
+        <div #messagesEnd></div>
+    </div>
+
+    <div class="sami-input-bar">
+        <div class="sami-input-row">
+            <input
+                type="text"
+                class="sami-input"
+                placeholder="Escribe tu mensaje..."
+                [(ngModel)]="inputValue"
+                (keypress)="onKey($event)"
+                [disabled]="isTyping"
+            />
+            <button
+                type="button"
+                class="sami-send"
+                [disabled]="!inputValue.trim() || isTyping"
+                (click)="send()"
+                aria-label="Enviar mensaje"
+            >
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z" /></svg>
+            </button>
+        </div>
+
+        <div *ngIf="!legalMode" class="sami-quick">
+            <button
+                type="button"
+                [disabled]="isTyping"
+                (click)="sendQuick('Tasas del mercado informal hoy')"
+            >
+                <span>📊</span><span>Tasas</span>
+            </button>
+            <button
+                type="button"
+                [disabled]="isTyping"
+                (click)="sendQuick('Últimas noticias')"
+            >
+                <span>📰</span><span>Últimas noticias</span>
+            </button>
+        </div>
+    </div>
+</div>

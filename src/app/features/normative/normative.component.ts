@@ -1,6 +1,6 @@
 import { ApiService } from "@app/@shared/services/api.service";
 import { switchMap, tap } from "rxjs/operators";
-import { Component, Inject, OnInit } from "@angular/core";
+import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { Normative } from "@app/@shared/model/normative";
 import { EMPTY, Observable, throwError } from "rxjs";
@@ -15,6 +15,7 @@ import { range } from "@app/@shared";
 import { environment } from "@env/environment";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { DOCUMENT } from "@angular/common";
+import { SamiChatService } from "@app/@shared/components/sami-chat/sami-chat.service";
 
 @UntilDestroy()
 @Component({
@@ -22,7 +23,7 @@ import { DOCUMENT } from "@angular/common";
   templateUrl: "./normative.component.html",
   styleUrls: ["./normative.component.scss"],
 })
-export class NormativeComponent implements OnInit {
+export class NormativeComponent implements OnInit, OnDestroy {
   normative?: Normative;
   gazette?: Gazette;
 
@@ -37,6 +38,7 @@ export class NormativeComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private router: Router,
     @Inject(DOCUMENT) private _doc: Document,
+    private samiChat: SamiChatService,
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
@@ -60,6 +62,9 @@ export class NormativeComponent implements OnInit {
     }
 
     this.setPageTitle(this.normative?.name || "");
+    if (this.normative?.id != null) {
+      this.samiChat.setNormContext({ normId: this.normative.id });
+    }
 
     const _schema = this.getSchema(normative, gazette);
 
@@ -116,6 +121,10 @@ export class NormativeComponent implements OnInit {
 
   setPageTitle(name: string) {
     this._title.setTitle(`Legalis - ${name}`);
+  }
+
+  ngOnDestroy() {
+    this.samiChat.clearContext();
   }
 
   isActive(item: any): boolean {
