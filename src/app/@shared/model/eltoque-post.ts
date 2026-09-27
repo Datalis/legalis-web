@@ -13,14 +13,15 @@ export interface ElToqueAuthor {
 }
 
 export interface ElToqueCategory {
-  documentId: string;
+  documentId?: string;
   title?: string;
   slug?: string;
 }
 
 /**
- * Post de api.eltoque.com (Strapi 5). Los `documentId` conservan el ObjectId
- * hexadecimal de la base Mongo anterior, así que los enlaces viejos siguen valiendo.
+ * Post de `/api/feed/posts` de api.eltoque.com (Strapi 5). Los `documentId`
+ * conservan el ObjectId hexadecimal de la base Mongo anterior, así que los
+ * enlaces viejos siguen valiendo.
  */
 export interface ElToquePost {
   id: number;
@@ -33,14 +34,12 @@ export interface ElToquePost {
   feature_image?: ElToqueMedia | null;
   feature_image_alt?: string | null;
   categories?: ElToqueCategory[];
-  /** `postAuthors` (firmas) y, si no hay, `authors` (usuarios del panel). */
   authors?: ElToqueAuthor[];
-  postAuthors?: ElToqueAuthor[];
 }
 
 export interface StrapiResponse<T> {
   data: T;
   meta?: {
-    pagination?: { page?: number; pageSize?: number; start?: number; limit?: number; pageCount?: number; total: number };
+    pagination?: { page: number; pageSize: number; pageCount: number; total: number };
   };
 }

@@ -202,89 +202,58 @@ export class ApiService {
     );
   }
 
-  // api.eltoque.com (Strapi 5). Los documentId de categorías y posts son los
-  // ObjectId de la base Mongo anterior.
+  // Posts de elTOQUE vía /api/feed/posts de api.eltoque.com (Strapi 5): ruta
+  // pública, solo posts publicados y con la forma de respuesta fija. Los
+  // documentId conservan los ObjectId de Mongo del Strapi anterior. Sin cabeceras
+  // propias: cualquier cabecera extra dispara un preflight que la ruta no admite.
+  private readonly _elToqueFeed = environment.elToqueApi + "/api/feed/posts";
   private readonly _elToqueJuridicoCategory = "600c46c1929b80000d284502";
   private readonly _elToqueConsultasCategory = "63c6fa3ced8925001c36c57a";
-
-  // Cloudflare delante de api.eltoque.com deja pasar las peticiones con esta cabecera.
-  private _elToqueHeaders = new HttpHeaders({
-    Accept: "application/json",
-    "x-application": "1",
-  });
-
-  private _elToqueListParams(category: string, extra: Record<string, string | number> = {}) {
-    return {
-      "filters[categories][documentId][$eq]": category,
-      "sort[0]": "publish_date:desc",
-      "fields[0]": "title",
-      "fields[1]": "slug",
-      "fields[2]": "excerpt",
-      "fields[3]": "publish_date",
-      "fields[4]": "feature_image_alt",
-      "populate[feature_image][fields][0]": "url",
-      "populate[feature_image][fields][1]": "alternativeText",
-      "populate[postAuthors][fields][0]": "fullName",
-      "populate[categories][fields][0]": "slug",
-      ...extra,
-    };
-  }
-
-  private _mapElToquePost(post: ElToquePost): ElToquePost {
-    return { ...post, authors: post.postAuthors || [] };
-  }
 
   private _getElToquePosts(params: Record<string, string | number>): Promise<ElToquePost[]> {
     return firstValueFrom(
       this.client
-        .get<StrapiResponse<ElToquePost[]>>(environment.elToqueApi + "/api/posts", {
-          headers: this._elToqueHeaders,
-          params,
+        .get<StrapiResponse<ElToquePost[]>>(this._elToqueFeed, {
+          params: { sort: "publish_date:desc", locale: "es", ...params },
         })
         .pipe(
           timeout(10000),
-          map((res) => (res.data || []).map((p) => this._mapElToquePost(p))),
+          map((res) => res.data || []),
         ),
     );
   }
 
   async relatedNews(): Promise<ElToquePost[]> {
-    // Con relaciones to-many, un filtro $ne/$notIn en Strapi deja pasar posts que
-    // tengan además otra categoría, así que las consultas se excluyen aquí.
-    const posts = await this._getElToquePosts(
-      this._elToqueListParams(this._elToqueJuridicoCategory, { "pagination[limit]": 20 }),
-    );
-    return posts
-      .filter((p) => !p.categories?.some((c) => c.documentId === this._elToqueConsultasCategory))
-      .slice(0, 10);
+    return this._getElToquePosts({
+      "filters[categories][documentId][$eq]": this._elToqueJuridicoCategory,
+      // `exclude` y no `$notIn`: sobre una relación a varios, `$notIn` deja pasar
+      // las consultas que además llevan la categoría jurídico.
+      "exclude[categories]": this._elToqueConsultasCategory,
+      "pagination[limit]": 10,
+    });
   }
 
+  // El feed devuelve como mucho 50 posts por página.
   async consultasJuridicas(
     limit: number = 10,
     start: number = 0,
   ): Promise<ElToquePost[]> {
-    return this._getElToquePosts(
-      this._elToqueListParams(this._elToqueConsultasCategory, {
-        "pagination[start]": start,
-        "pagination[limit]": limit,
-      }),
-    );
+    return this._getElToquePosts({
+      "filters[categories][documentId][$eq]": this._elToqueConsultasCategory,
+      "pagination[start]": start,
+      "pagination[limit]": limit,
+    });
   }
 
   async consultaDetail(documentId: string): Promise<ElToquePost> {
     return firstValueFrom(
       this.client
-        .get<StrapiResponse<ElToquePost>>(`${environment.elToqueApi}/api/posts/${documentId}`, {
-          headers: this._elToqueHeaders,
-          params: {
-            "populate[feature_image][fields][0]": "url",
-            "populate[feature_image][fields][1]": "alternativeText",
-            "populate[postAuthors][fields][0]": "fullName",
-          },
+        .get<StrapiResponse<ElToquePost>>(`${this._elToqueFeed}/${documentId}`, {
+          params: { locale: "es" },
         })
         .pipe(
           timeout(10000),
-          map((res) => this._mapElToquePost(res.data)),
+          map((res) => res.data),
         ),
     );
   }
