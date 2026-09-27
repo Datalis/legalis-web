@@ -204,9 +204,12 @@ export class ApiService {
 
   // Posts de elTOQUE vía /api/feed/posts de api.eltoque.com (Strapi 5): ruta
   // pública, solo posts publicados y con la forma de respuesta fija. Los
-  // documentId conservan los ObjectId de Mongo del Strapi anterior. Sin cabeceras
-  // propias: cualquier cabecera extra dispara un preflight que la ruta no admite.
+  // documentId conservan los ObjectId de Mongo del Strapi anterior.
   private readonly _elToqueFeed = environment.elToqueApi + "/api/feed/posts";
+  // Cloudflare delante de api.eltoque.com comprueba esta cabecera. Al ser propia,
+  // el navegador hace preflight: el origen tiene que estar en EXTRA_CORS_ORIGINS
+  // de Strapi y `x-application` entre sus cabeceras permitidas.
+  private readonly _elToqueHeaders = new HttpHeaders({ "x-application": "1" });
   private readonly _elToqueJuridicoCategory = "600c46c1929b80000d284502";
   private readonly _elToqueConsultasCategory = "63c6fa3ced8925001c36c57a";
 
@@ -214,6 +217,7 @@ export class ApiService {
     return firstValueFrom(
       this.client
         .get<StrapiResponse<ElToquePost[]>>(this._elToqueFeed, {
+          headers: this._elToqueHeaders,
           params: { sort: "publish_date:desc", locale: "es", ...params },
         })
         .pipe(
@@ -249,6 +253,7 @@ export class ApiService {
     return firstValueFrom(
       this.client
         .get<StrapiResponse<ElToquePost>>(`${this._elToqueFeed}/${documentId}`, {
+          headers: this._elToqueHeaders,
           params: { locale: "es" },
         })
         .pipe(
