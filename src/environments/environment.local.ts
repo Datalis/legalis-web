@@ -12,10 +12,11 @@
 
 export const environment = {
   production: false,
-  version: '1.0.1-dev',
+  version: '1.0.1-local',
   // serverUrl: 'https://api-gaceta.datalis.dev',
   serverUrl: 'https://api-gaceta.eltoque.com',
-  elToqueApi: 'https://api.eltoque.com',
+  // Pasa por el proxy de `ng serve` (proxy.local.js), que añade token y x-application.
+  elToqueApi: 'http://localhost:4200/eltoque-api',
   samiBackendUrl: 'https://web-bot.eltoque.org',
   defaultLanguage: 'es-CU',
   supportedLanguages: ['en-US', 'es-CU'],

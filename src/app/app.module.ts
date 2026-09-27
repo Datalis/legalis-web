@@ -20,6 +20,7 @@ import { CachingInterceptor } from './@shared/http/caching.interceptor';
 import { RouterUrlSerializer } from './@shared/router-url-serializer';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
+import { SamiChatModule } from './@shared/components/sami-chat/sami-chat.module';
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
     LoadingBarModule,
     LoadingBarRouterModule,
     LoadingBarHttpClientModule,
+    SamiChatModule,
     //AuthModule,
     AppRoutingModule, // must be imported as the last module as it contains the fallback route
   ],

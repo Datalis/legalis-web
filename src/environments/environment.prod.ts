@@ -10,6 +10,7 @@ export const environment = {
   version: "1.0.1",
   serverUrl: 'https://api-gaceta.eltoque.com',
   elToqueApi: 'https://api.eltoque.com',
+  samiBackendUrl: 'https://web-bot.eltoque.org',
   defaultLanguage: 'en-CU',
   supportedLanguages: ['en-US', 'es-CU'],
 };

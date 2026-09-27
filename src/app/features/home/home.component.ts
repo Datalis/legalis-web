@@ -1,3 +1,5 @@
+import { environment } from '@env/environment';
+import { ElToquePost } from '@app/@shared/model/eltoque-post';
 import { ActivatedRoute } from '@angular/router';
 import { Normative } from './../../@shared/model/normative';
 import { Infographic } from '@app/@shared/model/infographic';
@@ -5,6 +7,7 @@ import { Gazette } from '@app/@shared/model/gazette';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { isPlatformBrowser } from '@angular/common';
+import { SamiChatService } from '@app/@shared/components/sami-chat/sami-chat.service';
 
 @UntilDestroy()
 @Component({
@@ -17,20 +20,21 @@ export class HomeComponent implements OnInit {
   recentGazettesDate: string | null = null;
   popularNormatives: Normative[] = [];
   infographics: Infographic[] = [];
-  relatedNews: any[] = [];
-  consultas: any[] = [];
+  relatedNews: ElToquePost[] = [];
+  consultas: ElToquePost[] = [];
 
   isBrowser: boolean = false;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: any, private route: ActivatedRoute) {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: any,
+    private route: ActivatedRoute,
+    private samiChat: SamiChatService,
+  ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
-  openTawk() {
-    let w = window as any;
-    if (w.Tawk_API) {
-      w.Tawk_API.maximize();
-    }
+  openSami() {
+    this.samiChat.open();
   }
 
   subscribe() {
@@ -56,6 +60,6 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  getImage = (url: string) => url.startsWith('/') ? `https://api.eltoque.com${url}` : url;
+  getImage = (url?: string | null) => !url ? "" : url.startsWith("/") ? `${environment.elToqueApi}${url}` : url;
 
 }
