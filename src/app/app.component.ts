@@ -9,6 +9,7 @@ import { Logger, UntilDestroy, untilDestroyed } from '@shared';
 import { registerLocaleData } from '@angular/common';
 import localeCU from '@angular/common/locales/es-CU';
 import { NgScrollbar } from 'ngx-scrollbar';
+import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 
 const log = new Logger('App');
 
@@ -42,8 +43,24 @@ export class AppComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private titleService: Title,
-    private layoutService: LayoutService
+    private layoutService: LayoutService,
+    private swUpdate: SwUpdate
   ) { }
+
+  // Sin esto el service worker sigue sirviendo el build anterior hasta que se
+  // cierran todas las pestañas, y con él llamadas a APIs que ya no existen.
+  private _reloadOnNewVersion() {
+    if (!this.swUpdate.isEnabled) return;
+    this.swUpdate.versionUpdates
+      .pipe(
+        filter((e): e is VersionReadyEvent => e.type === 'VERSION_READY'),
+        untilDestroyed(this)
+      )
+      .subscribe(() => this.swUpdate.activateUpdate().then(() => document.location.reload()));
+    this.swUpdate.unrecoverable
+      .pipe(untilDestroyed(this))
+      .subscribe(() => document.location.reload());
+  }
 
   ngOnInit() {
     if (environment.production) {
@@ -54,6 +71,7 @@ export class AppComponent implements OnInit {
     (window as any).removeSplash();
 
     registerLocaleData(localeCU, 'es-CU');
+    this._reloadOnNewVersion();
 
     this.router.events
       .pipe(

@@ -17,7 +17,8 @@ import {
   HttpParams,
   HttpResponse,
 } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Inject, Injectable, PLATFORM_ID } from "@angular/core";
+import { isPlatformServer } from "@angular/common";
 import { Observable, firstValueFrom, filter, map, timeout } from "rxjs";
 import { PagedResult } from "../model/paged-result";
 import { AboutItem } from "../model/about-item";
@@ -33,7 +34,10 @@ export class ApiService {
     Accept: "application/json",
   });
 
-  constructor(private client: HttpClient) {}
+  constructor(
+    private client: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: object,
+  ) {}
 
   encodeParams(params: Params, bypassEncoder = false): HttpParams {
     const _params = removeEmpty(params);
@@ -206,10 +210,13 @@ export class ApiService {
   // pública, solo posts publicados y con la forma de respuesta fija. Los
   // documentId conservan los ObjectId de Mongo del Strapi anterior.
   private readonly _elToqueFeed = environment.elToqueApi + "/api/feed/posts";
-  // Cloudflare delante de api.eltoque.com comprueba esta cabecera. Al ser propia,
-  // el navegador hace preflight: el origen tiene que estar en EXTRA_CORS_ORIGINS
-  // de Strapi y `x-application` entre sus cabeceras permitidas.
-  private readonly _elToqueHeaders = new HttpHeaders({ "x-application": "1" });
+  // Cloudflare delante de api.eltoque.com reta las peticiones sin navegador (el
+  // SSR) salvo que lleven `x-application`. En el navegador no se manda: al ser
+  // cabecera propia dispararía un preflight que la API no autoriza, y el origen
+  // de legalis ya pasa el filtro de Cloudflare sin ella.
+  private readonly _elToqueHeaders = isPlatformServer(this.platformId)
+    ? new HttpHeaders({ "x-application": "1" })
+    : new HttpHeaders();
   private readonly _elToqueJuridicoCategory = "600c46c1929b80000d284502";
   private readonly _elToqueConsultasCategory = "63c6fa3ced8925001c36c57a";
 
