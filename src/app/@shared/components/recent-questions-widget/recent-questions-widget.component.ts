@@ -1,3 +1,4 @@
+import { ElToquePost } from '@app/@shared/model/eltoque-post';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
@@ -8,7 +9,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class RecentQuestionsWidgetComponent implements OnInit {
 
   @Input()
-  data: any[] = [];
+  data: ElToquePost[] = [];
 
   constructor() { }
 

@@ -138,7 +138,7 @@
                                         [src]="
                                             getImage(item.feature_image?.url)
                                         "
-                                        [alt]="item.feature_image_alt"
+                                        [alt]="item.feature_image_alt || item.feature_image?.alternativeText || ''"
                                     />
                                 </div>
                                 <div class="carousel-content">
@@ -148,7 +148,7 @@
                                     <small
                                         class="text-accent text-small"
                                         *ngIf="item.authors?.length"
-                                        >{{ item.authors[0]?.fullName }}, {{
+                                        >{{ item.authors?.[0]?.fullName }}, {{
                                         item.publish_date | date : "longDate" :
                                         "" : "es-CU" }}</small
                                     >

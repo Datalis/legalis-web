@@ -1,3 +1,5 @@
+import { environment } from '@env/environment';
+import { ElToquePost } from '@app/@shared/model/eltoque-post';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '@app/@shared/services/api.service';
@@ -12,7 +14,7 @@ import { switchMap, tap } from 'rxjs';
 })
 export class AnalysisComponent implements OnInit {
 
-  consultas: any[] | null = null;
+  consultas: ElToquePost[] | null = null;
 
   limit = 4;
   showMore = true;
@@ -46,5 +48,5 @@ export class AnalysisComponent implements OnInit {
     })
   }
 
-  getImage = (url: string) => url.startsWith('/') ? `https://api.eltoque.com${url}` : url;
+  getImage = (url?: string | null) => !url ? "" : url.startsWith("/") ? `${environment.elToqueApi}${url}` : url;
 }

@@ -23,6 +23,7 @@ import { PagedResult } from "../model/paged-result";
 import { AboutItem } from "../model/about-item";
 import { HttpUrlEncoder } from "../http/http-url-encoder";
 import { GlossaryTerm } from "../model/glossary-term";
+import { ElToquePost, StrapiResponse } from "../model/eltoque-post";
 @Injectable({
   providedIn: "root",
 })
@@ -201,31 +202,90 @@ export class ApiService {
     );
   }
 
-  async relatedNews(): Promise<any[]> {
-    return firstValueFrom<any[]>(
-      this.client.get<any[]>(
-        environment.elToqueApi +
-          "/posts?categories=600c46c1929b80000d284502&categories_nin=63c6fa3ced8925001c36c57a&_sort=publish_date:DESC&_limit=10",
-      ).pipe(timeout(10000)),
+  // api.eltoque.com (Strapi 5). Los documentId de categorías y posts son los
+  // ObjectId de la base Mongo anterior.
+  private readonly _elToqueJuridicoCategory = "600c46c1929b80000d284502";
+  private readonly _elToqueConsultasCategory = "63c6fa3ced8925001c36c57a";
+
+  // Cloudflare delante de api.eltoque.com deja pasar las peticiones con esta cabecera.
+  private _elToqueHeaders = new HttpHeaders({
+    Accept: "application/json",
+    "x-application": "1",
+  });
+
+  private _elToqueListParams(category: string, extra: Record<string, string | number> = {}) {
+    return {
+      "filters[categories][documentId][$eq]": category,
+      "sort[0]": "publish_date:desc",
+      "fields[0]": "title",
+      "fields[1]": "slug",
+      "fields[2]": "excerpt",
+      "fields[3]": "publish_date",
+      "fields[4]": "feature_image_alt",
+      "populate[feature_image][fields][0]": "url",
+      "populate[feature_image][fields][1]": "alternativeText",
+      "populate[postAuthors][fields][0]": "fullName",
+      "populate[categories][fields][0]": "slug",
+      ...extra,
+    };
+  }
+
+  private _mapElToquePost(post: ElToquePost): ElToquePost {
+    return { ...post, authors: post.postAuthors || [] };
+  }
+
+  private _getElToquePosts(params: Record<string, string | number>): Promise<ElToquePost[]> {
+    return firstValueFrom(
+      this.client
+        .get<StrapiResponse<ElToquePost[]>>(environment.elToqueApi + "/api/posts", {
+          headers: this._elToqueHeaders,
+          params,
+        })
+        .pipe(
+          timeout(10000),
+          map((res) => (res.data || []).map((p) => this._mapElToquePost(p))),
+        ),
     );
+  }
+
+  async relatedNews(): Promise<ElToquePost[]> {
+    // Con relaciones to-many, un filtro $ne/$notIn en Strapi deja pasar posts que
+    // tengan además otra categoría, así que las consultas se excluyen aquí.
+    const posts = await this._getElToquePosts(
+      this._elToqueListParams(this._elToqueJuridicoCategory, { "pagination[limit]": 20 }),
+    );
+    return posts
+      .filter((p) => !p.categories?.some((c) => c.documentId === this._elToqueConsultasCategory))
+      .slice(0, 10);
   }
 
   async consultasJuridicas(
     limit: number = 10,
     start: number = 0,
-  ): Promise<any[]> {
-    return firstValueFrom<any[]>(
-      this.client.get<any[]>(
-        environment.elToqueApi +
-          "/posts?categories=63c6fa3ced8925001c36c57a&_sort=publish_date:DESC",
-        { params: { _limit: limit, _start: start } },
-      ).pipe(timeout(10000)),
+  ): Promise<ElToquePost[]> {
+    return this._getElToquePosts(
+      this._elToqueListParams(this._elToqueConsultasCategory, {
+        "pagination[start]": start,
+        "pagination[limit]": limit,
+      }),
     );
   }
 
-  async consultaDetail(id: string): Promise<any> {
-    return firstValueFrom<any>(
-      this.client.get(environment.elToqueApi + "/posts/" + id).pipe(timeout(10000)),
+  async consultaDetail(documentId: string): Promise<ElToquePost> {
+    return firstValueFrom(
+      this.client
+        .get<StrapiResponse<ElToquePost>>(`${environment.elToqueApi}/api/posts/${documentId}`, {
+          headers: this._elToqueHeaders,
+          params: {
+            "populate[feature_image][fields][0]": "url",
+            "populate[feature_image][fields][1]": "alternativeText",
+            "populate[postAuthors][fields][0]": "fullName",
+          },
+        })
+        .pipe(
+          timeout(10000),
+          map((res) => this._mapElToquePost(res.data)),
+        ),
     );
   }
 

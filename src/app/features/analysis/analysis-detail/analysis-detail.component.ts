@@ -1,3 +1,5 @@
+import { environment } from '@env/environment';
+import { ElToquePost } from '@app/@shared/model/eltoque-post';
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Meta } from '@angular/platform-browser';
@@ -10,8 +12,8 @@ import { LayoutService } from '@app/@shared/services/layout.service';
 })
 export class AnalysisDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  article: any = null;
-  fq: any[] = [];
+  article: ElToquePost | null = null;
+  fq: ElToquePost[] = [];
 
   constructor(private _route: ActivatedRoute, private _meta: Meta, private _layoutService: LayoutService) {
     this._meta.addTag({ name: 'robots', content: 'noindex' });
@@ -40,6 +42,6 @@ export class AnalysisDetailComponent implements OnInit, OnDestroy, AfterViewInit
     this._meta.removeTag('name=robots');
   }
 
-  getImage = (url: string) => url.startsWith('/') ? `https://api.eltoque.com${url}` : url;
+  getImage = (url?: string | null) => !url ? "" : url.startsWith("/") ? `${environment.elToqueApi}${url}` : url;
 
 }

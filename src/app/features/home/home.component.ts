@@ -1,3 +1,5 @@
+import { environment } from '@env/environment';
+import { ElToquePost } from '@app/@shared/model/eltoque-post';
 import { ActivatedRoute } from '@angular/router';
 import { Normative } from './../../@shared/model/normative';
 import { Infographic } from '@app/@shared/model/infographic';
@@ -18,8 +20,8 @@ export class HomeComponent implements OnInit {
   recentGazettesDate: string | null = null;
   popularNormatives: Normative[] = [];
   infographics: Infographic[] = [];
-  relatedNews: any[] = [];
-  consultas: any[] = [];
+  relatedNews: ElToquePost[] = [];
+  consultas: ElToquePost[] = [];
 
   isBrowser: boolean = false;
 
@@ -58,6 +60,6 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  getImage = (url: string) => url.startsWith('/') ? `https://api.eltoque.com${url}` : url;
+  getImage = (url?: string | null) => !url ? "" : url.startsWith("/") ? `${environment.elToqueApi}${url}` : url;
 
 }
