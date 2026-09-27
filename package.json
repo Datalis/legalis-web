@@ -6,6 +6,7 @@
     "ng": "ng",
     "build": "ng build --service-worker",
     "start": "ng serve",
+    "start:local": "ng serve --configuration local",
     "serve:sw": "yarn build && npx http-server ./dist -p 4200",
     "lint": "ng lint && stylelint \"src/**/*.scss\" --syntax scss",
     "test": "ng test",

@@ -17,7 +17,7 @@
           <p>
             {{ consultas[0]?.excerpt }}
           </p>
-          <a class="text-blue fw-bold mt-auto text-center text-md-end" [routerLink]="consultas[0]._id">Leer más</a>
+          <a class="text-blue fw-bold mt-auto text-center text-md-end" [routerLink]="consultas[0].documentId">Leer más</a>
         </div>
       </div>
     </div>
@@ -34,7 +34,7 @@
           <p class="mt-2">
             {{c.excerpt}}
           </p>
-          <a class="text-blue fw-bold mt-auto align-self-center" [routerLink]="c._id">Leer más</a>
+          <a class="text-blue fw-bold mt-auto align-self-center" [routerLink]="c.documentId">Leer más</a>
         </div>
       </div>
     </div>

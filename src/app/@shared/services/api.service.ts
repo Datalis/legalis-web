@@ -23,6 +23,7 @@ import { PagedResult } from "../model/paged-result";
 import { AboutItem } from "../model/about-item";
 import { HttpUrlEncoder } from "../http/http-url-encoder";
 import { GlossaryTerm } from "../model/glossary-term";
+import { ElToquePost, StrapiResponse } from "../model/eltoque-post";
 @Injectable({
   providedIn: "root",
 })
@@ -201,31 +202,64 @@ export class ApiService {
     );
   }
 
-  async relatedNews(): Promise<any[]> {
-    return firstValueFrom<any[]>(
-      this.client.get<any[]>(
-        environment.elToqueApi +
-          "/posts?categories=600c46c1929b80000d284502&categories_nin=63c6fa3ced8925001c36c57a&_sort=publish_date:DESC&_limit=10",
-      ).pipe(timeout(10000)),
+  // Posts de elTOQUE vía /api/feed/posts de api.eltoque.com (Strapi 5): ruta
+  // pública, solo posts publicados y con la forma de respuesta fija. Los
+  // documentId conservan los ObjectId de Mongo del Strapi anterior.
+  private readonly _elToqueFeed = environment.elToqueApi + "/api/feed/posts";
+  // Cloudflare delante de api.eltoque.com comprueba esta cabecera. Al ser propia,
+  // el navegador hace preflight: el origen tiene que estar en EXTRA_CORS_ORIGINS
+  // de Strapi y `x-application` entre sus cabeceras permitidas.
+  private readonly _elToqueHeaders = new HttpHeaders({ "x-application": "1" });
+  private readonly _elToqueJuridicoCategory = "600c46c1929b80000d284502";
+  private readonly _elToqueConsultasCategory = "63c6fa3ced8925001c36c57a";
+
+  private _getElToquePosts(params: Record<string, string | number>): Promise<ElToquePost[]> {
+    return firstValueFrom(
+      this.client
+        .get<StrapiResponse<ElToquePost[]>>(this._elToqueFeed, {
+          headers: this._elToqueHeaders,
+          params: { sort: "publish_date:desc", locale: "es", ...params },
+        })
+        .pipe(
+          timeout(10000),
+          map((res) => res.data || []),
+        ),
     );
   }
 
+  async relatedNews(): Promise<ElToquePost[]> {
+    return this._getElToquePosts({
+      "filters[categories][documentId][$eq]": this._elToqueJuridicoCategory,
+      // `exclude` y no `$notIn`: sobre una relación a varios, `$notIn` deja pasar
+      // las consultas que además llevan la categoría jurídico.
+      "exclude[categories]": this._elToqueConsultasCategory,
+      "pagination[limit]": 10,
+    });
+  }
+
+  // El feed devuelve como mucho 50 posts por página.
   async consultasJuridicas(
     limit: number = 10,
     start: number = 0,
-  ): Promise<any[]> {
-    return firstValueFrom<any[]>(
-      this.client.get<any[]>(
-        environment.elToqueApi +
-          "/posts?categories=63c6fa3ced8925001c36c57a&_sort=publish_date:DESC",
-        { params: { _limit: limit, _start: start } },
-      ).pipe(timeout(10000)),
-    );
+  ): Promise<ElToquePost[]> {
+    return this._getElToquePosts({
+      "filters[categories][documentId][$eq]": this._elToqueConsultasCategory,
+      "pagination[start]": start,
+      "pagination[limit]": limit,
+    });
   }
 
-  async consultaDetail(id: string): Promise<any> {
-    return firstValueFrom<any>(
-      this.client.get(environment.elToqueApi + "/posts/" + id).pipe(timeout(10000)),
+  async consultaDetail(documentId: string): Promise<ElToquePost> {
+    return firstValueFrom(
+      this.client
+        .get<StrapiResponse<ElToquePost>>(`${this._elToqueFeed}/${documentId}`, {
+          headers: this._elToqueHeaders,
+          params: { locale: "es" },
+        })
+        .pipe(
+          timeout(10000),
+          map((res) => res.data),
+        ),
     );
   }
 
